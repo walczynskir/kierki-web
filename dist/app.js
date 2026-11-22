@@ -1,10 +1,10 @@
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=2';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-2';
+import { newMatch, legacyMatch, matchLength, matchMode, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=33';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=34';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -12,13 +12,16 @@ const figureNames = { 11: 'Walet', 12: 'Dama', 13: 'Król', 14: 'As' };
 const courtRanks = { 11: 'jack', 12: 'queen', 13: 'king' };
 const courtSuits = { '♣': 'clubs', '♦': 'diamonds', '♠': 'spades', '♥': 'hearts' };
 const $ = id => document.getElementById(id);
-let { match, game } = newMatch();
+let match, game;
 let timer;
 const past = [];
 const future = [];
 const optionsKey = 'games-chest-kierki-options-v1';
 const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'large'];
-const includesPuzzle = () => $('include-puzzle').value === 'with';
+const includesPuzzle = () => !$('include-puzzle').value.endsWith('without');
+const selectedFormat = () => $('include-puzzle').value.startsWith('classic-') ? 'classic' : 'robbers';
+const formatOption = preferences => (preferences?.['match-format'] === 'classic' ? 'classic-' : '')
+  + (preferences?.['include-puzzle'] === false ? 'without' : 'with');
 const difficulties = ['easy', 'medium', 'hard'];
 const playPaces = {
   fast: { move: 280, pass: 1100 },
@@ -63,7 +66,7 @@ function write(key, value) {
 const profile = read(profileKey);
 const options = profile?.preferences ?? read(optionsKey);
 for (const id of optionIds) $(id).checked = options?.[id] === true;
-$('include-puzzle').value = options?.['include-puzzle'] === false ? 'without' : 'with';
+$('include-puzzle').value = formatOption(options);
 $('language').value = languages.includes(options?.language) ? options.language : 'pl';
 $('difficulty').value = difficulties.includes(options?.difficulty) ? options.difficulty : 'medium';
 $('play-pace').value = Object.hasOwn(playPaces, options?.['play-pace']) ? options['play-pace'] : 'normal';
@@ -80,7 +83,7 @@ if (validSession(restoredTraining)) {
 } else if (validSession(savedGame) && !savedGame.match?.single) {
   loadSession(savedGame);
 } else {
-  match.includePuzzle = includesPuzzle();
+  ({ match, game } = newMatch(Math.random, includesPuzzle(), null, selectedFormat()));
   activeDifficulty = $('difficulty').value;
 }
 
@@ -110,14 +113,14 @@ function saveGame() {
 }
 
 function freshSession(single = null) {
-  return { ...newMatch(Math.random, includesPuzzle(), single), started: false, id: newId(),
+  return { ...newMatch(Math.random, includesPuzzle(), single, selectedFormat()), started: false, id: newId(),
     difficulty: $('difficulty').value, past: [], future: [] };
 }
 
 function currentPreferences() {
   const settings = Object.fromEntries(optionIds.map(id => [id, $(id).checked]));
   return { ...settings, contrast, theme, language: $('language').value,
-    difficulty: $('difficulty').value, 'include-puzzle': includesPuzzle(), 'play-pace': $('play-pace').value };
+    difficulty: $('difficulty').value, 'include-puzzle': includesPuzzle(), 'match-format': selectedFormat(), 'play-pace': $('play-pace').value };
 }
 
 function isCompleted(outcome) {
@@ -334,7 +337,7 @@ function renderTrickHistory() {
   for (const deal of deals.reverse()) {
     const section = document.createElement('section');
     const heading = document.createElement('h3');
-    heading.textContent = t('Rozdanie') + ' ' + deal.number + ' · ' + t(deal.mode === 'robber' ? 'Rozbójnik' : 'Odgrywka');
+    heading.textContent = t('Rozdanie') + ' ' + deal.number + ' · ' + t(dealTitle(deal.mode));
     const list = document.createElement('ol');
     const tricks = deal.tricks.flatMap((trick, index) => trick.cards?.length === 4 ? [{ trick, number: index + 1 }] : []);
     for (const { trick, number } of tricks.reverse()) {
@@ -511,6 +514,10 @@ const trainingContracts = {
   'no-six-and-last': ['Nie brać szóstej i ostatniej lewy', 'Za wzięcie szóstej lub ostatniej lewy: −9 pkt.']
 };
 
+function dealTitle(mode) {
+  return trainingContracts[mode]?.[0] ?? { puzzle: 'Układanka', robber: 'Rozbójnik', recover: 'Odgrywka' }[mode];
+}
+
 function render() {
   clearTimeout(timer);
   const puzzle = game.mode === 'puzzle';
@@ -546,7 +553,7 @@ function render() {
   cue.hidden = !choosingTrump && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length);
   cue.textContent = t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
   $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
-    + ' · ' + t(contract?.[0] ?? (puzzle ? 'Układanka' : robber ? 'Rozbójnik' : 'Odgrywka'));
+    + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;
   $('contract-rule').textContent = contract ? t(contract[1]) : '';
   $('resume-match').hidden = !match.single;
@@ -593,8 +600,9 @@ function render() {
   } else if (game.phase === 'done') {
     if (!lastDeal) {
       $('status').textContent = t('Rozdanie zakończone.');
-      const nextTitle = match.number === match.dealsPerMode ? 'Rozpocznij odgrywkę'
-        : match.number === 2 * match.dealsPerMode ? 'Rozpocznij układankę' : 'Następne rozdanie';
+      const nextMode = matchMode(match, match.number + 1);
+      const nextTitle = nextMode === 'recover' && game.mode !== 'recover' ? 'Rozpocznij odgrywkę'
+        : nextMode === 'puzzle' ? 'Rozpocznij układankę' : 'Następne rozdanie';
       actions.append(button(t(nextTitle), () => {
         ({ match, game } = nextMatchDeal(match, game));
         scorecardOpen = undefined;
@@ -630,7 +638,7 @@ function render() {
   if (!lastDeal || game.phase !== 'done') window.GameVictory?.(false);
   renderShell();
   if (trickHistory.open) renderTrickHistory();
-  $('help-recovery').textContent = t('W odgrywce każda').replace('{points}', match.dealsPerMode === 4 ? '10' : '5');
+  $('help-recovery').textContent = t('W odgrywce każda').replace('{points}', String(matchRecoveryPoints(match)));
   const result = game.phase === 'review' ? game.tricks.at(-1) : null;
   const hand = choosingTrump ? game.hands[0].slice(0, 7) : game.hands[0];
   const orderedHand = [...hand].sort((a, b) => a - b);
@@ -717,6 +725,7 @@ function render() {
   const showRecoveryScores = !match.single || game.mode === 'recover';
   const showPuzzleScores = match.single ? puzzle : match.includePuzzle;
   $('robber-score-heading').hidden = !showRobberScores;
+  $('robber-score-heading').textContent = t(match.format === 'classic' && !match.single ? 'Punkty karne' : 'Rozbójnik');
   $('recovery-score-heading').hidden = !showRecoveryScores;
   $('puzzle-score-heading').hidden = !showPuzzleScores;
   $('scores').replaceChildren(...names.map((name, player) => {
@@ -729,7 +738,7 @@ function render() {
     const positive = scores.positive[player];
     const columns = [];
     if (showRobberScores) columns.push(negative);
-    if (showRecoveryScores) columns.push(robber ? '—' : positive);
+    if (showRecoveryScores) columns.push((robber || contract) && positive === 0 ? '—' : positive);
     if (showPuzzleScores) columns.push(puzzle ? scores.puzzle[player] : '—');
     columns.push(totals[player]);
     for (const score of columns) {
@@ -871,12 +880,16 @@ const liftBackupOptions = {
   ...paceBackupOptions,
   'lift-playable': value => typeof value === 'boolean'
 };
+const legacyBackupOptions = {
+  ...liftBackupOptions,
+  'show-trick-history': value => typeof value === 'boolean'
+};
 const backupSchema = {
   game: 'kierki',
   languages,
   options: {
-    ...liftBackupOptions,
-    'show-trick-history': value => typeof value === 'boolean'
+    ...legacyBackupOptions,
+    'match-format': value => ['robbers', 'classic'].includes(value)
   },
   validProgress(progress) {
     if (!progress || Object.keys(progress).length !== 2 || !Object.hasOwn(progress, 'results')
@@ -888,12 +901,13 @@ const backupSchema = {
   }
 };
 function parseBackup(text) {
-  const optionSchemas = [backupSchema.options, liftBackupOptions, paceBackupOptions, puzzleBackupOptions, difficultyBackupOptions, previousBackupOptions];
+  const optionSchemas = [backupSchema.options, legacyBackupOptions, liftBackupOptions, paceBackupOptions, puzzleBackupOptions, difficultyBackupOptions, previousBackupOptions];
   for (const options of optionSchemas) {
     try {
       const candidate = GamesChestBackup.parse(text, { ...backupSchema, options });
       candidate.preferences.difficulty ??= $('difficulty').value;
       candidate.preferences['include-puzzle'] ??= includesPuzzle();
+      candidate.preferences['match-format'] ??= 'robbers';
       candidate.preferences['play-pace'] ??= $('play-pace').value;
       candidate.preferences['lift-playable'] ??= $('lift-playable').checked;
       candidate.preferences['show-trick-history'] ??= $('show-trick-history').checked;
@@ -993,7 +1007,7 @@ $('restore-progress').onclick = () => {
   $('language').value = preferences.language;
   $('difficulty').value = preferences.difficulty;
   $('play-pace').value = preferences['play-pace'];
-  $('include-puzzle').value = preferences['include-puzzle'] ? 'with' : 'without';
+  $('include-puzzle').value = formatOption(preferences);
   contrast = preferences.contrast;
   theme = preferences.theme;
   scorecardOpen = undefined;

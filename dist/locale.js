@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=9';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=10';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,13 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  "Wariant partii": "Match variant",
+  "Rozbójniki z układanką": "Robber with Eights",
+  "Rozbójniki bez układanki": "Robber without Eights",
+  "Klasyczna z układanką": "Classic with Eights",
+  "Klasyczna bez układanki": "Classic without Eights",
+  "Punkty karne": "Penalties",
+  "Opis wariantów partii": "Robber starts with four Robber deals. Classic starts with six penalty contracts and one Robber deal. Both then play four Recovery deals, with optional Eights at the end. Applies from the next match.",
   'Nie brać dam': 'No queens',
   'Nie brać króla kier': 'No king of hearts',
   'Nie brać szóstej i ostatniej lewy': 'No sixth or last trick',
@@ -107,6 +114,7 @@ const polish = {
   'Opis tempa gry': 'Ustawia przerwę między ruchami komputerów. Po pasie przerwa jest dłuższa, żeby było widać, kto spasował.',
   'Opis treningu': 'Rozegraj jedno rozdanie. Trening nie zmienia statystyk, a do trwającej partii możesz wrócić.',
   'Opis opcji układanki': 'Dodaje układankę od ósemek po czterech odgrywkach. Zmiana obowiązuje od następnej partii.',
+  'Opis wariantów partii': 'Rozbójniki zaczynają się od czterech Rozbójników. Partia klasyczna zaczyna się od sześciu kontraktów ujemnych i jednego Rozbójnika. W obu wariantach potem są cztery Odgrywki i opcjonalna Układanka. Zmiana obowiązuje od następnej partii.',
   'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, spasuj. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
   'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę na podstawie kart znanych graczowi. Zmiana obowiązuje od następnej partii.',
   'Opis poziomów Kierek': 'Łatwy używa prostej strategii prototypu. Średni uwzględnia także karty z wcześniejszych lew. Zmiana obowiązuje od następnej partii.',

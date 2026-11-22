@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
 <link rel="stylesheet" href="./style.css?v=training-contracts-2">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=hard-all-1"></script>
+<script type="module" src="./app.js?v=classic-match-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=footer-alignment-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 </head>
@@ -75,7 +75,7 @@
   </section>
   <details class="scorecard" id="scorecard" hidden>
     <summary data-t="Punktacja">Punktacja</summary>
-    <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col" data-t="Rozbójnik">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
+    <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
   </details>
   <details class="scorecard" id="trick-history" hidden>
     <summary data-t="Historia lew">Historia lew</summary>
@@ -143,14 +143,16 @@
         <legend data-t="Rozgrywka">Rozgrywka</legend>
         <div class="setting-item">
           <div class="setting-row difficulty-row puzzle-choice-row">
-            <label for="include-puzzle"><span class="setting-caption"><span data-t="Układanka na koniec">Układanka na koniec</span><small class="setting-timing" data-t="Od następnej partii">Od następnej partii</small></span></label>
+            <label for="include-puzzle"><span class="setting-caption"><span data-t="Wariant partii">Wariant partii</span><small class="setting-timing" data-t="Od następnej partii">Od następnej partii</small></span></label>
             <select id="include-puzzle">
-              <option value="with" data-t="Z układanką">Z układanką</option>
-              <option value="without" data-t="Bez układanki">Bez układanki</option>
+              <option value="with" data-t="Rozbójniki z układanką">Rozbójniki z układanką</option>
+              <option value="without" data-t="Rozbójniki bez układanki">Rozbójniki bez układanki</option>
+              <option value="classic-with" data-t="Klasyczna z układanką">Klasyczna z układanką</option>
+              <option value="classic-without" data-t="Klasyczna bez układanki">Klasyczna bez układanki</option>
             </select>
             <button type="button" class="setting-info" aria-expanded="false" aria-controls="include-puzzle-note">ⓘ</button>
           </div>
-          <p id="include-puzzle-note" class="setting-description" data-t="Opis opcji układanki" hidden></p>
+          <p id="include-puzzle-note" class="setting-description" data-t="Opis wariantów partii" hidden></p>
         </div>
       </fieldset>
       <fieldset class="settings-section">
@@ -259,7 +261,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.5.0</span>
+    <span id="footer-version" translate="no">v1.6.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

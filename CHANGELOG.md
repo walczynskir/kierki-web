@@ -1,3 +1,7 @@
+# 1.6.0 — 2026-11-22
+
+- Dodano klasyczną partię z sześcioma kontraktami ujemnymi, Rozbójnikiem i czterema Odgrywkami. Oba warianty można rozgrywać z Układanką albo bez niej.
+
 # 1.5.0 — 2026-11-22
 
 - Rozszerzono poziom Trudny na wszystkie kontrakty, Rozbójnika, Odgrywkę i Układankę. W Odgrywce komputer symuluje także wybór atu lub gry bez atu.
