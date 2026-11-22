@@ -10,3 +10,5 @@ Obowiązują [wspólne zasady Games Chest](../projekt/AGENTS.md).
 - W grach karcianych stosuj wspólne rewersy dopasowane do aktywnego motywu. W wysokim kontraście używaj wzoru o wyraźnym kontraście. Jeśli reguły gry wymagają rozróżnienia dwóch talii, zachowaj je także po zmianie motywu.
 
 - W oknie „Inne gry” pokazuj siatkę zaokrąglonych ikon z podpisami poniżej. Ikona i podpis są jednym celem dotykowym. Link „Wszystkie gry” umieszczaj osobno pod siatką.
+
+- Od sekcji „Dobra gra może zrobić coś dobrego” używaj wspólnej stopki wzorowanej na Garibaldce. Zachowaj odnośniki do organizacji, autorów i licencji, numer wersji oraz komunikat o zapisie, gdy gra go wyświetla. Katalog „Wszystkie gry” otwieraj z okna „Inne gry”.

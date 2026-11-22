@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="./shared-game.css">
 <link rel="stylesheet" href="./shared-victory.css">
 <link rel="stylesheet" href="./games-chest-menu.css?v=icon-gallery-1">
-<script defer src="./games-chest-menu.js?v=gomoku-domain-1" data-game="kierki"></script>
+<script defer src="./games-chest-menu.js?v=footer-1" data-game="kierki"></script>
 <link rel="stylesheet" href="./shared-settings.css">
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css">
@@ -18,6 +18,8 @@
 <link rel="stylesheet" href="./style.css?v=deck-themes-1">
 <script defer src="./shared-victory.js"></script>
 <script type="module" src="./app.js?v=score-and-history-1"></script>
+<link rel="stylesheet" href="shared-footer.css?v=footer-1">
+<script defer src="shared-footer.js?v=footer-1"></script>
 </head>
 <body>
 <header class="masthead">
@@ -231,24 +233,22 @@
   <a class="all-games game-picker-link" href="https://games-chest.com/">Wszystkie gry</a>
 </dialog>
 </main>
-<footer>
-  <section class="support-causes" aria-labelledby="support-title">
-    <h2 id="support-title" data-t="Dobra gra może zrobić coś dobrego.">Dobra gra może zrobić coś dobrego.</h2>
-    <p data-t="Wsparcie Ukrainy i zwierząt">Jeśli chcesz, wesprzyj pomoc osobom dotkniętym wojną w Ukrainie lub psom i kotom w Gdyni.</p>
+<footer class="game-footer">
+  <section class="support-causes" aria-labelledby="support-title" translate="no">
+    <h2 id="support-title" data-footer-copy="title">Dobra gra może zrobić coś dobrego.</h2>
+    <p data-footer-copy="intro">Jeśli chcesz, wesprzyj pomoc osobom dotkniętym wojną w Ukrainie lub psom i kotom w Gdyni.</p>
     <div class="support-links">
-      <a href="https://www.pah.org.pl/gdzie-dzialamy/ukraina/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🇺🇦</b><span data-t="Pomoc Ukrainie · PAH">Pomoc Ukrainie · PAH</span><b aria-hidden="true">↗</b></a>
-      <a href="https://ciapkowo.pl/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🐾</b><span data-t="Pomoc psom i kotom · Ciapkowo w Gdyni">Pomoc psom i kotom · Ciapkowo w Gdyni</span><b aria-hidden="true">↗</b></a>
+      <a href="https://www.pah.org.pl/gdzie-dzialamy/ukraina/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🇺🇦</b> <span data-footer-copy="ukraine">Pomoc Ukrainie · PAH</span> <b aria-hidden="true">↗</b></a>
+      <a href="https://ciapkowo.pl/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🐾</b> <span data-footer-copy="shelter">Pomoc psom i kotom · Ciapkowo w Gdyni</span> <b aria-hidden="true">↗</b></a>
     </div>
-    <p class="support-note" data-t="Linki prowadzą do organizacji">Linki prowadzą do oficjalnych stron organizacji. Nie zbieramy wpłat ani nie pobieramy prowizji.</p>
+    <p class="support-note" data-footer-copy="note">Linki prowadzą do oficjalnych stron organizacji. Nie zbieramy wpłat ani nie pobieramy prowizji.</p>
   </section>
-  <a id="credits-link" href="./credits.html" data-t="Autorzy i licencje">Autorzy i licencje</a>
-  <span data-t="Prototyp">Prototyp</span>
-  <span id="footer-version" translate="no">v0.1.1</span>
-  <span id="save-note"></span>
-  <nav class="games-chest-menu" translate="no">
-    <div class="recent-games" hidden><span></span><div class="recent-games-icons"></div></div>
-    <a class="all-games" href="https://games-chest.com/">Wszystkie gry</a>
-  </nav>
+  <div class="footer-details">
+    <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
+    <span id="footer-version" translate="no">v0.1.2</span>
+    <span id="save-note" translate="no"></span>
+  </div>
+  <nav class="games-chest-menu" translate="no"><div class="recent-games" hidden><span></span><div class="recent-games-icons"></div></div></nav>
 </footer>
 <script src="./shared-preferences.js"></script>
 <script src="./shared-progress-backup.js"></script>
