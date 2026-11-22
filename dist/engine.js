@@ -35,11 +35,11 @@ export function legalCards(game) {
   const hand = game.hands[game.turn];
   if (!game.trick.length) {
     const other = hand.filter(card => suit(card) !== '♥');
-    return game.mode === 'robber' && other.length ? other : hand;
+    return (game.mode === 'robber' || game.mode === 'no-hearts') && other.length ? other : hand;
   }
   const lead = suit(game.trick[0].card);
   const follow = hand.filter(card => suit(card) === lead);
-  if (game.mode === 'robber') return follow.length ? follow : hand;
+  if (game.mode !== 'recover') return follow.length ? follow : hand;
   const trumps = hand.filter(card => suit(card) === game.trump);
   const choices = follow.length ? follow : trumps.length ? trumps : hand;
   const mustBeat = game.trump === null ? follow.length > 0 : suit(choices[0]) === game.trump;
@@ -56,6 +56,10 @@ export function cardPenalty(card) {
 
 export function trickPoints(mode, trick, number, recoveryPoints = 5) {
   if (mode === 'recover') return recoveryPoints;
+  if (mode === 'no-tricks') return -2;
+  if (mode === 'no-hearts' || mode === 'no-boys') {
+    return trick.reduce((sum, { card }) => sum - trainingCardPenalty(mode, card), 0);
+  }
   const extra = number === 6 || number === 13 ? 9 : 0;
   return -(2 + extra + trick.reduce((sum, entry) => sum + cardPenalty(entry.card), 0));
 }
@@ -78,10 +82,16 @@ export function play(game, card) {
   return true;
 }
 
+export function dealFinished(game) {
+  const penaltyLimit = { 'no-hearts': 26, 'no-boys': 24 }[game.mode];
+  return game.tricks.length === 13
+    || (penaltyLimit !== undefined && game.points.reduce((sum, points) => sum - points, 0) >= penaltyLimit);
+}
+
 export function advance(game) {
   if (game.phase !== 'review') return false;
   game.trick = [];
-  game.phase = game.tricks.length === 13 ? 'done' : 'play';
+  game.phase = dealFinished(game) ? 'done' : 'play';
   return true;
 }
 
@@ -103,6 +113,13 @@ export function computerView(game) {
   };
 }
 
+function trainingCardPenalty(mode, card) {
+  if (mode === 'no-hearts') return suit(card) === '♥' ? 2 : 0;
+  if (mode === 'no-boys') return rank(card) === 11 || rank(card) === 13 ? 3 : 0;
+  if (mode === 'no-tricks') return 0;
+  return cardPenalty(card);
+}
+
 export function computerCard({ mode, trump, turn, trick }, legal) {
   const sorted = [...legal].sort((a, b) => rank(a) - rank(b));
   if (!trick.length) return mode === 'recover' ? sorted.at(-1) : sorted[0];
@@ -110,5 +127,6 @@ export function computerCard({ mode, trump, turn, trick }, legal) {
   if (mode === 'recover') return sorted.find(takes) ?? sorted[0];
   const safe = sorted.filter(card => !takes(card));
   if (!safe.length) return sorted[0];
-  return safe.reduce((best, card) => cardPenalty(card) >= cardPenalty(best) ? card : best);
+  return safe.reduce((best, card) =>
+    trainingCardPenalty(mode, card) >= trainingCardPenalty(mode, best) ? card : best);
 }

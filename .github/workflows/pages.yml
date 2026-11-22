@@ -31,6 +31,8 @@ jobs:
           for file in dist/*.js; do
             node --check "$file"
           done
+      - name: Sprawdź zasady kontraktów
+        run: node --test
       - name: Sprawdź zgodność wersji
         run: |
           node scripts/release-version.mjs --check

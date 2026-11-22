@@ -2,6 +2,12 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Nie brać lew|Keine Stiche|No ganar bazas|Ne pas prendre de plis|Non prendere prese|Не брати взяток|تجنّب أخذ اللمّات|कोई बाज़ी न लें|不拿墩
+Nie brać kierów|Keine Herzen|No tomar corazones|Ne pas prendre de cœurs|Non prendere cuori|Не брати черв|تجنّب أخذ القلوب|पान के पत्ते न लें|不拿红桃
+Nie brać chłopców|Keine Könige und Buben|No tomar reyes ni jotas|Ne pas prendre de rois ni de valets|Non prendere re o fanti|Не брати королів і валетів|تجنّب أخذ الملوك والولاة|बादशाह और गुलाम न लें|不拿国王和杰克
+Za każdą wziętą lewę: −2 pkt.|Jeder gewonnene Stich: −2 Punkte.|Por cada baza ganada: −2 puntos.|Chaque pli pris : −2 points.|Per ogni presa: −2 punti.|За кожну взятку: −2 бали.|لكل لمّة تأخذها: −2 نقطة.|हर जीती हुई बाज़ी पर −2 अंक।|每拿一墩扣 2 分。
+Za każdego wziętego kiera: −2 pkt.|Jedes gefangene Herz: −2 Punkte.|Por cada corazón tomado: −2 puntos.|Chaque cœur pris : −2 points.|Per ogni cuore preso: −2 punti.|За кожну взяту черву: −2 бали.|لكل قلب تأخذه: −2 نقطة.|पान के हर लिए गए पत्ते पर −2 अंक।|每拿一张红桃扣 2 分。
+Za każdego wziętego króla lub waleta: −3 pkt.|Jeder gefangene König oder Bube: −3 Punkte.|Por cada rey o jota: −3 puntos.|Chaque roi ou valet pris : −3 points.|Per ogni re o fante preso: −3 punti.|За кожного взятого короля чи валета: −3 бали.|لكل ملك أو غلام تأخذه: −3 نقاط.|लिए गए हर बादशाह या गुलाम पर −3 अंक।|每拿一张国王或杰克扣 3 分。
 Pełny ekran|Vollbild|Pantalla completa|Plein écran|Schermo intero|На весь екран|ملء الشاشة|पूर्ण स्क्रीन|全屏
 Wyjdź z pełnego ekranu|Vollbild verlassen|Salir de pantalla completa|Quitter le plein écran|Esci da schermo intero|Вийти з повноекранного режиму|الخروج من ملء الشاشة|पूर्ण स्क्रीन से बाहर निकलें|退出全屏
 Jak grać|Spielregeln|Cómo jugar|Comment jouer|Come si gioca|Як грати|طريقة اللعب|कैसे खेलें|玩法

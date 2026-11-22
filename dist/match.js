@@ -1,4 +1,4 @@
-import { deal } from './engine.js?v=match-1';
+import { deal } from './engine.js?v=training-contracts-1';
 import { dealPuzzle } from './puzzle.js';
 
 const emptyPoints = () => [0, 0, 0, 0];
@@ -26,7 +26,7 @@ export const matchLength = match => match.single ? 1 : 2 * match.dealsPerMode + 
 
 export function matchScores(match, game) {
   return {
-    negative: match.negative.map((points, player) => points + (game.mode === 'robber' ? game.points[player] : 0)),
+    negative: match.negative.map((points, player) => points + (game.mode !== 'recover' && game.mode !== 'puzzle' ? game.points[player] : 0)),
     positive: match.positive.map((points, player) => points + (game.mode === 'recover' ? game.points[player] : 0)),
     puzzle: game.mode === 'puzzle' ? game.points.slice() : emptyPoints()
   };

@@ -32,7 +32,7 @@ button:disabled { cursor: default; }
   clip-path: inset(50%);
   white-space: nowrap;
 }
-#dealer { color: var(--muted); font-size: .82rem; }
+#dealer, #contract-rule { color: var(--muted); font-size: .82rem; }
 .table {
   --seat-name-height: 1em;
   display: grid;

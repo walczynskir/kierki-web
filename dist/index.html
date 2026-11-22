@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=deck-themes-1">
+<link rel="stylesheet" href="./style.css?v=training-contracts-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=footer-picker-recent-1"></script>
+<script type="module" src="./app.js?v=training-contracts-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=footer-alignment-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 </head>
@@ -57,6 +57,7 @@
   <section class="game" aria-label="Rozgrywka">
     <div class="round"><h2 id="round"></h2><span id="trump"></span></div>
     <p id="dealer"></p>
+    <p id="contract-rule" hidden></p>
     <p id="status" role="status"></p>
     <div class="table-wrap">
       <div id="table" class="table" dir="ltr" aria-label="Stół"></div>
@@ -188,6 +189,9 @@
         <p id="training-note" class="settings-file-scope" data-t="Opis treningu"></p>
         <div class="training-controls">
           <select id="training-format" aria-describedby="training-note">
+            <option value="no-tricks" data-t="Nie brać lew">Nie brać lew</option>
+            <option value="no-hearts" data-t="Nie brać kierów">Nie brać kierów</option>
+            <option value="no-boys" data-t="Nie brać chłopców">Nie brać chłopców</option>
             <option value="robber" data-t="Rozbójnik">Rozbójnik</option>
             <option value="recover" data-t="Odgrywka">Odgrywka</option>
             <option value="puzzle" data-t="Układanka" selected>Układanka</option>
@@ -252,7 +256,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.1.0</span>
+    <span id="footer-version" translate="no">v1.2.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

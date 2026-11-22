@@ -1,6 +1,6 @@
 // Adapted from CRobberDecider and CRecoverDecider, Kierki commit 5796cd1.
 // Decisions use the player's hand and public play history only.
-import { suits, suit, rank, winner, computerCard } from './engine.js?v=match-1';
+import { suits, suit, rank, winner, computerCard } from './engine.js?v=training-contracts-1';
 
 const hearts = '♥';
 const jack = 11;
@@ -163,6 +163,11 @@ function repeatableChance(view) {
 export function decideComputerCard(view, random = () => repeatableChance(view)) {
   if (view.legal.length < 2) return view.legal[0];
   const p = position(view);
+  if (view.mode !== 'robber' && view.mode !== 'recover') {
+    const canLoseLead = view.legal.filter(card => p.above(card));
+    const legal = !view.trick.length && canLoseLead.length ? canLoseLead : view.legal;
+    return computerCard(view, legal);
+  }
   const card = view.mode === 'robber' ? robberCard(view, p)
     : view.trick.length ? recoverFollow(view, p, random)
     : view.trump ? recoverLead(view.trump, p) : noTrumpLead(p);

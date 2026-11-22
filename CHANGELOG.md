@@ -1,3 +1,7 @@
+# 1.2.0 — 2026-11-22
+
+- Dodano trzy kontrakty treningowe: nie brać lew, kierów i chłopców.
+
 # 1.1.0 — 2026-11-22
 
 - Kierki można zainstalować na ekranie głównym i uruchomić po pobraniu gry bez połączenia z internetem.

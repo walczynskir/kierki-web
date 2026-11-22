@@ -1,9 +1,9 @@
-import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard } from './engine.js?v=match-1';
-import { decideComputerCard } from './deciders.js?v=match-1';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=trick-history-1';
+import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-1';
+import { decideComputerCard } from './deciders.js?v=training-contracts-1';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=29';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=30';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -501,10 +501,17 @@ function renderPuzzleTable(names, legal, orderedHand) {
   $('table').replaceChildren(...seats, columns);
 }
 
+const trainingContracts = {
+  'no-tricks': ['Nie brać lew', 'Za każdą wziętą lewę: −2 pkt.'],
+  'no-hearts': ['Nie brać kierów', 'Za każdego wziętego kiera: −2 pkt.'],
+  'no-boys': ['Nie brać chłopców', 'Za każdego wziętego króla lub waleta: −3 pkt.']
+};
+
 function render() {
   clearTimeout(timer);
   const puzzle = game.mode === 'puzzle';
   const robber = game.mode === 'robber';
+  const contract = trainingContracts[game.mode];
   const choosingTrump = game.phase === 'trump' && game.leader === 0;
   $('no-trump').hidden = !choosingTrump;
   const names = seatNames.map(t);
@@ -535,7 +542,9 @@ function render() {
   cue.hidden = !choosingTrump && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length);
   cue.textContent = t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
   $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
-    + ' · ' + t(puzzle ? 'Układanka' : robber ? 'Rozbójnik' : 'Odgrywka');
+    + ' · ' + t(contract?.[0] ?? (puzzle ? 'Układanka' : robber ? 'Rozbójnik' : 'Odgrywka'));
+  $('contract-rule').hidden = !contract;
+  $('contract-rule').textContent = contract ? t(contract[1]) : '';
   $('resume-match').hidden = !match.single;
   $('training-save-error').hidden = !trainingSaveFailed;
   $('dealer').textContent = t('Rozdaje') + ': ' + names[match.dealer];
@@ -568,8 +577,8 @@ function render() {
   } else if (game.phase === 'review') {
     const { taker, points } = game.tricks.at(-1);
     $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
-      + (showScores ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
-    $('next-trick').firstElementChild.textContent = t(game.tricks.length === 13
+      + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
+    $('next-trick').firstElementChild.textContent = t(dealFinished(game)
       ? 'Dotknij stołu, by zobaczyć wynik rozdania' : 'Dotknij stołu, by zagrać następną lewę');
   } else if (game.phase === 'done') {
     if (!lastDeal) {

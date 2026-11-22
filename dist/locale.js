@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=5';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=6';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,12 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Nie brać lew': 'No tricks',
+  'Nie brać kierów': 'No hearts',
+  'Nie brać chłopców': 'No kings or jacks',
+  'Za każdą wziętą lewę: −2 pkt.': 'Each trick taken costs 2 points.',
+  'Za każdego wziętego kiera: −2 pkt.': 'Each heart taken costs 2 points.',
+  'Za każdego wziętego króla lub waleta: −3 pkt.': 'Each king or jack taken costs 3 points.',
   'Historia lew': 'Trick history', 'Rozdanie': 'Deal',
   'Brak zapisanych lew': 'There are no recorded tricks in this match yet.',
   'Opis historii lew': 'Shows a collapsible section below the score table with the tricks from this match.',
