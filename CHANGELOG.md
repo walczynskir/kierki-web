@@ -1,3 +1,7 @@
+# 1.3.1 — 2026-11-22
+
+- Średni poziom w „Nie brać dam” pozbywa się wygrywającego króla lub asa na ostatniej pozycji w lewie bez damy. Możliwość oddania damy ma pierwszeństwo.
+
 # 1.3.0 — 2026-11-22
 
 - Trening obejmuje sześć kontraktów ujemnych. W każdym poziom Średni korzysta z adaptacji oryginalnego decydenta, a poziom Łatwy z prostej strategii.

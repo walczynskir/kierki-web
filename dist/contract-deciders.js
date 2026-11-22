@@ -63,7 +63,7 @@ function noHearts(p) {
   return p.high(color) ?? p.high(hearts) ?? p.high(p.highFirst[0]);
 }
 
-function noCourtCards(p, boys) {
+function noCourtCards(view, p, boys) {
   const threshold = boys ? jack : queen;
   if (!p.lead) {
     const color = p.colors.find(color => p.held[color].some(card => rank(card) < threshold && p.above(card)))
@@ -80,8 +80,16 @@ function noCourtCards(p, boys) {
   const priorities = boys
     ? { [queen]: [jack], [king]: [jack, queen], [ace]: [king, jack, queen] }
     : { [king]: [queen], [ace]: [queen, king] };
-  return (priorities[p.best] ?? []).map(value => p.atRank(p.lead, value)).find(card => card !== undefined)
-    ?? under(p.follow, threshold) ?? p.low(p.lead);
+  const preferred = (priorities[p.best] ?? [])
+    .map(value => p.atRank(p.lead, value)).find(card => card !== undefined);
+  if (!boys && p.played === 3 && !view.trick.some(({ card }) => rank(card) === queen)) {
+    // Give away the queen first. Otherwise a winning king or ace costs zero here.
+    const heldQueen = p.atRank(p.lead, queen);
+    if (heldQueen !== undefined && p.best > queen) return heldQueen;
+    const high = p.high(p.lead);
+    if (rank(high) >= king && rank(high) > p.best) return high;
+  }
+  return preferred ?? under(p.follow, threshold) ?? p.low(p.lead);
 }
 
 function noKingOfHearts(view, p) {
@@ -122,8 +130,8 @@ export function decideNegativeContract(view, cards) {
   switch (view.mode) {
     case 'no-tricks': return noTricks(p);
     case 'no-hearts': return noHearts(p);
-    case 'no-boys': return noCourtCards(p, true);
-    case 'no-ladies': return noCourtCards(p, false);
+    case 'no-boys': return noCourtCards(view, p, true);
+    case 'no-ladies': return noCourtCards(view, p, false);
     case 'no-king-of-hearts': return noKingOfHearts(view, p);
     case 'no-six-and-last': return noSixAndLast(p);
   }

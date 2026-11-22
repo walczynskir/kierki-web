@@ -62,3 +62,15 @@ test('both computer strategies finish all practice contracts with the original p
     }
   }
 });
+
+test('no queens sheds a winning king or ace only as last player in a queen-free trick', () => {
+  const view = (hand, trick) => ({
+    mode: 'no-ladies', trump: null, turn: 3, hand, legal: hand, tricks: [],
+    trick: trick.map((card, player) => ({ player, card }))
+  });
+  assert.equal(decideComputerCard(view([5, 11], [2, 3, 6])), 11);
+  assert.equal(decideComputerCard(view([5, 12], [2, 3, 6])), 12);
+  assert.equal(decideComputerCard(view([5, 11], [2, 6])), 5);
+  assert.equal(decideComputerCard(view([5, 11], [2, 23, 6])), 5);
+  assert.equal(decideComputerCard(view([5, 10, 12], [2, 3, 11])), 10);
+});

@@ -1,6 +1,6 @@
 // Adapted from CRobberDecider and CRecoverDecider, Kierki commit 5796cd1.
 // Decisions use the player's hand and public play history only.
-import { decideNegativeContract } from './contract-deciders.js?v=1';
+import { decideNegativeContract } from './contract-deciders.js?v=2';
 import { suits, suit, rank, winner, computerCard } from './engine.js?v=training-contracts-2';
 
 const hearts = '♥';

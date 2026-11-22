@@ -1,5 +1,5 @@
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
-import { decideComputerCard } from './deciders.js?v=training-contracts-2';
+import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-2';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 

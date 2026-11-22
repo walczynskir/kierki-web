@@ -11,8 +11,10 @@ Dla każdego kontraktu generator przygotowuje 1000 rozdań. Każde jest rozgrywa
 | Nie brać lew | 7,31 | 5,70 | 2065 | 0 | 3935 |
 | Nie brać kierów | 7,39 | 5,61 | 2257 | 0 | 3743 |
 | Nie brać chłopców | 6,14 | 5,86 | 2380 | 1038 | 2582 |
-| Nie brać dam | 4,98 | 5,02 | 2091 | 1830 | 2079 |
+| Nie brać dam | 5,27 | 4,73 | 1904 | 1733 | 2363 |
 | Nie brać króla kier | 4,11 | 3,89 | 2919 | 0 | 3081 |
 | Nie brać szóstej i ostatniej lewy | 4,88 | 4,12 | 1195 | 3099 | 1706 |
 
 Źródła strategii średniej i reguł znajdują się w [oryginalnym repozytorium Kierki](https://github.com/walczynskir/Kierki).
+
+W wersji 1.3.1 na tych samych taliach poziom Średni w „Nie brać dam” obniżył średnią karę z 5,02 do 4,73 pkt na gracza. Wygrane wzrosły z 2079 do 2363 na 6000 prób. Wyniki pozostałych pięciu kontraktów są identyczne.
