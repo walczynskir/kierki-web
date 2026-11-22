@@ -1,3 +1,7 @@
+# 1.0.0 — 2026-11-22
+
+- Pierwsze stabilne wydanie Kierek dostępne w katalogu Games Chest.
+
 # 0.1.6 — 2026-11-22
 
 - Wyrównano odnośniki do organizacji do lewej strony, a numer wersji do prawej.
