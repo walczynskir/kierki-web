@@ -1,3 +1,7 @@
+# 1.4.0 — 2026-11-22
+
+- Dodano poziom Trudny w kontrakcie „Nie brać lew”. Ocenia ruchy na podstawie symulacji pozostałych lew.
+
 # 1.3.1 — 2026-11-22
 
 - Średni poziom w „Nie brać dam” pozbywa się wygrywającego króla lub asa na ostatniej pozycji w lewie bez damy. Możliwość oddania damy ma pierwszeństwo.

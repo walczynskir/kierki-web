@@ -1,9 +1,10 @@
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
+import { decideHardCard } from './hard-decider.js?v=1';
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-2';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=31';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=32';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -18,7 +19,7 @@ const future = [];
 const optionsKey = 'games-chest-kierki-options-v1';
 const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'large'];
 const includesPuzzle = () => $('include-puzzle').value === 'with';
-const difficulties = ['easy', 'medium'];
+const difficulties = ['easy', 'medium', 'hard'];
 const playPaces = {
   fast: { move: 280, pass: 1100 },
   normal: { move: 700, pass: 1700 },
@@ -613,7 +614,9 @@ function render() {
     $('status').textContent = t('Lewa') + ' ' + number + ' / 13 · ' + (game.turn === 0 ? t('Twój ruch') : t('Gra') + ' ' + names[game.turn]);
     if (game.turn !== 0) timer = setTimeout(() => {
       const view = computerView(game);
-      const card = activeDifficulty === 'easy' ? computerCard(view, view.legal) : decideComputerCard(view);
+      const card = activeDifficulty === 'easy' ? computerCard(view, view.legal)
+        : activeDifficulty === 'hard' && game.mode === 'no-tricks' ? decideHardCard(view)
+        : decideComputerCard(view);
       update(() => play(game, card));
     }, playPace().move);
   }
