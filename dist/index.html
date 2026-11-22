@@ -17,9 +17,9 @@
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
 <link rel="stylesheet" href="./style.css?v=deck-themes-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=footer-row-2"></script>
-<link rel="stylesheet" href="shared-footer.css?v=footer-row-2">
-<script defer src="shared-footer.js?v=footer-row-2"></script>
+<script type="module" src="./app.js?v=footer-save-errors-1"></script>
+<link rel="stylesheet" href="shared-footer.css?v=footer-save-errors-1">
+<script defer src="shared-footer.js?v=footer-save-errors-1"></script>
 </head>
 <body>
 <header class="masthead">
@@ -81,7 +81,8 @@
     <p data-t="W rozbójniku unikaj">W rozbójniku unikaj kar. Za lewę i za każdego kiera są po 2 punkty ujemne, za waleta lub króla 3, za damę 5, za króla kier dodatkowe 16. Szósta i ostatnia lewa kosztują dodatkowo po 9. W kiery można wyjść, gdy nie ma innego koloru.</p>
     <p id="help-recovery"></p>
     <p data-t="Zasady układanki"></p>
-  </dialog>
+    <p data-save-help translate="no"></p>
+</dialog>
 
 <dialog id="theme-gallery" aria-labelledby="gallery-title">
   <div class="round"><h2 id="gallery-title" data-t="Motywy">Motywy</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
@@ -245,9 +246,8 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v0.1.3</span>
-    <span id="save-note" translate="no"></span>
-    <span class="save-note-short" data-footer-copy="saved" translate="no" aria-hidden="true">Zapis automatyczny</span>
+    <span id="footer-version" translate="no">v0.1.4</span>
+    <span id="save-note" role="status" translate="no"></span>
   </div>
   <nav class="games-chest-menu" translate="no"><div class="recent-games" hidden><span></span><div class="recent-games-icons"></div></div></nav>
 </footer>

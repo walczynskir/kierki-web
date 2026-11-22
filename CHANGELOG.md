@@ -1,3 +1,7 @@
+# 0.1.4 — 2026-11-22
+
+- Stopka informuje o zapisie tylko w razie błędu. Pomoc wyjaśnia, jak wznowić automatycznie zapisaną partię.
+
 # 0.1.3 — 2026-11-22
 
 - Dopasowano dolny wiersz stopki do telefonów.
