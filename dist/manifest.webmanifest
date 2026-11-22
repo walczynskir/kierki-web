@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Kierki",
+  "short_name": "Kierki",
+  "lang": "pl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ecf0e5",
+  "theme_color": "#ecf0e5",
+  "icons": [
+    { "src": "./kierki-icon-proposal-v2.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,3 +1,7 @@
+# 1.1.0 — 2026-11-22
+
+- Kierki można zainstalować na ekranie głównym i uruchomić po pobraniu gry bez połączenia z internetem.
+
 # 1.0.0 — 2026-11-22
 
 - Pierwsze stabilne wydanie Kierek dostępne w katalogu Games Chest.

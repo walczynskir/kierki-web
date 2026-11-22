@@ -32,7 +32,9 @@ jobs:
             node --check "$file"
           done
       - name: Sprawdź zgodność wersji
-        run: node scripts/release-version.mjs --check
+        run: |
+          node scripts/release-version.mjs --check
+          node scripts/build-offline.mjs --check
   deploy:
     name: Publikacja GitHub Pages
     needs: test
