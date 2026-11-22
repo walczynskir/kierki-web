@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=8';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=9';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -49,8 +49,8 @@ const english = {
   'Opis opcji układanki': 'Adds an Eights deal after the four recovery deals. Applies from the next game.',
   'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn, or pass if you have no legal move. Players score +10, +5, −5 and −10 in the order they empty their hands.',
   'Łatwy': 'Easy', 'Średni': 'Medium',
-  'Trudny (Nie brać lew)': 'Hard (No tricks)',
-  'Opis poziomów z trudnym': 'Hard simulates the remaining play in No tricks. Other contracts use Medium. The change applies from the next game.',
+  'Trudny': 'Hard',
+  'Opis poziomów z trudnym': 'Hard tests possible continuations using cards known to the player. The change applies from the next game.',
   'Opis poziomów Kierek': 'Easy uses the simple strategy from the prototype. Medium also uses cards seen in earlier tricks. The change applies from the next game.',
   'Zmiany zapisują się automatycznie.': 'Changes are saved automatically.',
   'Nie udało się zapisać ustawień.': 'Could not save settings.',
@@ -108,7 +108,7 @@ const polish = {
   'Opis treningu': 'Rozegraj jedno rozdanie. Trening nie zmienia statystyk, a do trwającej partii możesz wrócić.',
   'Opis opcji układanki': 'Dodaje układankę od ósemek po czterech odgrywkach. Zmiana obowiązuje od następnej partii.',
   'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, spasuj. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
-  'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę w kontrakcie „Nie brać lew”. W pozostałych kontraktach działa Średni. Zmiana obowiązuje od następnej partii.',
+  'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę na podstawie kart znanych graczowi. Zmiana obowiązuje od następnej partii.',
   'Opis poziomów Kierek': 'Łatwy używa prostej strategii prototypu. Średni uwzględnia także karty z wcześniejszych lew. Zmiana obowiązuje od następnej partii.',
   'Opis punktacji': 'Pokazuje punkty za lewę i tabelę wyników już w trakcie rozdania.',
   'Zakres kopii Kierek': 'Kopia obejmuje ustawienia, statystyki i odblokowane motywy. Bieżąca partia i historia ruchów pozostają na tym urządzeniu.',

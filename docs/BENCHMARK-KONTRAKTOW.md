@@ -30,3 +30,21 @@ Dla każdego z 250 rozdań odniesieniem jest gra czterech Średnich. Rozdanie po
 | 1000 | 6,50 | 6,12 | 290 | 499 | 211 |
 
 W lokalnym Node mediana z 13 000 decyzji wyniosła 0,36 ms, 95. percentyl 2,12 ms, maksimum 8,87 ms. To pomiar na komputerze, bez czasu animacji.
+
+## Trudny we wszystkich wariantach
+
+Polecenie: `node scripts/benchmark-hard.mjs 100 all`.
+
+W każdym wariancie porównano 100 talii na czterech miejscach. Punkty są podane ze znakiem, więc wyższy wynik jest lepszy. W Odgrywce benchmark używa 5 punktów za lewę i uwzględnia wybór atu. Decyzje liczono w Node na komputerze, razem z wykonywaniem ruchu w silniku i bez animacji.
+
+| Wariant | Średni, pkt na gracza | Trudny, pkt na gracza | Trudny lepiej | Remis | Trudny gorzej | P95, ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Nie brać lew | -6,50 | -6,16 | 118 | 205 | 77 | 2,12 |
+| Nie brać kierów | -6,50 | -5,55 | 116 | 192 | 92 | 7,29 |
+| Nie brać chłopców | -6,00 | -5,09 | 142 | 191 | 67 | 12,53 |
+| Nie brać dam | -5,00 | -4,05 | 105 | 248 | 47 | 10,49 |
+| Nie brać króla kier | -4,00 | -3,12 | 34 | 354 | 12 | 6,12 |
+| Nie brać szóstej i ostatniej lewy | -4,50 | -3,35 | 85 | 279 | 36 | 9,42 |
+| Rozbójnik | -32,50 | -29,57 | 168 | 66 | 166 | 8,18 |
+| Odgrywka | 16,25 | 16,91 | 114 | 207 | 79 | 9,66 |
+| Układanka | 0,00 | 2,74 | 121 | 230 | 49 | 0,88 |

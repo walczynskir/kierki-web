@@ -1,5 +1,7 @@
-import { advance, computerCard, legalCards, play, suit } from './engine.js?v=training-contracts-2';
+import { advance, computerCard, computerTrump, computerView, legalCards, play, rank, suit, suits, trickPoints, winner } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
+
+import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
 const seats = [0, 1, 2, 3];
 const deck = Array.from({ length: 52 }, (_, card) => card);
@@ -19,7 +21,6 @@ function randomFor(view) {
 export function hiddenHandsSampler(view) {
   const remaining = seats.map(() => 13);
   const voidSuits = seats.map(() => new Set());
-  const opponents = seats.filter(seat => seat !== view.turn);
   const known = new Set(view.hand);
   for (const trick of [...view.tricks, view.trick]) {
     if (!trick.length) continue;
@@ -30,9 +31,14 @@ export function hiddenHandsSampler(view) {
       if (suit(card) !== lead) voidSuits[player].add(lead);
     }
   }
+  return makeSampler(view, remaining, known, (card, seat) => !voidSuits[seat].has(suit(card)));
+}
+
+function makeSampler(view, remaining, known, canHold) {
+  const opponents = seats.filter(seat => seat !== view.turn);
   const unknown = deck.filter(card => !known.has(card)).map(card => ({
     card,
-    eligible: opponents.filter(seat => !voidSuits[seat].has(suit(card)))
+    eligible: opponents.filter(seat => canHold(card, seat))
   })).sort((a, b) => a.eligible.length - b.eligible.length);
   const masks = unknown.map(({ eligible }) => eligible.reduce((mask, seat) => mask | (1 << seat), 0));
   // For every subset of opponents, the cards forced into it must fit its capacity.
@@ -70,33 +76,93 @@ export function hiddenHandsSampler(view) {
   };
 }
 
-function remainingPenalty(view, hands, firstCard) {
-  const game = {
-    mode: 'no-tricks', phase: 'play', trump: null, turn: view.turn,
-    hands: hands.map(hand => hand.slice()), trick: view.trick.slice(),
-    tricks: view.tricks.slice(), points: [0, 0, 0, 0]
-  };
-  play(game, firstCard);
+function chooseBySimulation(options, fallback, sample, random, value, samples) {
+  const totals = new Map(options.map(option => [option, 0]));
+  for (let iteration = 0; iteration < samples; iteration++) {
+    const hands = sample(random);
+    for (const option of options) totals.set(option, totals.get(option) + value(hands, option));
+  }
+  return options.reduce((best, option) => totals.get(option) > totals.get(best) ? option : best, fallback);
+}
+
+function finishTricks(game) {
   while (game.phase !== 'done') {
     if (game.phase === 'review') advance(game);
-    else play(game, computerCard(game, legalCards(game)));
+    else {
+      const card = game.mode === 'no-tricks' ? computerCard(game, legalCards(game))
+        : decideComputerCard(computerView(game));
+      play(game, card);
+    }
   }
-  return -game.points[view.turn];
 }
 
 export function decideHardCard(view, samples = 16) {
   const fallback = decideComputerCard(view);
-  if (view.mode !== 'no-tricks' || view.legal.length < 2) return fallback;
+  if (view.legal.length < 2) return fallback;
   const sample = hiddenHandsSampler(view);
   if (!sample) return fallback;
 
-  const random = randomFor(view);
-  const totals = new Map(view.legal.map(card => [card, 0]));
-  for (let iteration = 0; iteration < samples; iteration++) {
-    const hands = sample(random);
-    for (const card of view.legal) {
-      totals.set(card, totals.get(card) + remainingPenalty(view, hands, card));
+  const points = seats.map(() => 0);
+  view.tricks.forEach((trick, index) => {
+    if (trick.length) points[winner(trick, view.trump).player] += trickPoints(view.mode, trick, index + 1);
+  });
+  const value = (hands, card) => {
+    const game = {
+      mode: view.mode, phase: 'play', trump: view.trump, turn: view.turn,
+      hands: hands.map(hand => hand.slice()), trick: view.trick.slice(),
+      tricks: view.tricks.map(cards => ({ cards })), points: points.slice()
+    };
+    play(game, card);
+    finishTricks(game);
+    return game.points[view.turn];
+  };
+  return chooseBySimulation(view.legal, fallback, sample, randomFor(view), value,
+    view.mode === 'no-tricks' ? samples : Math.min(samples, 8));
+}
+
+export function decideHardTrump(hand, turn, samples = 8) {
+  const view = { hand, turn, trick: [], tricks: [] };
+  const unknown = deck.filter(card => !hand.includes(card));
+  const sample = random => {
+    const shuffled = unknown.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  }
-  return view.legal.reduce((best, card) => totals.get(card) < totals.get(best) ? card : best, fallback);
+    const hands = seats.map(seat => seat === turn ? hand.slice() : shuffled.splice(0, 13));
+    hands[turn].push(...shuffled);
+    return hands;
+  };
+  const value = (hands, trump) => {
+    const game = {
+      mode: 'recover', phase: 'play', trump, turn,
+      hands: hands.map(cards => cards.slice()), trick: [], tricks: [], points: seats.map(() => 0)
+    };
+    finishTricks(game);
+    return game.points[turn];
+  };
+  return chooseBySimulation([...suits, null], computerTrump(hand), sample, randomFor(view), value, samples);
+}
+
+export function decideHardPuzzleCard(game, samples = 16) {
+  const legal = puzzleCards(game);
+  const fallback = computerPuzzleCard(game, 'medium');
+  if (legal.length < 2) return fallback;
+  const view = { turn: game.turn, hand: game.hands[game.turn], trick: [], tricks: [] };
+  const board = deck.filter(card => {
+    const row = game.rows[suit(card)];
+    return row && rank(card) >= row.low && rank(card) <= row.high;
+  });
+  const sample = makeSampler(view, game.hands.map(hand => hand.length), new Set([...view.hand, ...board]), () => true);
+  if (!sample) return fallback;
+  const value = (hands, card) => {
+    const simulation = {
+      turn: game.turn, phase: 'play', rows: { ...game.rows }, hands: hands.map(hand => hand.slice()),
+      finishOrder: game.finishOrder.slice(), points: game.points.slice()
+    };
+    playPuzzle(simulation, card);
+    while (simulation.phase !== 'done') playPuzzle(simulation, computerPuzzleCard(simulation, 'medium'));
+    return simulation.points[view.turn];
+  };
+  return chooseBySimulation(legal, fallback, sample, randomFor(view), value, samples);
 }

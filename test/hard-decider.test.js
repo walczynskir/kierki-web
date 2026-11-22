@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { advance, computerView, deal, play, suit } from '../dist/engine.js';
+import { advance, computerView, deal, legalCards, play, setTrump, suit, suits } from '../dist/engine.js';
 import { decideComputerCard } from '../dist/deciders.js';
-import { decideHardCard, hiddenHandsSampler } from '../dist/hard-decider.js';
+import { decideHardCard, decideHardPuzzleCard, decideHardTrump, hiddenHandsSampler } from '../dist/hard-decider.js';
+
+import { computerPuzzleCard, dealPuzzle, playPuzzle, puzzleCards } from '../dist/puzzle.js';
 
 test('sampled hands respect card counts, revealed cards and observed void suits', () => {
   const game = deal('no-tricks', 0, () => .314);
@@ -37,4 +39,39 @@ test('hard moves are deterministic, legal and do not mutate the public view', ()
   assert(view.legal.includes(move));
   assert.equal(decideHardCard(view), move);
   assert.deepEqual(view, before);
+});
+
+test('hard completes negative contracts and recovery with legal plays', () => {
+  const modes = ['no-tricks', 'no-hearts', 'no-boys', 'no-ladies', 'no-king-of-hearts', 'no-six-and-last', 'robber', 'recover'];
+  for (const mode of modes) {
+    const game = deal(mode, 0, () => .314);
+    if (game.phase === 'trump') {
+      const trump = decideHardTrump(game.hands[0].slice(0, 7), 0, 2);
+      assert([...suits, null].includes(trump));
+      assert(setTrump(game, trump));
+    }
+    for (let moves = 0; moves < 52 && game.phase !== 'done'; moves++) {
+      const card = game.turn === 0 ? decideHardCard(computerView(game), 2) : legalCards(game)[0];
+      assert(play(game, card), mode);
+      if (game.phase === 'review') assert(advance(game));
+    }
+    assert.equal(game.phase, 'done', mode);
+  }
+});
+
+test('hard puzzle only uses public hand sizes and chooses a legal move', () => {
+  const game = dealPuzzle(0, () => .314);
+  for (let moves = 0; moves < 30 && puzzleCards(game).length < 2; moves++) {
+    assert(playPuzzle(game, computerPuzzleCard(game, 'medium')));
+  }
+  const legal = puzzleCards(game);
+  assert(legal.length >= 2);
+  const before = structuredClone(game);
+  const card = decideHardPuzzleCard(game, 2);
+  assert(legal.includes(card));
+  assert.deepEqual(game, before);
+  for (const [seat, hand] of game.hands.entries()) {
+    if (seat !== game.turn) game.hands[seat] = Array(hand.length).fill(-1);
+  }
+  assert.equal(decideHardPuzzleCard(game, 2), card);
 });

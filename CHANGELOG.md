@@ -1,3 +1,7 @@
+# 1.5.0 — 2026-11-22
+
+- Rozszerzono poziom Trudny na wszystkie kontrakty, Rozbójnika, Odgrywkę i Układankę. W Odgrywce komputer symuluje także wybór atu lub gry bez atu.
+
 # 1.4.0 — 2026-11-22
 
 - Dodano poziom Trudny w kontrakcie „Nie brać lew”. Ocenia ruchy na podstawie symulacji pozostałych lew.

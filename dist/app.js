@@ -1,10 +1,10 @@
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
-import { decideHardCard } from './hard-decider.js?v=1';
+import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=2';
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-2';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=32';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=33';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -570,13 +570,19 @@ function render() {
       : t('Gra') + ' ' + names[game.turn]);
     if (game.turn !== 0 || !legal.length) {
       timer = setTimeout(() => {
-        update(() => playPuzzle(game, game.turn === 0 ? null : computerPuzzleCard(game, activeDifficulty)));
+        const card = game.turn === 0 ? null : activeDifficulty === 'hard' ? decideHardPuzzleCard(game)
+          : computerPuzzleCard(game, activeDifficulty);
+        update(() => playPuzzle(game, card));
       }, game.lastMove?.card === null ? playPace().pass : playPace().move);
     }
   } else if (game.phase === 'trump') {
     $('status').textContent = t(choosingTrump ? 'Wybór atu' : 'Komputer wybiera atu.');
     if (!choosingTrump) {
-      timer = setTimeout(() => update(() => setTrump(game, computerTrump(game.hands[game.leader].slice(0, 7)))), 350);
+      timer = setTimeout(() => {
+        const cards = game.hands[game.leader].slice(0, 7);
+        const trump = activeDifficulty === 'hard' ? decideHardTrump(cards, game.leader) : computerTrump(cards);
+        update(() => setTrump(game, trump));
+      }, 350);
     }
   } else if (game.phase === 'review') {
     const { taker, points } = game.tricks.at(-1);
@@ -615,7 +621,7 @@ function render() {
     if (game.turn !== 0) timer = setTimeout(() => {
       const view = computerView(game);
       const card = activeDifficulty === 'easy' ? computerCard(view, view.legal)
-        : activeDifficulty === 'hard' && game.mode === 'no-tricks' ? decideHardCard(view)
+        : activeDifficulty === 'hard' ? decideHardCard(view)
         : decideComputerCard(view);
       update(() => play(game, card));
     }, playPace().move);
