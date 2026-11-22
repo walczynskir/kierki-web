@@ -182,6 +182,7 @@ function renderShell() {
   $('game-name').textContent = name;
   document.title = name === 'Kierki' ? name : name + ' · Kierki';
   $('credits-link').href = './credits.html?lang=' + encodeURIComponent(language);
+  $('save-note').dataset.saved = String(gameSaved);
   $('save-note').textContent = t(gameSaved ? 'Automatyczny zapis partii' : 'Nie udało się zapisać partii.');
   const completed = completedCount(results);
   const earned = earnedThemes(results, unlockedThemes);
