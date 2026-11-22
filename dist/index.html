@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ecf0e5">
+<title>Kierki</title>
+<link rel="icon" type="image/png" sizes="192x192" href="./kierki-icon-proposal-v2.png">
+<link rel="stylesheet" href="./shared-palettes.css">
+<link rel="stylesheet" href="./shared-game.css">
+<link rel="stylesheet" href="./shared-victory.css">
+<link rel="stylesheet" href="./games-chest-menu.css?v=icon-gallery-1">
+<script defer src="./games-chest-menu.js?v=icons-1" data-game="kierki"></script>
+<link rel="stylesheet" href="./shared-settings.css">
+<link rel="stylesheet" href="./progress-bar.css">
+<link rel="stylesheet" href="./progress-summary.css">
+<link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
+<link rel="stylesheet" href="./style.css?v=deck-themes-1">
+<script defer src="./shared-victory.js"></script>
+<script type="module" src="./app.js?v=score-and-history-1"></script>
+</head>
+<body>
+<header class="masthead">
+  <div class="round header-top"><h1><img src="./kierki-icon-proposal-v2.png" width="32" height="32" alt=""><bdi id="game-name" translate="no">Kierki</bdi></h1>
+    <div class="accessibility-controls"><button id="contrast" aria-pressed="false">◐ Kontrast</button><label><input id="large" type="checkbox"> A+</label></div>
+  </div>
+  <div class="preferences">
+    <select id="language" aria-label="Język"><option value="de" lang="de" translate="no">Deutsch</option><option value="en" lang="en" translate="no">English</option><option value="es" lang="es" translate="no">Español</option><option value="fr" lang="fr" translate="no">Français</option><option value="it" lang="it" translate="no">Italiano</option><option value="pl" lang="pl" translate="no">Polski</option><option value="uk" lang="uk" translate="no">Українська</option><option value="ar" lang="ar" translate="no">العربية</option><option value="hi" lang="hi" translate="no">हिन्दी</option><option value="zh-Hans" lang="zh-Hans" translate="no">简体中文</option></select>
+    <select id="theme" aria-label="Motyw"></select>
+  </div>
+</header>
+<main id="game-area">
+  <button id="my-progress" class="progress-bar" aria-haspopup="dialog" aria-controls="progress-dialog" translate="no">
+    <strong id="progress-name">Moje postępy</strong>
+    <span class="progress-count"><span aria-hidden="true">✓</span> <bdi id="progress-wins">0</bdi></span>
+    <span class="progress-count" id="progress-next" hidden><span aria-hidden="true">🎁</span> <bdi id="progress-next-count"></bdi></span>
+    <span class="progress-chevron" aria-hidden="true">›</span></button>
+  <div class="game-toolbar" aria-label="Sterowanie grą" role="group">
+    <button id="new-game" type="button" class="primary" aria-label="Nowa gra"><span class="toolbar-icon" aria-hidden="true">＋</span><span class="toolbar-label" data-t="Nowa gra">Nowa gra</span></button>
+    <div class="game-tools"><button id="game-picker-button" type="button" aria-haspopup="dialog" aria-controls="game-picker" aria-label="Inne gry" translate="no">
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="12" y="2" width="6" height="6" rx="1"/><rect x="2" y="12" width="6" height="6" rx="1"/><rect x="12" y="12" width="6" height="6" rx="1"/></svg><span class="toolbar-label">Inne gry</span></button>
+      <button id="undo" type="button" aria-label="Cofnij" title="Cofnij" hidden><span class="toolbar-icon" aria-hidden="true">↶</span><span class="toolbar-label" data-t="Cofnij">Cofnij</span></button>
+      <button id="redo" type="button" aria-label="Przywróć" title="Przywróć" hidden><span class="toolbar-icon" aria-hidden="true">↷</span><span class="toolbar-label" data-t="Przywróć">Przywróć</span></button>
+      <button id="fullscreen" type="button" aria-pressed="false"><span class="toolbar-icon" aria-hidden="true">⛶</span><span class="toolbar-label"></span></button>
+      <button id="help-button" type="button" aria-haspopup="dialog" aria-controls="help"><span class="toolbar-icon" aria-hidden="true">?</span><span class="toolbar-label" data-t="Jak grać">Jak grać</span></button>
+      <button id="open-options" type="button" class="shared-settings-button" aria-label="Ustawienia" title="Ustawienia" aria-haspopup="dialog" aria-controls="options"></button>
+    </div>
+  </div>
+  <section class="game" aria-label="Rozgrywka">
+    <div class="round"><h2 id="round"></h2><span id="trump"></span></div>
+    <p id="dealer"></p>
+    <p id="status" role="status"></p>
+    <div class="table-wrap">
+      <div id="table" class="table" dir="ltr" aria-label="Stół"></div>
+      <button id="next-trick" type="button" class="table-next" hidden><span class="table-cue"></span></button>
+      <span id="play-card-cue" class="table-cue" hidden></span>
+    </div>
+    <div id="actions" class="actions"></div>
+    <section class="hand-area" aria-labelledby="hand-title">
+      <div class="round hand-heading">
+        <h3 id="hand-title">Twoje karty</h3>
+        <button id="no-trump" type="button" data-t="Bez atu" hidden>Bez atu</button>
+      </div>
+      <div id="hand" class="hand" dir="ltr"></div>
+    </section>
+  </section>
+  <details class="scorecard" id="scorecard" hidden>
+    <summary data-t="Punktacja">Punktacja</summary>
+    <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col" data-t="Rozbójnik">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
+  </details>
+  <details class="scorecard" id="trick-history" hidden>
+    <summary data-t="Historia lew">Historia lew</summary>
+    <p id="trick-history-empty" data-t="Brak zapisanych lew" hidden></p>
+    <div id="trick-history-list"></div>
+  </details>
+  <dialog id="help" aria-labelledby="help-title">
+    <div class="round"><h2 id="help-title" data-t="Zasady prototypu">Zasady prototypu</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
+    <p data-t="Przy stole grają">Przy stole grają cztery osoby. Dokładaj do koloru wyjścia. Zwycięzca lewy wychodzi do następnej.</p>
+    <p data-t="W rozbójniku unikaj">W rozbójniku unikaj kar. Za lewę i za każdego kiera są po 2 punkty ujemne, za waleta lub króla 3, za damę 5, za króla kier dodatkowe 16. Szósta i ostatnia lewa kosztują dodatkowo po 9. W kiery można wyjść, gdy nie ma innego koloru.</p>
+    <p id="help-recovery"></p>
+    <p data-t="Zasady układanki"></p>
+  </dialog>
+
+<dialog id="theme-gallery" aria-labelledby="gallery-title">
+  <div class="round"><h2 id="gallery-title" data-t="Motywy">Motywy</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
+  <div id="gallery-themes" class="theme-tiles"></div>
+  <h3 data-t="Motywy za osiągnięcia">Motywy za osiągnięcia</h3>
+  <div id="gallery-rewards" class="theme-tiles"></div>
+</dialog>
+<dialog id="progress-dialog" class="progress-summary" aria-labelledby="progress-title" translate="no">
+  <div class="progress-heading">
+    <h2 id="progress-title">Moje postępy</h2>
+    <form method="dialog"><button id="progress-close" class="progress-summary-close" aria-label="Zamknij" autofocus>×</button></form>
+  </div>
+  <dl id="progress-metrics"></dl>
+  <p id="progress-reward-detail" hidden></p>
+</dialog>
+<dialog id="options" class="shared-settings" aria-labelledby="options-title" aria-describedby="options-note">
+  <form method="dialog" class="settings-shell">
+    <header class="settings-header">
+      <div class="settings-heading"><h2 id="options-title" data-t="Ustawienia">Ustawienia</h2><button aria-label="Zamknij" autofocus>×</button></div>
+      <p id="options-note" class="settings-summary" data-t="Zmiany zapisują się automatycznie.">Zmiany zapisują się automatycznie.</p>
+    </header>
+    <div class="settings-body">
+      <div id="settings-save-error" class="settings-save-error" role="alert" hidden>
+        <p data-t="Nie udało się zapisać ustawień.">Nie udało się zapisać ustawień.</p>
+        <button id="settings-save-retry" type="button" data-t="Spróbuj ponownie">Spróbuj ponownie</button>
+      </div>
+      <fieldset class="settings-section">
+        <legend data-t="Komputer">Komputer</legend>
+        <div class="setting-item">
+          <div class="setting-row difficulty-row">
+            <label for="difficulty"><span class="setting-caption"><span data-t="Poziom trudności">Poziom trudności</span><small data-t="Od następnej partii" class="setting-timing">Od następnej partii</small></span></label>
+            <select id="difficulty"><option value="easy" data-t="Łatwy">Łatwy</option><option value="medium" data-t="Średni">Średni</option></select>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="difficulty-note">ⓘ</button>
+          </div>
+          <p id="difficulty-note" class="setting-description" data-t="Opis poziomów Kierek" hidden></p>
+        </div>
+        <div class="setting-item">
+          <div class="setting-row difficulty-row puzzle-choice-row">
+            <label for="play-pace"><span class="setting-caption"><span data-t="Tempo gry">Tempo gry</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <select id="play-pace">
+              <option value="fast" data-t="Szybkie">Szybkie</option>
+              <option value="normal" data-t="Normalne" selected>Normalne</option>
+              <option value="slow" data-t="Wolne">Wolne</option>
+            </select>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="play-pace-note">ⓘ</button>
+          </div>
+          <p id="play-pace-note" class="setting-description" data-t="Opis tempa gry" hidden></p>
+        </div>
+      </fieldset>
+      <fieldset class="settings-section">
+        <legend data-t="Rozgrywka">Rozgrywka</legend>
+        <div class="setting-item">
+          <div class="setting-row difficulty-row puzzle-choice-row">
+            <label for="include-puzzle"><span class="setting-caption"><span data-t="Układanka na koniec">Układanka na koniec</span><small class="setting-timing" data-t="Od następnej partii">Od następnej partii</small></span></label>
+            <select id="include-puzzle">
+              <option value="with" data-t="Z układanką">Z układanką</option>
+              <option value="without" data-t="Bez układanki">Bez układanki</option>
+            </select>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="include-puzzle-note">ⓘ</button>
+          </div>
+          <p id="include-puzzle-note" class="setting-description" data-t="Opis opcji układanki" hidden></p>
+        </div>
+      </fieldset>
+      <fieldset class="settings-section">
+        <legend data-t="Wygląd i informacje">Wygląd i informacje</legend>
+        <div class="setting-item">
+          <div class="setting-row">
+            <label><input id="show-history" type="checkbox"><span class="setting-caption"><span data-t="Cofnij i Przywróć">Cofnij i Przywróć</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="show-history-note">ⓘ</button>
+          </div>
+          <p id="show-history-note" class="setting-description" data-t="Cofnij ostatnie zagranie" hidden>Cofnij ostatnie zagranie razem z odpowiedziami komputerów lub przywróć cofnięty ruch.</p>
+        </div>
+        <div class="setting-item">
+          <div class="setting-row">
+            <label><input id="show-scores" type="checkbox"><span class="setting-caption"><span data-t="Pokaż punktację">Pokaż punktację</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="show-scores-note">ⓘ</button>
+          </div>
+          <p id="show-scores-note" class="setting-description" data-t="Opis punktacji" hidden>Pokazuje punkty za lewę i tabelę wyników już w trakcie rozdania.</p>
+        </div>
+        <div class="setting-item">
+          <div class="setting-row">
+            <label><input id="lift-playable" type="checkbox"><span class="setting-caption"><span data-t="Wysuwaj dostępne karty">Wysuwaj dostępne karty</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="lift-playable-note">ⓘ</button>
+          </div>
+          <p id="lift-playable-note" class="setting-description" data-t="Opis wysuwania kart" hidden></p>
+        </div>
+        <div class="setting-item">
+          <div class="setting-row">
+            <label><input id="show-trick-history" type="checkbox"><span class="setting-caption"><span data-t="Historia lew">Historia lew</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <button type="button" class="setting-info" aria-expanded="false" aria-controls="trick-history-note">ⓘ</button>
+          </div>
+          <p id="trick-history-note" class="setting-description" data-t="Opis historii lew" hidden></p>
+        </div>
+      </fieldset>
+      <section class="settings-section" aria-labelledby="training-title">
+        <h3 id="training-title" data-t="Trening">Trening</h3>
+        <p id="training-note" class="settings-file-scope" data-t="Opis treningu"></p>
+        <div class="training-controls">
+          <select id="training-format" aria-describedby="training-note">
+            <option value="robber" data-t="Rozbójnik">Rozbójnik</option>
+            <option value="recover" data-t="Odgrywka">Odgrywka</option>
+            <option value="puzzle" data-t="Układanka" selected>Układanka</option>
+          </select>
+          <button id="start-training" type="button" data-t="Rozpocznij trening">Rozpocznij trening</button>
+          <button id="resume-match" type="button" data-t="Wróć do partii" hidden>Wróć do partii</button>
+        </div>
+        <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
+      </section>
+      <section class="settings-section" aria-labelledby="preferences-file-heading">
+        <h3 id="preferences-file-heading"></h3>
+        <p id="preferences-file-scope" class="settings-file-scope" data-t="Zakres kopii Kierek"></p>
+        <div class="settings-backup-actions">
+          <button id="export-preferences" type="button"></button>
+          <button id="import-preferences" type="button"></button>
+        </div>
+        <input id="preferences-file" type="file" accept=".json,application/json" hidden>
+        <p id="preferences-status" role="status"></p>
+      </section>
+    </div>
+  </form>
+  <dialog id="confirm-progress" aria-labelledby="progress-import-title" aria-describedby="progress-import-description" translate="no">
+    <form method="dialog">
+      <h2 id="progress-import-title"></h2>
+      <p id="progress-import-description"></p>
+      <p id="progress-import-stats"></p>
+      <p id="progress-import-error" role="alert" hidden></p>
+      <div class="settings-backup-actions">
+        <button value="cancel" id="cancel-progress" autofocus></button>
+        <button type="button" id="restore-progress" class="primary"></button>
+      </div>
+    </form>
+  </dialog>
+</dialog>
+<dialog id="restart" aria-labelledby="restart-title">
+  <h2 id="restart-title" data-t="Nowa gra">Nowa gra</h2>
+  <p id="restart-warning" data-t="Rozpocząć nową partię i zakończyć obecną bez zaliczenia?">Rozpocząć nową partię i zakończyć obecną bez zaliczenia?</p>
+  <form method="dialog" class="actions"><button value="cancel" autofocus data-t="Anuluj">Anuluj</button><button value="start" class="primary" data-t="Rozpocznij">Rozpocznij</button></form>
+</dialog>
+<dialog id="game-picker" aria-labelledby="game-picker-title" translate="no">
+  <div class="game-picker-header">
+    <h2 id="game-picker-title">Inne gry</h2>
+    <form method="dialog"><button id="game-picker-close" type="submit" aria-label="Zamknij" autofocus>×</button></form>
+  </div>
+  <div id="game-picker-recent" hidden>
+    <h3 id="game-picker-recent-title">Ostatnio otwierane</h3>
+    <ul aria-labelledby="game-picker-recent-title"></ul>
+  </div>
+  <ul id="game-picker-list" aria-labelledby="game-picker-title"></ul>
+  <a class="all-games game-picker-link" href="https://games-chest.com/">Wszystkie gry</a>
+</dialog>
+</main>
+<footer>
+  <section class="support-causes" aria-labelledby="support-title">
+    <h2 id="support-title" data-t="Dobra gra może zrobić coś dobrego.">Dobra gra może zrobić coś dobrego.</h2>
+    <p data-t="Wsparcie Ukrainy i zwierząt">Jeśli chcesz, wesprzyj pomoc osobom dotkniętym wojną w Ukrainie lub psom i kotom w Gdyni.</p>
+    <div class="support-links">
+      <a href="https://www.pah.org.pl/gdzie-dzialamy/ukraina/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🇺🇦</b><span data-t="Pomoc Ukrainie · PAH">Pomoc Ukrainie · PAH</span><b aria-hidden="true">↗</b></a>
+      <a href="https://ciapkowo.pl/" target="_blank" rel="noopener noreferrer"><b aria-hidden="true">🐾</b><span data-t="Pomoc psom i kotom · Ciapkowo w Gdyni">Pomoc psom i kotom · Ciapkowo w Gdyni</span><b aria-hidden="true">↗</b></a>
+    </div>
+    <p class="support-note" data-t="Linki prowadzą do organizacji">Linki prowadzą do oficjalnych stron organizacji. Nie zbieramy wpłat ani nie pobieramy prowizji.</p>
+  </section>
+  <a id="credits-link" href="./credits.html" data-t="Autorzy i licencje">Autorzy i licencje</a>
+  <span data-t="Prototyp">Prototyp</span>
+  <span id="footer-version" translate="no">v0.1.0</span>
+  <span id="save-note"></span>
+  <nav class="games-chest-menu" translate="no">
+    <div class="recent-games" hidden><span></span><div class="recent-games-icons"></div></div>
+    <a class="all-games" href="https://games-chest.com/">Wszystkie gry</a>
+  </nav>
+</footer>
+<script src="./shared-preferences.js"></script>
+<script src="./shared-progress-backup.js"></script>
+<script src="./preferences-strings.js"></script>
+<script src="./statistics-reset.js"></script>
+<script src="./progress-bar.js?v=completed-progress-1"></script>
+</body>
+</html>

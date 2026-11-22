@@ -1,0 +1,152 @@
+// Columns after the Polish key: German, Spanish, French, Italian, Ukrainian, Arabic, Hindi, Simplified Chinese.
+export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
+
+const rows = `
+Pełny ekran|Vollbild|Pantalla completa|Plein écran|Schermo intero|На весь екран|ملء الشاشة|पूर्ण स्क्रीन|全屏
+Wyjdź z pełnego ekranu|Vollbild verlassen|Salir de pantalla completa|Quitter le plein écran|Esci da schermo intero|Вийти з повноекранного режиму|الخروج من ملء الشاشة|पूर्ण स्क्रीन से बाहर निकलें|退出全屏
+Jak grać|Spielregeln|Cómo jugar|Comment jouer|Come si gioca|Як грати|طريقة اللعب|कैसे खेलें|玩法
+Nowa gra|Neues Spiel|Nueva partida|Nouvelle partie|Nuova partita|Нова партія|مباراة جديدة|नया खेल|新游戏
+Cofnij|Rückgängig|Deshacer|Annuler le coup|Annulla mossa|Скасувати хід|تراجع|चाल वापस लें|撤销
+Przywróć|Wiederholen|Rehacer|Rétablir le coup|Ripristina mossa|Повторити хід|إعادة|चाल फिर करें|重做
+Ustawienia|Einstellungen|Ajustes|Paramètres|Impostazioni|Налаштування|الإعدادات|सेटिंग|设置
+Pokaż punktację|Punktestand anzeigen|Mostrar puntuación|Afficher les scores|Mostra punteggio|Показувати рахунок|عرض النقاط|स्कोर दिखाएँ|显示计分
+Cofnij i Przywróć|Rückgängig und Wiederholen|Deshacer y rehacer|Annuler et rétablir|Annulla e ripristina|Скасування й повтор ходу|التراجع والإعادة|चाल वापस लें और फिर करें|撤销与重做
+Wygląd i informacje|Anzeige und Informationen|Vista e información|Affichage et informations|Aspetto e informazioni|Вигляд та інформація|العرض والمعلومات|दृश्य और जानकारी|显示与信息
+Działa od razu|Gilt sofort|Se aplica al instante|S’applique immédiatement|Si applica subito|Діє відразу|يُطبّق فورًا|तुरंत लागू|立即生效
+Komputer|Computer|Computadora|Ordinateur|Computer|Комп’ютер|الحاسوب|कंप्यूटर|电脑
+Poziom trudności|Schwierigkeit|Dificultad|Difficulté|Difficoltà|Складність|الصعوبة|कठिनाई|难度
+Od następnej partii|Ab dem nächsten Spiel|Desde la próxima partida|Dès la prochaine partie|Dalla prossima partita|З наступної партії|من المباراة التالية|अगले खेल से|下局生效
+Układanka|Achter|Ochos|Les Huit|Gli Otto|Вісімки|الثمانيات|आठों का खेल|八点接龙
+Układanka na koniec|Achter zum Abschluss|Ochos al final|Les Huit en fin de partie|Gli Otto alla fine|Вісімки наприкінці|الثمانيات في النهاية|अंत में आठों का खेल|最后一轮八点接龙
+Rozpocznij|Starten|Empezar|Commencer|Inizia|Почати|ابدأ|शुरू करें|开始
+Trening|Training|Práctica|Entraînement|Allenamento|Тренування|تدريب|अभ्यास|练习
+Rozpocznij trening|Training starten|Empezar práctica|Lancer l’entraînement|Inizia allenamento|Почати тренування|ابدأ التدريب|अभ्यास शुरू करें|开始练习
+Wróć do partii|Zurück zum Spiel|Volver a la partida|Reprendre la partie|Riprendi la partita|Повернутися до партії|العودة إلى المباراة|खेल पर लौटें|返回对局
+Rozdanie treningowe|Trainingsrunde|Mano de práctica|Donne d’entraînement|Mano di allenamento|Тренувальна роздача|جولة تدريبية|अभ्यास की बाज़ी|练习牌局
+Opis treningu|Spiele eine Runde. Das Training zählt nicht zur Statistik. Du kannst zu deinem Spiel zurückkehren.|Juega una mano. La práctica no cuenta para las estadísticas y puedes volver a tu partida.|Jouez une donne. L’entraînement ne compte pas dans les statistiques et vous pouvez reprendre votre partie.|Gioca una mano. L’allenamento non conta nelle statistiche e puoi riprendere la partita.|Зіграйте одну роздачу. Тренування не впливає на статистику, і ви можете повернутися до партії.|العب جولة واحدة. لا يؤثر التدريب في الإحصاءات ويمكنك العودة إلى مباراتك.|एक बाज़ी खेलें। अभ्यास आँकड़ों में नहीं जुड़ता और आप अपने खेल पर लौट सकते हैं।|练习一局，不计入统计，之后可返回原对局。
+Rozpocząć trening od nowa?|Training neu starten?|¿Reiniciar la práctica?|Recommencer l’entraînement ?|Ricominciare l’allenamento?|Почати тренування спочатку?|هل تريد إعادة التدريب؟|अभ्यास फिर से शुरू करें?|重新开始练习？
+Nie udało się przełączyć rozgrywki.|Wechsel fehlgeschlagen.|No se pudo cambiar de partida.|Impossible de changer de partie.|Impossibile cambiare partita.|Не вдалося перемкнути гру.|تعذّر تبديل المباراة.|खेल बदल नहीं सका।|无法切换对局。
+Z układanką|Mit Achter|Con Ochos|Avec les Huit|Con gli Otto|З вісімками|مع الثمانيات|आठों के खेल के साथ|有八点接龙
+Bez układanki|Ohne Achter|Sin Ochos|Sans les Huit|Senza gli Otto|Без вісімок|من دون الثمانيات|आठों के खेल के बिना|无八点接龙
+Rozpocznij układankę|Achter starten|Jugar Ochos|Jouer les Huit|Gioca gli Otto|Зіграти у вісімки|ابدأ الثمانيات|आठों का खेल शुरू करें|开始八点接龙
+Pas|Passe|Paso|Passe|Passo|Пас|تمرير|पास|过牌
+kart|Karten|cartas|cartes|carte|карт|بطاقات|पत्ते|张牌
+miejsce|Platz|puesto|place|posto|місце|المركز|स्थान|名
+Nie masz pasującej karty. Pasujesz automatycznie.|Keine passende Karte. Du passt automatisch.|No tienes jugada. Pasas automáticamente.|Vous n’avez aucune carte jouable. Vous passez automatiquement.|Non hai carte giocabili. Passi automaticamente.|Немає потрібної карти. Ви пасуєте автоматично.|لا توجد بطاقة صالحة. يتم التمرير تلقائيًا.|कोई पत्ता नहीं चल सकता। आप अपने आप पास करते हैं।|没有可出的牌，自动过牌。
+Dołóż kartę|Karte anlegen|Coloca una carta|Posez une carte|Posa una carta|Викладіть карту|أضف بطاقة|एक पत्ता लगाएँ|接一张牌
+Opis opcji układanki|Fügt nach vier Aufholrunden Achter hinzu. Gilt ab dem nächsten Spiel.|Añade Ochos después de cuatro manos de recuperación. Se aplica desde la próxima partida.|Ajoute les Huit après quatre donnes de rattrapage. S’applique dès la prochaine partie.|Aggiunge gli Otto dopo quattro mani di rimonta. Si applica dalla prossima partita.|Додає вісімки після чотирьох роздач на взятки. Діє з наступної партії.|تضيف الثمانيات بعد أربع جولات تعويض. يسري من المباراة التالية.|भरपाई की चार बाज़ियों के बाद आठों का खेल जोड़ता है। अगले खेल से लागू।|四局追回分数后加入八点接龙，下局生效。
+Zasady układanki|Achter ist die optionale letzte Runde. Jede Farbe beginnt mit der Acht. Lege pro Zug eine Karte in Reihenfolge bis zur Zwei oder zum Ass an. Ohne passende Karte passt du. Für das Leeren der Hand gibt es der Reihe nach +10, +5, −5 und −10 Punkte.|Ochos es la última mano opcional. Cada palo empieza por el ocho y se amplía en orden hacia el dos o el as. Coloca una carta por turno o pasa si no puedes jugar. El orden en que se vacía la mano otorga +10, +5, −5 y −10 puntos.|Les Huit sont la dernière donne facultative. Chaque couleur commence par le huit, puis se prolonge dans l’ordre vers le deux ou l’as. Posez une carte par tour ou passez si nécessaire. L’ordre de sortie rapporte +10, +5, −5 et −10 points.|Gli Otto sono l’ultima mano facoltativa. Ogni seme parte dall’otto e si estende in ordine verso il due o l’asso. Posa una carta per turno o passa se non puoi giocare. L’ordine di uscita assegna +10, +5, −5 e −10 punti.|Вісімки — необов’язкова остання роздача. Починайте кожну масть з вісімки й викладайте по одній карті поспіль до двійки або туза. Якщо ходу немає, пасуйте. За порядок виходу нараховуються +10, +5, −5 і −10 очок.|الثمانيات جولة أخيرة اختيارية. يبدأ كل نوع بالثمانية، ثم تُضاف البطاقات بالترتيب نحو الاثنين أو الآس. العب بطاقة واحدة في دورك، أو مرّر إن تعذّر اللعب. يحصل اللاعبون حسب ترتيب نفاد بطاقاتهم على ‎+10 و‎+5 و‎−5 و‎−10 نقاط.|आठों का खेल वैकल्पिक अंतिम बाज़ी है। हर सूट आठ से शुरू होता है। हर चाल में क्रम से एक पत्ता दो या इक्के की ओर लगाएँ। चाल न हो तो पास करें। पत्ते खत्म करने के क्रम में +10, +5, −5 और −10 अंक मिलते हैं।|八点接龙是可选的最后一局。每种花色从8开始，按顺序向2或A接牌。每回合出一张，不能出牌时过牌。按出完手牌的先后获得+10、+5、−5和−10分。
+Historia lew|Stichverlauf|Historial de bazas|Historique des plis|Cronologia delle prese|Історія взяток|سجل اللمّات|जीती चालों का इतिहास|墩牌记录
+Rozdanie|Runde|Mano|Donne|Mano|Роздача|الجولة|बाज़ी|牌局
+Brak zapisanych lew|In diesem Spiel sind noch keine Stiche gespeichert.|Todavía no hay bazas registradas en esta partida.|Aucun pli n’a encore été enregistré dans cette partie.|Nessuna presa registrata in questa partita.|У цій партії ще немає записаних взяток.|لا توجد لمّات مسجلة في هذه المباراة بعد.|इस खेल में अभी कोई जीती चाल दर्ज नहीं है।|本场对局还没有墩牌记录。
+Opis historii lew|Zeigt die Stiche dieser Partie in einem aufklappbaren Bereich unter dem Punktestand.|Muestra las bazas de esta partida en una sección desplegable debajo de la puntuación.|Affiche les plis de cette partie dans une section repliable sous les scores.|Mostra le prese della partita in una sezione espandibile sotto il punteggio.|Показує взятки поточної партії в розділі, що розгортається під рахунком.|يعرض لمّات هذه المباراة في قسم قابل للطي أسفل النقاط.|स्कोर के नीचे एक खुलने वाले हिस्से में इस खेल की चालें दिखाता है।|在计分表下方添加可折叠区域，显示本场对局的墩牌。
+Wysuwaj dostępne karty|Spielbare Karten anheben|Elevar cartas jugables|Surélever les cartes jouables|Solleva le carte giocabili|Піднімати доступні карти|رفع البطاقات القابلة للعب|चलने योग्य पत्ते ऊपर उठाएँ|抬高可出的牌
+Opis wysuwania kart|Hebt spielbare Karten über die übrigen Handkarten. Gilt sofort in allen Spielmodi.|Eleva las cartas jugables sobre el resto de tu mano. Se aplica al instante en todos los modos.|Surélève les cartes jouables dans votre main. S’applique immédiatement à tous les modes de jeu.|Solleva le carte giocabili rispetto alle altre carte in mano. Si applica subito in tutte le modalità.|Піднімає доступні карти над рештою карт у руці. Діє відразу в усіх режимах.|ترفع البطاقات القابلة للعب فوق بقية بطاقات يدك. تسري فورًا في جميع الأوضاع.|जिन पत्तों को चल सकते हैं उन्हें बाकी पत्तों से ऊपर दिखाता है। सभी मोड में तुरंत लागू होता है।|在手牌中抬高可出的牌，所有模式立即生效。
+Tempo gry|Spieltempo|Velocidad de juego|Rythme de jeu|Velocità di gioco|Темп гри|سرعة اللعب|खेल की गति|游戏速度
+Szybkie|Schnell|Rápida|Rapide|Veloce|Швидкий|سريعة|तेज़|快
+Normalne|Normal|Normal|Normal|Normale|Звичайний|عادية|सामान्य|正常
+Wolne|Langsam|Lenta|Lent|Lenta|Повільний|بطيئة|धीमी|慢
+Opis tempa gry|Legt die Pause zwischen Computerzügen fest. Nach dem Passen ist die Pause länger, damit du siehst, wer gepasst hat.|Ajusta la pausa entre jugadas de la computadora. Tras un pase, la pausa es más larga para que veas quién pasó.|Règle la pause entre les coups de l’ordinateur. Après un tour passé, la pause est plus longue pour voir qui a passé.|Imposta la pausa tra le mosse del computer. Dopo un passo, la pausa è più lunga per vedere chi ha passato.|Визначає паузу між ходами комп’ютера. Після пасу пауза довша, щоб було видно, хто спасував.|تضبط التوقف بين حركات الحاسوب. بعد التمرير تطول الوقفة لتتمكن من معرفة من مرّر.|कंप्यूटर की चालों के बीच का ठहराव तय करता है। पास के बाद अधिक समय मिलता है ताकि आप देख सकें कि किसने पास किया।|设置电脑出牌的间隔。有人过牌后会多等一会儿，方便你看清是谁过牌。
+Łatwy|Leicht|Fácil|Facile|Facile|Легко|سهل|आसान|简单
+Średni|Mittel|Medio|Moyen|Medio|Середньо|متوسط|मध्यम|中等
+Opis poziomów Kierek|Leicht nutzt eine einfache Strategie. Mittel berücksichtigt auch Karten aus früheren Stichen. Gilt ab dem nächsten Spiel.|Fácil usa una estrategia sencilla. Medio también considera las cartas de bazas anteriores. Se aplica desde la próxima partida.|Facile utilise une stratégie simple. Moyen tient aussi compte des cartes des plis précédents. S’applique dès la prochaine partie.|Facile usa una strategia semplice. Medio considera anche le carte delle prese precedenti. Si applica dalla prossima partita.|Легкий рівень використовує просту стратегію, середній враховує й карти попередніх взяток. Діє з наступної партії.|يعتمد السهل استراتيجية بسيطة، ويأخذ المتوسط في الحسبان بطاقات اللمّات السابقة. يسري من المباراة التالية.|आसान स्तर सरल रणनीति अपनाता है। मध्यम स्तर पिछली चालों के पत्ते भी ध्यान में रखता है। अगले खेल से लागू।|简单级别使用基础策略，中等级别还参考之前各墩的牌。下局生效。
+Zmiany zapisują się automatycznie.|Änderungen werden automatisch gespeichert.|Los cambios se guardan automáticamente.|Les modifications sont enregistrées automatiquement.|Le modifiche si salvano automaticamente.|Зміни зберігаються автоматично.|تُحفظ التغييرات تلقائيًا.|बदलाव अपने आप सहेजे जाते हैं।|更改会自动保存。
+Nie udało się zapisać ustawień.|Einstellungen konnten nicht gespeichert werden.|No se guardaron los ajustes.|Impossible d’enregistrer les paramètres.|Impossibile salvare le impostazioni.|Не вдалося зберегти налаштування.|تعذّر حفظ الإعدادات.|सेटिंग सहेजी नहीं जा सकीं।|无法保存设置。
+Spróbuj ponownie|Erneut versuchen|Reintentar|Réessayer|Riprova|Спробувати ще раз|حاول مجددًا|फिर कोशिश करें|重试
+Informacje o ustawieniu|Zu dieser Einstellung|Acerca de este ajuste|À propos de ce réglage|Informazioni sull’opzione|Про це налаштування|حول هذا الإعداد|इस सेटिंग के बारे में|关于此设置
+Opis punktacji|Zeigt Stichpunkte und Punktetabelle während der Runde.|Muestra los puntos de cada baza y la tabla durante la mano.|Affiche les points des plis et le tableau pendant la donne.|Mostra i punti delle prese e il tabellone durante la mano.|Показує очки за взятки й таблицю під час роздачі.|يعرض نقاط اللمّات وجدول النتائج أثناء الجولة.|बाज़ी के दौरान चालों के अंक और स्कोर तालिका दिखाता है।|在牌局中显示各墩得分和计分表。
+Zakres kopii Kierek|Enthält Einstellungen, Statistik und freigeschaltete Designs. Spiel und Zugverlauf bleiben auf diesem Gerät.|Incluye ajustes, estadísticas y temas desbloqueados. La partida y su historial quedan en este dispositivo.|Inclut les réglages, les statistiques et les thèmes débloqués. La partie et son historique restent sur cet appareil.|Include impostazioni, statistiche e temi sbloccati. Partita e cronologia restano su questo dispositivo.|Містить налаштування, статистику й відкриті теми. Партія та історія ходів залишаються на пристрої.|تشمل الإعدادات والإحصاءات والمظاهر المفتوحة. تبقى المباراة وسجل الحركات على هذا الجهاز.|इसमें सेटिंग, आँकड़े और अनलॉक किए गए थीम हैं। मौजूदा खेल और चालों का इतिहास इसी डिवाइस पर रहता है।|包含设置、统计和已解锁主题。当前对局和出牌记录留在此设备。
+Cofnij ostatnie zagranie|Macht deinen letzten Zug samt Computerzügen rückgängig oder stellt ihn wieder her.|Deshaz tu última jugada y las respuestas de la computadora o vuelve a hacerla.|Annulez votre dernier coup et les réponses de l’ordinateur, ou rétablissez-les.|Annulla l’ultima mossa e le risposte del computer oppure ripristinale.|Скасуйте останній хід разом із відповідями комп’ютера або повторіть його.|تراجع عن آخر حركة لك وعن ردود الحاسوب أو أعدها.|अपनी पिछली चाल और कंप्यूटर के जवाब वापस लें या फिर करें।|撤销你上次出牌及电脑的回应，或重做这些操作。
+Punktacja|Punktestand|Puntuación|Scores|Punteggio|Рахунок|النقاط|स्कोर|计分
+Gracz|Spieler|Jugador|Joueur|Giocatore|Гравець|اللاعب|खिलाड़ी|玩家
+Razem|Gesamt|Total|Total|Totale|Разом|المجموع|कुल|总计
+Zasady prototypu|Spielregeln|Reglas del juego|Règles du jeu|Regole del gioco|Правила гри|قواعد اللعبة|खेल के नियम|游戏规则
+Rozbójnik|Räuber|Bandido|Bandit|Bandito|Розбійник|قاطع الطريق|डाकू|强盗
+Odgrywka|Aufholrunde|Recuperación|Rattrapage|Rimonta|Гра на взятки|التعويض|भरपाई|追回分数
+Rozdaje|Geber|Reparte|Donneur|Mazziere|Здає|الموزّع|पत्ते बाँटने वाला|发牌者
+Rozdanie zakończone.|Runde beendet.|Mano terminada.|Donne terminée.|Mano conclusa.|Роздачу завершено.|انتهت الجولة.|बाज़ी पूरी हुई।|本局结束。
+Następne rozdanie|Nächste Runde|Siguiente mano|Donne suivante|Mano successiva|Наступна роздача|الجولة التالية|अगली बाज़ी|下一局
+Rozpocznij odgrywkę|Aufholrunde starten|Empezar recuperación|Commencer le rattrapage|Inizia la rimonta|Почати гру на взятки|ابدأ التعويض|भरपाई शुरू करें|开始追回分数
+Bez atu|Ohne Trumpf|Sin triunfo|Sans atout|Senza briscola|Без козиря|بلا حكم|बिना तुरुप|无将
+Atut|Trumpf|Triunfo|Atout|Briscola|Козир|الحكم|तुरुप|将牌
+Dotknij stołu, by zagrać następną lewę|Tippe für den nächsten Stich auf den Tisch|Toca la mesa para jugar la siguiente baza|Touchez la table pour jouer le pli suivant|Tocca il tavolo per la prossima presa|Торкніться столу, щоб зіграти наступну взятку|المس الطاولة للعب اللمّة التالية|अगली चाल के लिए मेज़ छुएँ|点按牌桌继续下一墩
+Dotknij stołu, by zobaczyć wynik rozdania|Tippe für das Ergebnis auf den Tisch|Toca la mesa para ver el resultado de la mano|Touchez la table pour voir le résultat|Tocca il tavolo per il risultato della mano|Торкніться столу, щоб побачити результат роздачі|المس الطاولة لعرض نتيجة الجولة|बाज़ी का नतीजा देखने के लिए मेज़ छुएँ|点按牌桌查看本局结果
+Zagraj kartę|Karte spielen|Juega una carta|Jouez une carte|Gioca una carta|Зіграйте карту|العب بطاقة|एक पत्ता चलें|出一张牌
+Pokaż wyniki|Ergebnisse anzeigen|Mostrar resultados|Afficher les résultats|Mostra risultati|Показати результати|عرض النتائج|नतीजे दिखाएँ|显示结果
+Schowaj wyniki|Ergebnisse ausblenden|Ocultar resultados|Masquer les résultats|Nascondi risultati|Приховати результати|إخفاء النتائج|नतीजे छिपाएँ|隐藏结果
+Twój ruch|Du bist dran|Tu turno|À vous de jouer|Tocca a te|Ваш хід|دورك|आपकी बारी|轮到你
+Bierzesz lewę|Du gewinnst den Stich|Ganas la baza|Vous remportez le pli|Prendi la mano|Ви берете взятку|ربحت اللمّة|यह चाल आपने जीती|你赢得这一墩
+Lewę bierze|Stich geht an|Gana la baza|Pli remporté par|Presa vinta da|Взятку бере|فائز اللمّة|चाल के विजेता|本墩赢家
+Gra|Am Zug|Juega|Au tour de|Gioca|Ходить|يلعب الآن|अब खेल रहे हैं|当前出牌
+Wygrywasz!|Du gewinnst!|¡Has ganado!|Vous gagnez !|Hai vinto!|Ви виграли!|لقد فزت!|आप जीत गए!|你赢了！
+Wygrywa|Gewinner|Ganador|Gagnant|Vincitore|Переможець|الفائز|विजेता|赢家
+Remis|Unentschieden|Empate|Égalité|Parità|Нічия|تعادل|बराबरी|平局
+Lewa|Stich|Baza|Pli|Presa|Взятка|لمّة|चाल|墩
+pkt|Pkt.|pts|pts|pt|оч.|نقطة|अंक|分
+Zagraj ponownie|Erneut spielen|Volver a jugar|Rejouer|Gioca ancora|Зіграти ще раз|العب مجددًا|फिर खेलें|再玩一局
+Ukończone partie|Abgeschlossene Partien|Partidas completadas|Parties terminées|Partite completate|Завершені партії|المباريات المكتملة|पूरे हुए खेल|已完成的对局
+Liczba wziętych lew|Gewonnene Stiche|Bazas ganadas|Plis remportés|Prese vinte|Узяті взятки|اللمّات المربوحة|जीती हुई चालें|赢得的墩数
+Karty w ręce|Handkarten|Cartas en mano|Cartes en main|Carte in mano|Карти в руці|البطاقات في اليد|हाथ में पत्ते|手牌
+Twoje karty|Deine Karten|Tus cartas|Vos cartes|Le tue carte|Ваші карти|بطاقاتك|आपके पत्ते|你的手牌
+Pierwsze siedem kart|Erste sieben Karten|Primeras siete cartas|Sept premières cartes|Prime sette carte|Перші сім карт|أول سبع بطاقات|पहले सात पत्ते|前七张牌
+Komputer wybiera atu.|Der Computer wählt Trumpf.|La computadora elige triunfo.|L’ordinateur choisit l’atout.|Il computer sceglie la briscola.|Комп’ютер обирає козир.|الحاسوب يختار الحكم.|कंप्यूटर तुरुप चुन रहा है।|电脑正在选将。
+Dotknij karty pod stołem, by wybrać atu|Tippe unter dem Tisch auf eine Karte, um Trumpf zu wählen|Toca una carta debajo de la mesa para elegir triunfo|Touchez une carte sous la table pour choisir l’atout|Tocca una carta sotto il tavolo per scegliere la briscola|Торкніться карти під столом, щоб обрати козир|المس بطاقة أسفل الطاولة لاختيار الحكم|तुरुप चुनने के लिए मेज़ के नीचे कोई पत्ता छुएँ|点按牌桌下方的一张牌来选将
+Wybór atu|Trumpfwahl|Elección del triunfo|Choix de l’atout|Scelta della briscola|Вибір козиря|اختيار الحكم|तुरुप का चुनाव|选择将牌
+Wybierz atu|Trumpf wählen|Elige triunfo|Choisissez l’atout|Scegli la briscola|Оберіть козир|اختر الحكم|तुरुप चुनें|选将
+Ty|Du|Tú|Vous|Tu|Ви|أنت|आप|你
+Zachód|West|Oeste|Ouest|Ovest|Захід|الغرب|पश्चिम|西
+Północ|Nord|Norte|Nord|Nord|Північ|الشمال|उत्तर|北
+Wschód|Ost|Este|Est|Est|Схід|الشرق|पूर्व|东
+Trefle|Kreuz|Tréboles|Trèfles|Fiori|Трефи|السباتي|चिड़ी|梅花
+Kara|Karo|Diamantes|Carreaux|Quadri|Бубни|الديناري|ईंट|方块
+Piki|Pik|Picas|Piques|Picche|Піки|البستوني|हुकुम|黑桃
+Kiery|Herz|Corazones|Cœurs|Cuori|Чирви|الكبة|पान|红桃
+Walet|Bube|Jota|Valet|Fante|Валет|الولد|गुलाम|杰克
+Dama|Dame|Reina|Dame|Donna|Дама|البنت|बेगम|皇后
+Król|König|Rey|Roi|Re|Король|الشايب|बादशाह|国王
+As|Ass|As|As|Asso|Туз|الآس|इक्का|A
+Moje postępy|Mein Fortschritt|Mi progreso|Ma progression|I miei progressi|Мій прогрес|تقدّمي|मेरी प्रगति|我的进度
+Motywy za osiągnięcia|Belohnungsdesigns|Temas de recompensa|Thèmes de récompense|Temi premio|Теми за досягнення|مظاهر المكافآت|इनाम वाले थीम|奖励主题
+Odblokowany|Freigeschaltet|Desbloqueado|Débloqué|Sbloccato|Відкрито|مفتوح|अनलॉक|已解锁
+Motywy|Designs|Temas|Thèmes|Temi|Теми|المظاهر|थीम|主题
+Więcej motywów…|Weitere Designs…|Más temas…|Plus de thèmes…|Altri temi…|Більше тем…|مظاهر أخرى…|और थीम…|更多主题…
+Klasyczny|Klassisch|Clásico|Classique|Classico|Класичний|كلاسيكي|क्लासिक|经典
+Ogród|Garten|Jardín|Jardin|Giardino|Сад|حديقة|बगीचा|花园
+Tropiki|Tropen|Trópico|Tropiques|Tropici|Тропіки|المناطق الاستوائية|उष्णकटिबंध|热带
+Plaża|Strand|Playa|Plage|Spiaggia|Пляж|شاطئ|समुद्र तट|海滩
+Ukraina|Ukraine|Ucrania|Ukraine|Ucraina|Україна|أوكرانيا|यूक्रेन|乌克兰
+Pomarańczowy gaj|Orangenhain|Naranjal|Orangeraie|Aranceto|Апельсиновий гай|بستان البرتقال|संतरे का बाग|橙园
+Miedź i patynę|Kupfer und Patina|Cobre y pátina|Cuivre et patine|Rame e patina|Мідь і патина|النحاس والزنجار|तांबा और हरितिमा|铜与铜绿
+Nocne niebo|Nachthimmel|Cielo nocturno|Ciel nocturne|Cielo notturno|Нічне небо|سماء الليل|रात का आसमान|夜空
+Język|Sprache|Idioma|Langue|Lingua|Мова|اللغة|भाषा|语言
+Motyw|Design|Tema|Thème|Tema|Тема|المظهر|थीम|主题
+Kontrast|Kontrast|Contraste|Contraste|Contrasto|Контраст|التباين|कॉन्ट्रास्ट|对比度
+Wysoki kontrast|Hoher Kontrast|Contraste alto|Contraste élevé|Contrasto elevato|Високий контраст|تباين عالٍ|उच्च कॉन्ट्रास्ट|高对比度
+Większy tekst|Größerer Text|Texto más grande|Texte agrandi|Testo più grande|Більший текст|نص أكبر|बड़ा टेक्स्ट|大号文字
+Zamknij|Schließen|Cerrar|Fermer|Chiudi|Закрити|إغلاق|बंद करें|关闭
+Stół|Tisch|Mesa|Table|Tavolo|Стіл|الطاولة|मेज़|牌桌
+Sterowanie grą|Spielsteuerung|Controles del juego|Commandes du jeu|Comandi di gioco|Керування грою|عناصر التحكم باللعبة|खेल के नियंत्रण|游戏控件
+Rozgrywka|Spiel|Partida|Partie|Partita|Партія|المباراة|खेल|对局
+Rozpocząć nową partię i zakończyć obecną bez zaliczenia?|Neues Spiel starten und das laufende verwerfen?|¿Empezar una partida nueva y abandonar la actual?|Lancer une nouvelle partie et abandonner celle en cours ?|Iniziare una nuova partita e abbandonare quella in corso?|Почати нову партію й перервати поточну?|هل تريد بدء مباراة جديدة وترك الحالية؟|नया खेल शुरू करके मौजूदा खेल छोड़ें?|开始新对局并放弃当前对局？
+Anuluj|Abbrechen|Cancelar|Annuler|Annulla|Скасувати|إلغاء|रद्द करें|取消
+Wszystkie gry|Alle Spiele|Todos los juegos|Tous les jeux|Tutti i giochi|Усі ігри|كل الألعاب|सभी खेल|所有游戏
+Autorzy i licencje|Mitwirkende und Lizenzen|Créditos y licencias|Crédits et licences|Crediti e licenze|Автори й ліцензії|المساهمون والتراخيص|श्रेय और लाइसेंस|制作人员与许可
+Dobra gra może zrobić coś dobrego.|Ein gutes Spiel kann Gutes tun.|Un buen juego puede hacer el bien.|Un bon jeu peut faire du bien.|Un buon gioco può fare del bene.|Хороша гра може зробити добру справу.|لعبة جيدة يمكن أن تفعل الخير.|एक अच्छा खेल भलाई कर सकता है।|好游戏也能传递善意。
+Wsparcie Ukrainy i zwierząt|Unterstütze vom Krieg in der Ukraine betroffene Menschen oder Hunde und Katzen in Gdynia.|Puedes apoyar a las personas afectadas por la guerra en Ucrania o ayudar a perros y gatos en Gdynia.|Vous pouvez soutenir les personnes touchées par la guerre en Ukraine ou aider les chiens et chats de Gdynia.|Puoi aiutare le persone colpite dalla guerra in Ucraina oppure cani e gatti a Gdynia.|Ви можете підтримати людей, які постраждали від війни в Україні, або допомогти собакам і котам у Гдині.|يمكنك مساعدة المتضررين من الحرب في أوكرانيا أو مساعدة الكلاب والقطط في غدينيا.|आप यूक्रेन में युद्ध से प्रभावित लोगों या ग्डीनिया के कुत्तों और बिल्लियों की मदद कर सकते हैं।|你可以帮助受乌克兰战争影响的人们，或帮助格丁尼亚的猫狗。
+Pomoc Ukrainie · PAH|Hilfe für die Ukraine · PAH|Apoya a Ucrania · PAH|Soutenir l’Ukraine · PAH|Aiuta l’Ucraina · PAH|Допомога Україні · PAH|ادعم أوكرانيا · PAH|यूक्रेन की मदद करें · PAH|援助乌克兰 · PAH
+Pomoc psom i kotom · Ciapkowo w Gdyni|Hilfe für Hunde und Katzen · Ciapkowo in Gdynia|Ayuda a perros y gatos · Ciapkowo en Gdynia|Aider les chiens et chats · Ciapkowo à Gdynia|Aiuta cani e gatti · Ciapkowo a Gdynia|Допомога собакам і котам · Ciapkowo у Гдині|ساعد الكلاب والقطط · Ciapkowo في غدينيا|कुत्तों और बिल्लियों की मदद · ग्डीनिया में Ciapkowo|帮助猫狗 · 格丁尼亚 Ciapkowo
+Linki prowadzą do organizacji|Die Links führen zu den offiziellen Seiten der Organisationen. Wir sammeln keine Spenden und erhalten keine Provision.|Los enlaces llevan a los sitios oficiales. No recaudamos donaciones ni cobramos comisiones.|Les liens mènent aux sites officiels. Nous ne collectons aucun don et ne prélevons aucune commission.|I link portano ai siti ufficiali. Non raccogliamo donazioni né riceviamo commissioni.|Посилання ведуть на офіційні сайти організацій. Ми не збираємо внесків і не беремо комісій.|تنقلك الروابط إلى المواقع الرسمية للمنظمات. لا نجمع التبرعات ولا نتقاضى عمولة.|लिंक संगठनों की आधिकारिक वेबसाइटों पर ले जाते हैं। हम चंदा या कमीशन नहीं लेते।|链接指向机构官方网站。我们不代收捐款，也不收取佣金。
+Prototyp|Prototyp|Prototipo|Prototype|Prototipo|Прототип|نموذج أولي|प्रोटोटाइप|原型
+Automatyczny zapis partii|Spiel wird automatisch gespeichert|Guardado automático|Sauvegarde automatique|Salvataggio automatico|Автоматичне збереження партії|حفظ تلقائي للمباراة|खेल अपने आप सहेजा जाता है|自动保存对局
+Nie udało się zapisać partii.|Spiel konnte nicht gespeichert werden.|No se pudo guardar la partida.|Impossible d’enregistrer la partie.|Impossibile salvare la partita.|Не вдалося зберегти партію.|تعذّر حفظ المباراة.|खेल सहेजा नहीं जा सका।|无法保存对局。
+Przy stole grają|Vier Personen spielen. Bediene die angespielte Farbe, wenn möglich. Wer den Stich gewinnt, spielt als Nächstes aus.|Juegan cuatro personas. Sigue el palo de salida si puedes. Quien gana la baza abre la siguiente.|Vous jouez à quatre. Fournissez la couleur demandée si possible. Le gagnant du pli entame le suivant.|Si gioca in quattro. Rispondi al seme d’uscita se puoi. Chi vince la presa apre la successiva.|Грають четверо. Ходіть у масть, якщо можете. Хто бере взятку, починає наступну.|يلعب أربعة لاعبين. اتبع النوع الذي بدأت به اللمّة إن أمكن. يبدأ الفائز باللمّة التالية.|चार खिलाड़ी खेलते हैं। संभव हो तो पहले चले गए सूट का पत्ता दें। चाल का विजेता अगली चाल शुरू करता है।|四人游戏。能跟首出花色时必须跟牌。赢得本墩的玩家领出下一墩。
+W rozbójniku unikaj|Im Räuber vermeidest du Minuspunkte. Jeder Stich und jedes Herz kosten 2, jeder Bube oder König 3 und jede Dame 5 Punkte. Der Herzkönig kostet zusätzlich 16 Punkte, der sechste und letzte Stich je 9. Herz darfst du nur anspielen, wenn du keine andere Farbe hast.|En Bandido, evita los puntos negativos. Cada baza y cada corazón restan 2 puntos, cada jota o rey 3 y cada reina 5. El rey de corazones resta 16 más. La sexta y la última baza restan 9 cada una. Solo puedes salir de corazones si no tienes otro palo.|Au Bandit, évitez les pénalités. Chaque pli et chaque cœur coûtent 2 points, chaque valet ou roi 3, et chaque dame 5. Le roi de cœur coûte 16 points de plus. Le sixième et le dernier pli coûtent 9 de plus chacun. N’entamez à cœur que si vous n’avez aucune autre couleur.|Nel Bandito evita le penalità. Ogni presa e ogni cuori costano 2 punti, ogni fante o re 3 e ogni donna 5. Il re di cuori costa altri 16 punti. La sesta e l’ultima presa costano 9 punti extra ciascuna. Puoi uscire a cuori solo se non hai altri semi.|У розбійнику уникайте штрафів. Кожна взятка й кожна чирва коштують 2 очки, кожен валет або король — 3, дама — 5. Король чирв коштує ще 16. Шоста й остання взятки коштують ще по 9. Із чирви можна ходити лише за відсутності інших мастей.|في قاطع الطريق، تجنّب العقوبات. كل لمّة وكل بطاقة كبة تخصم نقطتين، وكل ولد أو شايب 3 نقاط، وكل بنت 5 نقاط. شايب الكبة يخصم 16 نقطة إضافية، واللمّة السادسة والأخيرة 9 نقاط إضافية لكل منهما. لا تبدأ بالكبة إن كان لديك نوع آخر.|डाकू में दंड से बचें। हर जीती चाल और पान के हर पत्ते के लिए 2 अंक, हर गुलाम या बादशाह के लिए 3 और हर बेगम के लिए 5 अंक कटते हैं। पान के बादशाह के 16 अतिरिक्त अंक कटते हैं। छठी और आखिरी चाल पर 9-9 अतिरिक्त अंक कटते हैं। दूसरा सूट न हो तभी पान से चाल शुरू करें।|强盗局要尽量避免罚分。每赢一墩及每张红桃各扣2分，每张J或K扣3分，每张Q扣5分。红桃K额外扣16分，第六墩和最后一墩各额外扣9分。只有手牌无其他花色时才能领出红桃。
+W odgrywce każda|In der Aufholrunde bringt jeder Stich {points} Punkte. Der erste Spieler wählt den Trumpf aus seinen ersten sieben Karten. Kannst du die Farbe nicht bedienen, musst du trumpfen, wenn möglich. Beim Trumpfen musst du nach Möglichkeit übertrumpfen. Ohne Trumpf musst du die höchste Karte der angespielten Farbe schlagen, wenn möglich.|En Recuperación, cada baza suma {points} puntos. Quien sale elige el triunfo con sus primeras siete cartas. Si no puedes seguir el palo, juega triunfo si tienes. Al jugar triunfo, supéralo si puedes. Sin triunfo, supera la carta más alta del palo de salida si puedes.|Au rattrapage, chaque pli vaut {points} points. Le joueur qui entame choisit l’atout parmi ses sept premières cartes. Si vous ne pouvez pas fournir, coupez si possible et surcoupez si vous le pouvez. Sans atout, dépassez la plus haute carte de la couleur demandée si vous le pouvez.|Nella rimonta ogni presa vale {points} punti. Chi apre sceglie la briscola tra le prime sette carte. Se non puoi rispondere al seme, gioca briscola se ne hai. Se puoi, supera la briscola già giocata. Senza briscola, supera la carta più alta del seme d’uscita se puoi.|У грі на взятки кожна взятка дає {points} очок. Перший гравець обирає козир із перших семи карт. Якщо немає потрібної масті, грайте козирем, якщо він є. Перебивайте козир старшим, якщо можете. Без козиря перебивайте найстаршу карту масті ходу, якщо можете.|في التعويض، تمنح كل لمّة {points} نقاط. يختار اللاعب البادئ الحكم من أول سبع بطاقات لديه. إن لم تستطع اتباع النوع فالعب حكمًا إن وجد. عند لعب الحكم تجاوزه بحكم أعلى إن أمكن. في اللعب بلا حكم، تجاوز أعلى بطاقة من النوع الذي بدأت به اللمّة إن أمكن.|भरपाई में हर जीती चाल के {points} अंक मिलते हैं। चाल शुरू करने वाला अपने पहले सात पत्तों में से तुरुप चुनता है। चाल का सूट न हो तो संभव हो तो तुरुप चलें। तुरुप चलाते समय संभव हो तो बड़ा तुरुप दें। बिना तुरुप की बाज़ी में संभव हो तो चाल के सूट का सबसे बड़ा पत्ता काटें।|追回分数时，每赢一墩得{points}分。领出者从前七张手牌中选将。不能跟牌时，有将牌就要出将；出将时能盖过已出的将牌就必须盖过。无将时，如能盖过首出花色中最大的牌，就必须盖过。
+`.trim().split('\n');
+
+export const extraTranslations = Object.fromEntries(extraLanguages.map((language, index) => [
+  language, Object.fromEntries(rows.map(row => {
+    const [key, ...translations] = row.split('|');
+    return [key, translations[index]];
+  }))
+]));
