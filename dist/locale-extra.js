@@ -2,6 +2,12 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Nie brać dam|Keine Damen|No tomar damas|Ne pas prendre de dames|Non prendere donne|Не брати дам|تجنّب أخذ الملكات|रानियाँ न लें|不拿皇后
+Nie brać króla kier|Kein Herzkönig|No tomar el rey de corazones|Ne pas prendre le roi de cœur|Non prendere il re di cuori|Не брати короля черв|تجنّب أخذ ملك القلوب|पान का बादशाह न लें|不拿红桃国王
+Nie brać szóstej i ostatniej lewy|Kein sechster oder letzter Stich|No ganar la sexta ni la última baza|Éviter le sixième et le dernier pli|Evitare la sesta e l’ultima presa|Не брати шосту й останню взятки|تجنّب أخذ اللمّة السادسة والأخيرة|छठी और आखिरी बाज़ी न लें|不拿第六墩和最后一墩
+Za każdą wziętą damę: −5 pkt.|Jede gefangene Dame: −5 Punkte.|Por cada dama tomada: −5 puntos.|Chaque dame prise : −5 points.|Per ogni donna presa: −5 punti.|За кожну взяту даму: −5 балів.|لكل ملكة تأخذها: −5 نقاط.|हर ली गई रानी पर −5 अंक।|每拿一张皇后扣 5 分。
+Za wzięcie króla kier: −16 pkt. Gdy nie masz koloru, musisz go zagrać.|Der Herzkönig kostet −16 Punkte. Kannst du nicht bedienen, musst du ihn spielen.|Tomar el rey de corazones cuesta 16 puntos. Debes jugarlo si no puedes seguir el palo.|Prendre le roi de cœur coûte 16 points. Tu dois le jouer si tu ne peux pas fournir la couleur.|Prendere il re di cuori costa 16 punti. Devi giocarlo se non puoi rispondere al seme.|За короля черв: −16 балів. Якщо не маєш масті ходу, мусиш його зіграти.|أخذ ملك القلوب يكلف 16 نقطة. يجب أن تلعبه إذا لم تستطع متابعة النوع.|पान का बादशाह लेने पर 16 अंक कटते हैं। अगर चाल वाला सूट नहीं है, तो उसे खेलना ज़रूरी है।|拿到红桃国王扣 16 分。如果无法跟牌，必须打出它。
+Za wzięcie szóstej lub ostatniej lewy: −9 pkt.|Der sechste und der letzte Stich kosten je 9 Punkte.|La sexta y la última baza cuestan 9 puntos cada una.|Le sixième et le dernier pli coûtent chacun 9 points.|La sesta e l’ultima presa costano 9 punti ciascuna.|Шоста й остання взятки коштують по 9 балів.|أخذ اللمّة السادسة أو الأخيرة يكلّف 9 نقاط لكلّ منهما.|छठी या आखिरी बाज़ी लेने पर हर बार 9 अंक कटते हैं।|拿到第六墩或最后一墩各扣 9 分。
 Nie brać lew|Keine Stiche|No ganar bazas|Ne pas prendre de plis|Non prendere prese|Не брати взяток|تجنّب أخذ اللمّات|कोई बाज़ी न लें|不拿墩
 Nie brać kierów|Keine Herzen|No tomar corazones|Ne pas prendre de cœurs|Non prendere cuori|Не брати черв|تجنّب أخذ القلوب|पान के पत्ते न लें|不拿红桃
 Nie brać chłopców|Keine Könige und Buben|No tomar reyes ni jotas|Ne pas prendre de rois ni de valets|Non prendere re o fanti|Не брати королів і валетів|تجنّب أخذ الملوك والولاة|बादशाह और गुलाम न लें|不拿国王和杰克

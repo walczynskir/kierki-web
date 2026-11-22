@@ -1,9 +1,9 @@
-import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-1';
-import { decideComputerCard } from './deciders.js?v=training-contracts-1';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-1';
+import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
+import { decideComputerCard } from './deciders.js?v=training-contracts-2';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal } from './match.js?v=training-contracts-2';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=30';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=31';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -504,7 +504,10 @@ function renderPuzzleTable(names, legal, orderedHand) {
 const trainingContracts = {
   'no-tricks': ['Nie brać lew', 'Za każdą wziętą lewę: −2 pkt.'],
   'no-hearts': ['Nie brać kierów', 'Za każdego wziętego kiera: −2 pkt.'],
-  'no-boys': ['Nie brać chłopców', 'Za każdego wziętego króla lub waleta: −3 pkt.']
+  'no-boys': ['Nie brać chłopców', 'Za każdego wziętego króla lub waleta: −3 pkt.'],
+  'no-ladies': ['Nie brać dam', 'Za każdą wziętą damę: −5 pkt.'],
+  'no-king-of-hearts': ['Nie brać króla kier', 'Za wzięcie króla kier: −16 pkt. Gdy nie masz koloru, musisz go zagrać.'],
+  'no-six-and-last': ['Nie brać szóstej i ostatniej lewy', 'Za wzięcie szóstej lub ostatniej lewy: −9 pkt.']
 };
 
 function render() {

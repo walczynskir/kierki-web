@@ -1,4 +1,4 @@
-import { deal } from './engine.js?v=training-contracts-1';
+import { deal } from './engine.js?v=training-contracts-2';
 import { dealPuzzle } from './puzzle.js';
 
 const emptyPoints = () => [0, 0, 0, 0];

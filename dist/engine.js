@@ -1,6 +1,7 @@
 export const suits = ['♣', '♦', '♠', '♥'];
 export const suit = card => suits[Math.floor(card / 13)];
 export const rank = card => card % 13 + 2;
+export const kingOfHearts = 50;
 const next = player => (player + 1) % 4;
 
 export function deal(mode, leader, random = Math.random) {
@@ -35,11 +36,14 @@ export function legalCards(game) {
   const hand = game.hands[game.turn];
   if (!game.trick.length) {
     const other = hand.filter(card => suit(card) !== '♥');
-    return (game.mode === 'robber' || game.mode === 'no-hearts') && other.length ? other : hand;
+    return ['robber', 'no-hearts', 'no-king-of-hearts'].includes(game.mode) && other.length ? other : hand;
   }
   const lead = suit(game.trick[0].card);
   const follow = hand.filter(card => suit(card) === lead);
-  if (game.mode !== 'recover') return follow.length ? follow : hand;
+  if (game.mode !== 'recover') {
+    if (follow.length) return follow;
+    return game.mode === 'no-king-of-hearts' && hand.includes(kingOfHearts) ? [kingOfHearts] : hand;
+  }
   const trumps = hand.filter(card => suit(card) === game.trump);
   const choices = follow.length ? follow : trumps.length ? trumps : hand;
   const mustBeat = game.trump === null ? follow.length > 0 : suit(choices[0]) === game.trump;
@@ -57,7 +61,8 @@ export function cardPenalty(card) {
 export function trickPoints(mode, trick, number, recoveryPoints = 5) {
   if (mode === 'recover') return recoveryPoints;
   if (mode === 'no-tricks') return -2;
-  if (mode === 'no-hearts' || mode === 'no-boys') {
+  if (mode === 'no-six-and-last') return number === 6 || number === 13 ? -9 : 0;
+  if (mode !== 'robber') {
     return trick.reduce((sum, { card }) => sum - trainingCardPenalty(mode, card), 0);
   }
   const extra = number === 6 || number === 13 ? 9 : 0;
@@ -83,7 +88,7 @@ export function play(game, card) {
 }
 
 export function dealFinished(game) {
-  const penaltyLimit = { 'no-hearts': 26, 'no-boys': 24 }[game.mode];
+  const penaltyLimit = { 'no-hearts': 26, 'no-boys': 24, 'no-ladies': 20, 'no-king-of-hearts': 16 }[game.mode];
   return game.tricks.length === 13
     || (penaltyLimit !== undefined && game.points.reduce((sum, points) => sum - points, 0) >= penaltyLimit);
 }
@@ -116,17 +121,22 @@ export function computerView(game) {
 function trainingCardPenalty(mode, card) {
   if (mode === 'no-hearts') return suit(card) === '♥' ? 2 : 0;
   if (mode === 'no-boys') return rank(card) === 11 || rank(card) === 13 ? 3 : 0;
-  if (mode === 'no-tricks') return 0;
-  return cardPenalty(card);
+  if (mode === 'no-ladies') return rank(card) === 12 ? 5 : 0;
+  if (mode === 'no-king-of-hearts') return card === kingOfHearts ? 16 : 0;
+  return mode === 'robber' ? cardPenalty(card) : 0;
 }
 
-export function computerCard({ mode, trump, turn, trick }, legal) {
+export function computerCard({ mode, trump, turn, trick, tricks }, legal) {
   const sorted = [...legal].sort((a, b) => rank(a) - rank(b));
-  if (!trick.length) return mode === 'recover' ? sorted.at(-1) : sorted[0];
+  const number = (tricks?.length ?? 0) + 1;
+  const safeRound = mode === 'no-six-and-last' && number !== 6 && number !== 13;
+  if (!trick.length) return mode === 'recover' || safeRound ? sorted.at(-1) : sorted[0];
   const takes = card => winner([...trick, { player: turn, card }], trump).player === turn;
   if (mode === 'recover') return sorted.find(takes) ?? sorted[0];
+  if (safeRound) return sorted.at(-1);
   const safe = sorted.filter(card => !takes(card));
   if (!safe.length) return sorted[0];
+  if (mode === 'no-tricks' || mode === 'no-six-and-last') return safe.at(-1);
   return safe.reduce((best, card) =>
     trainingCardPenalty(mode, card) >= trainingCardPenalty(mode, best) ? card : best);
 }

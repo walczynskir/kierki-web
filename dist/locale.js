@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=6';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=7';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,12 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Nie brać dam': 'No queens',
+  'Nie brać króla kier': 'No king of hearts',
+  'Nie brać szóstej i ostatniej lewy': 'No sixth or last trick',
+  'Za każdą wziętą damę: −5 pkt.': 'Each queen taken costs 5 points.',
+  'Za wzięcie króla kier: −16 pkt. Gdy nie masz koloru, musisz go zagrać.': 'Taking the king of hearts costs 16 points. You must play it if you cannot follow suit.',
+  'Za wzięcie szóstej lub ostatniej lewy: −9 pkt.': 'Taking the sixth or last trick costs 9 points each.',
   'Nie brać lew': 'No tricks',
   'Nie brać kierów': 'No hearts',
   'Nie brać chłopców': 'No kings or jacks',

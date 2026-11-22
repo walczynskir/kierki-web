@@ -1,3 +1,7 @@
+# 1.3.0 — 2026-11-22
+
+- Trening obejmuje sześć kontraktów ujemnych. W każdym poziom Średni korzysta z adaptacji oryginalnego decydenta, a poziom Łatwy z prostej strategii.
+
 # 1.2.0 — 2026-11-22
 
 - Dodano trzy kontrakty treningowe: nie brać lew, kierów i chłopców.
