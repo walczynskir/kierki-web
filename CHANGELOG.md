@@ -1,3 +1,7 @@
+# 1.7.6 — 2026-11-23
+
+- Pasek aktualizacji pod nagłówkiem ma kontrastowe tło i wyraźny przycisk dopasowane do motywu.
+
 # 1.7.5 — 2026-11-23
 
 - Wydanie do sprawdzenia powiadomienia i odświeżania gry na telefonie.
