@@ -1,3 +1,7 @@
+# 1.7.2 — 2026-11-23
+
+- Stopka informuje o dostępnej aktualizacji i pozwala odświeżyć grę.
+
 # 1.7.1 — 2026-11-23
 
 - Kafelki w „Innych grach” wypełniają kolejne rzędy. Ostatnio otwierane gry pojawiają się na początku.
