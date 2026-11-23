@@ -1,3 +1,7 @@
+# 1.7.8 — 2026-11-23
+
+- Dodano przycisk „Zainstaluj grę” pod nagłówkiem i instrukcję instalacji w Safari na iPhonie.
+
 # 1.7.7 — 2026-11-23
 
 - Wydanie do sprawdzenia kontrastowego paska aktualizacji na telefonie.
