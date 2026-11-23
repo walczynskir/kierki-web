@@ -1,3 +1,9 @@
+# 1.7.0 — 2026-11-23
+
+- W „Moich postępach” dodano liczbę ukończonych partii, sumę punktów i średnią według wariantu i poziomu trudności. Kontrakty treningowe są pomijane.
+- Ujednolicono wymiary stołu dla Układanki i rozdań z lewami.
+- Przycisk „Schowaj wyniki” ukrywa cały panel, a „Zagraj ponownie” pojawia się tylko po treningu.
+
 # 1.6.2 — 2026-11-23
 
 - Przycisk pełnego ekranu w zainstalowanej aplikacji powiększa planszę bez komunikatu o wyjściu z pełnego ekranu przeglądarki.

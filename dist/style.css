@@ -35,15 +35,30 @@ button:disabled { cursor: default; }
 #dealer, #contract-rule { color: var(--muted); font-size: .82rem; }
 .table {
   --seat-name-height: 1em;
+  --table-gap: 3px;
+  --table-padding-top: 6px;
+  --table-padding-bottom: 34px;
+  --table-border: 3px;
+  --table-end-height: calc(var(--card-height) + 16px + 2em);
+  --puzzle-step: .95rem;
+  --puzzle-origin-step: calc(var(--card-height) * 2 / 3);
+  --table-center-height: max(
+    calc(3 * var(--card-height) + 2 * var(--table-gap)),
+    calc(10 * var(--puzzle-step) + 2 * var(--puzzle-origin-step) + var(--card-height))
+  );
+  block-size: calc(2 * var(--table-end-height) + var(--table-center-height) + 2 * var(--table-gap)
+    + var(--table-padding-top) + var(--table-padding-bottom) + 2 * var(--table-border));
   display: grid;
   grid-template-columns: minmax(0, 1fr) repeat(3, var(--card-width)) minmax(0, 1fr);
-  grid-template-rows: calc(var(--card-height) + 16px + var(--seat-name-height)) repeat(3, var(--card-height)) calc(var(--card-height) + 16px + var(--seat-name-height));
+  grid-template-rows: var(--table-end-height)
+    repeat(3, calc((var(--table-center-height) - 2 * var(--table-gap)) / 3))
+    var(--table-end-height);
   align-items: center;
   justify-items: center;
-  gap: 3px;
-  padding: 6px 5px 34px;
+  gap: var(--table-gap);
+  padding: var(--table-padding-top) 5px var(--table-padding-bottom);
   border-radius: 18px;
-  border: 3px solid #193d30;
+  border: var(--table-border) solid #193d30;
   background: radial-gradient(ellipse at center, #286b50, #124431);
   color: #f8f5e9;
   box-shadow: inset 0 0 18px #102c237a;
@@ -671,12 +686,10 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 .table.puzzle-table {
   container-type: inline-size;
   grid-template:
-    "north north north" auto
-    "west columns east" auto
-    "south south south" auto
+    "north north north" var(--table-end-height)
+    "west columns east" var(--table-center-height)
+    "south south south" var(--table-end-height)
     / minmax(0, 1fr) max-content minmax(0, 1fr);
-  gap: 3px;
-  padding: 6px 4px 30px;
 }
 .puzzle-table::before { display: none; }
 @media (orientation: portrait) and (max-width: 600px) {
@@ -756,8 +769,6 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 .puzzle-hand-slot .opponent-hand i + i { margin-inline-start: calc(1.5px - var(--card-width)); }
 .puzzle-columns {
   isolation: isolate;
-  --puzzle-step: 1.25rem;
-  --puzzle-origin-step: calc(var(--card-height) * 2 / 3);
   display: grid;
   grid-area: columns;
   grid-template-columns: repeat(4, var(--card-width));
@@ -813,6 +824,6 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 :root[data-theme="contrast"] :is(.puzzle-player.current, .puzzle-slot.origin:not(.filled), .puzzle-slot.available) { color: #fff; }
 :root[data-theme="contrast"] .puzzle-player.current { border-color: #fff; }
 @media (max-width: 420px) {
-  .scorecard table { font-size: .72rem; }
-  .scorecard th { overflow-wrap: anywhere; }
+  #scorecard table { table-layout: fixed; font-size: .72rem; }
+  #scorecard :is(th, td) { padding-inline: 2px; overflow-wrap: anywhere; }
 }

@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=10';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=11';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,12 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  "Punktacja partii": "Match scores",
+  "Partie": "Matches",
+  "Suma punktów": "Total points",
+  "Średnia": "Average",
+  "Brak ukończonych partii z zapisaną punktacją.": "No completed matches with saved scores.",
+  "Starsze wyniki bez punktacji liczą się tylko do ukończonych partii.": "Older results without scores count toward completed matches only.",
   "Wariant partii": "Match variant",
   "Rozbójniki z układanką": "Robber with Eights",
   "Rozbójniki bez układanki": "Robber without Eights",

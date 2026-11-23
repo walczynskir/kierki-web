@@ -44,3 +44,28 @@ dialog.progress-summary {
   font-size: inherit;
 }
 .progress-summary #progress-metrics dd { margin: 0; font-weight: 700; }
+
+#points-title { margin-block: 1em .55em; font-size: 1em; }
+#points-groups:not([hidden]) { display: grid; gap: .65em; }
+.points-variant {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.points-variant h4 {
+  margin: 0;
+  padding: .5em .8em;
+  background: var(--wash);
+  font-size: .92em;
+}
+.points-level { padding: .55em .75em .65em; border-block-start: 1px solid var(--line); }
+.points-level h5 { margin: 0 0 .35em; font-size: .88em; }
+.points-level dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5em;
+  margin: 0;
+}
+.points-level dt { color: var(--muted); font-size: .78em; line-height: 1.2; overflow-wrap: break-word; }
+.points-level dd { margin: .14em 0 0; font-weight: 700; overflow-wrap: break-word; }
+#points-legacy { margin-block-start: .7em; color: var(--muted); font-size: .85em; }

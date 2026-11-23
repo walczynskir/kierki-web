@@ -2,6 +2,12 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Punktacja partii|Punkte je Partie|Puntuación de partidas|Scores des parties|Punteggi delle partite|Очки партій|نقاط المباريات|मैच के अंक|对局得分
+Partie|Partien|Partidas|Parties|Partite|Партії|المباريات|मैच|对局
+Suma punktów|Punktesumme|Puntos totales|Total des points|Totale punti|Сума очок|مجموع النقاط|कुल अंक|总分
+Średnia|Durchschnitt|Media|Moyenne|Media|Середнє|المتوسط|औसत|平均分
+Brak ukończonych partii z zapisaną punktacją.|Keine abgeschlossenen Partien mit gespeicherten Punkten.|Aún no hay partidas terminadas con puntuación guardada.|Aucune partie terminée avec un score enregistré.|Nessuna partita conclusa con punteggio salvato.|Немає завершених партій зі збереженими очками.|لا توجد مباريات مكتملة بنقاط محفوظة.|सहेजे गए अंकों वाला कोई पूरा मैच नहीं है।|暂无已保存得分的完整对局。
+Starsze wyniki bez punktacji liczą się tylko do ukończonych partii.|Ältere Ergebnisse ohne Punkte zählen nur zu abgeschlossenen Partien.|Los resultados antiguos sin puntuación solo cuentan como partidas terminadas.|Les anciens résultats sans score comptent uniquement comme parties terminées.|I risultati precedenti senza punteggio contano solo tra le partite concluse.|Старі результати без очок враховуються лише як завершені партії.|النتائج القديمة بلا نقاط تُحسب كمباريات مكتملة فقط.|अंकों के बिना पुराने नतीजे केवल पूरे मैचों की गिनती में शामिल हैं।|无得分的旧结果只计入已完成对局数。
 Wariant partii|Spielvariante|Variante de partida|Variante de partie|Variante della partita|Варіант партії|نمط المباراة|मैच का प्रकार|对局变体
 Rozbójniki z układanką|Räuber mit Achter|Generalas con Ochos|Salades avec les Huit|Barbu con Gli Otto|Розбійники з вісімками|جولات شاملة مع الثمانيات|मिश्रित बाज़ियाँ, आठों के साथ|综合局＋八点接龙
 Rozbójniki bez układanki|Räuber ohne Achter|Generalas sin Ochos|Salades sans les Huit|Barbu senza Gli Otto|Розбійники без вісімок|جولات شاملة دون الثمانيات|मिश्रित बाज़ियाँ, आठों के बिना|综合局，不含八点接龙

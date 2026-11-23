@@ -19,11 +19,11 @@
 <script defer src="./games-chest-menu.js?v=barbu-1" data-game="kierki"></script>
 <link rel="stylesheet" href="./shared-settings.css">
 <link rel="stylesheet" href="./progress-bar.css">
-<link rel="stylesheet" href="./progress-summary.css">
+<link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=training-contracts-2">
+<link rel="stylesheet" href="./style.css?v=scorecard-toggle-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=standalone-fullscreen-1"></script>
+<script type="module" src="./app.js?v=scorecard-toggle-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=footer-alignment-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 </head>
@@ -104,6 +104,12 @@
   </div>
   <dl id="progress-metrics"></dl>
   <p id="progress-reward-detail" hidden></p>
+  <section aria-labelledby="points-title">
+    <h3 id="points-title"></h3>
+    <p id="points-empty"></p>
+    <div id="points-groups" hidden></div>
+    <p id="points-legacy" hidden></p>
+  </section>
 </dialog>
 <dialog id="options" class="shared-settings" aria-labelledby="options-title" aria-describedby="options-note">
   <form method="dialog" class="settings-shell">
@@ -261,7 +267,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.6.2</span>
+    <span id="footer-version" translate="no">v1.7.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

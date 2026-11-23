@@ -1,10 +1,11 @@
+import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js';
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=2';
 import { newMatch, legacyMatch, matchLength, matchMode, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=34';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=35';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
@@ -123,7 +124,8 @@ function currentPreferences() {
     difficulty: $('difficulty').value, 'include-puzzle': includesPuzzle(), 'match-format': selectedFormat(), 'play-pace': $('play-pace').value };
 }
 
-function isCompleted(outcome) {
+function isCompleted(record) {
+  const outcome = completionOutcome(record);
   // Old loss records also include abandoned matches.
   return outcome === 'win' || outcome === 'draw' || outcome === 'completed-loss';
 }
@@ -140,6 +142,11 @@ function earnedThemes(records, unlocked) {
 function mergeProgress(incoming = { results: {}, unlockedThemes: [] }) {
   const disk = read(profileKey)?.progress;
   const records = { ...incoming.results, ...results, ...disk?.results };
+  for (const ledger of [incoming.results, results, disk?.results ?? {}]) {
+    for (const [id, entry] of Object.entries(ledger)) {
+      if (validPointsRecord(entry) && !validPointsRecord(records[id])) records[id] = entry;
+    }
+  }
   return { results: records, unlockedThemes: earnedThemes(records, [...unlockedThemes, ...(disk?.unlockedThemes ?? []), ...incoming.unlockedThemes]) };
 }
 
@@ -150,14 +157,14 @@ function persistProfile(preferences, progress) {
   return true;
 }
 
-function record(outcome) {
+function record(outcome, points) {
   const progress = mergeProgress();
   if (isCompleted(progress.results[gameId])) {
     results = progress.results;
     unlockedThemes = progress.unlockedThemes;
     return;
   }
-  progress.results[gameId] = outcome;
+  progress.results[gameId] = pointsRecord(match, activeDifficulty, points, outcome);
   progress.unlockedThemes = earnedThemes(progress.results, progress.unlockedThemes);
   persistProfile(read(profileKey)?.preferences ?? currentPreferences(), progress);
 }
@@ -173,7 +180,60 @@ function renderProgress() {
   const reward = next && { name: t(themes[next]), count: completed, goal: rewards[next] };
   GamesChestProgressBar($('language').value, entries.length, reward,
     () => [[t('Ukończone partie'), entries.length]], true);
+  if ($('progress-dialog').open) renderPoints(entries);
 }
+
+const pointsVariants = {
+  'robbers-with': 'Rozbójniki z układanką', 'robbers-without': 'Rozbójniki bez układanki',
+  'classic-with': 'Klasyczna z układanką', 'classic-without': 'Klasyczna bez układanki'
+};
+const pointsLevels = { easy: 'Łatwy', medium: 'Średni', hard: 'Trudny' };
+
+function renderPoints(entries) {
+  const groups = summarizePoints(entries);
+  const cards = $('points-groups');
+  cards.replaceChildren();
+  const labels = ['Partie', 'Suma punktów', 'Średnia'].map(t);
+  const numbers = new Intl.NumberFormat($('language').value, { maximumFractionDigits: 1 });
+  for (const [variant, label] of Object.entries(pointsVariants)) {
+    const levels = groups.get(variant);
+    if (!levels) continue;
+    const card = document.createElement('section');
+    card.className = 'points-variant';
+    const title = document.createElement('h4');
+    title.textContent = t(label);
+    card.append(title);
+    for (const [level, label] of Object.entries(pointsLevels)) {
+      const group = levels.get(level);
+      if (!group) continue;
+      const row = document.createElement('div');
+      row.className = 'points-level';
+      const name = document.createElement('h5');
+      name.textContent = t(label);
+      const metrics = document.createElement('dl');
+      [group.count, group.points, group.points / group.count].forEach((value, index) => {
+        const metric = document.createElement('div');
+        const term = document.createElement('dt');
+        const number = document.createElement('dd');
+        term.textContent = labels[index];
+        number.textContent = numbers.format(value);
+        metric.append(term, number);
+        metrics.append(metric);
+      });
+      row.append(name, metrics);
+      card.append(row);
+    }
+    cards.append(card);
+  }
+  $('points-title').textContent = t('Punktacja partii');
+  $('points-empty').textContent = t('Brak ukończonych partii z zapisaną punktacją.');
+  $('points-empty').hidden = groups.size > 0;
+  cards.hidden = groups.size === 0;
+  $('points-legacy').textContent = t('Starsze wyniki bez punktacji liczą się tylko do ukończonych partii.');
+  $('points-legacy').hidden = !entries.some(([, record]) => !validPointsRecord(record));
+}
+
+$('my-progress').addEventListener('click', () => queueMicrotask(() => renderProgress()));
 
 let shellState;
 function renderShell() {
@@ -532,7 +592,7 @@ function render() {
   const winners = names.filter((_, player) => totals[player] === Math.max(...totals));
   const won = winners.length === 1 && winners[0] === names[0];
   if (!match.single && lastDeal && game.phase === 'done') {
-    record(winners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss');
+    record(winners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss', totals[0]);
   }
   const showScores = $('show-scores').checked;
   const showHistory = $('show-history').checked;
@@ -543,8 +603,7 @@ function render() {
   $('undo').disabled = !past.length;
   $('redo').disabled = !future.length;
   const scorecard = $('scorecard');
-  scorecard.hidden = !showScores && game.phase !== 'done';
-  scorecard.open = !scorecard.hidden && shouldOpenScorecard();
+  renderScorecard();
   const actions = $('actions');
   actions.replaceChildren();
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
@@ -613,11 +672,11 @@ function render() {
     } else {
       $('status').textContent = winners.length > 1 ? t('Remis') + ': ' + winners.join(', ') : won ? t('Wygrywasz!') : t('Wygrywa') + ': ' + winners[0];
       window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
-      actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
+      if (match.single) actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
     }
     const resultsToggle = button('', () => {
       setScorecardOpen(!scorecard.open);
-      if (scorecard.open) scorecard.scrollIntoView({ block: 'nearest' });
+      if (scorecard.open) scorecard.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     resultsToggle.id = 'toggle-results';
     resultsToggle.setAttribute('aria-controls', 'scorecard');
@@ -776,9 +835,16 @@ $('next-trick').onclick = () => {
 function shouldOpenScorecard() {
   return scorecardOpen ?? ($('show-scores').checked || game.phase === 'done');
 }
+function renderScorecard() {
+  const card = $('scorecard');
+  const done = game.phase === 'done';
+  const open = shouldOpenScorecard();
+  card.hidden = done ? !open : !$('show-scores').checked;
+  card.open = !card.hidden && open;
+}
 function setScorecardOpen(open) {
   scorecardOpen = open;
-  $('scorecard').open = open;
+  renderScorecard();
   updateResultsToggle();
   saveGame();
 }
@@ -898,7 +964,7 @@ const backupSchema = {
       || !progress.unlockedThemes.every(id => Object.hasOwn(rewards, id))) return false;
     const records = progress.results;
     return records && typeof records === 'object' && !Array.isArray(records)
-      && Object.entries(records).every(([id, outcome]) => id.length > 0 && id.length <= 200 && (outcome === 'loss' || isCompleted(outcome)));
+      && Object.entries(records).every(([id, outcome]) => id.length > 0 && id.length <= 200 && (typeof outcome === 'string' ? outcome === 'loss' || isCompleted(outcome) : validPointsRecord(outcome)));
   }
 };
 function parseBackup(text) {
