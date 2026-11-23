@@ -1,3 +1,7 @@
+# 1.7.1 — 2026-11-23
+
+- Kafelki w „Innych grach” wypełniają kolejne rzędy. Ostatnio otwierane gry pojawiają się na początku.
+
 # 1.7.0 — 2026-11-23
 
 - W „Moich postępach” dodano liczbę ukończonych partii, sumę punktów i średnią według wariantu i poziomu trudności. Kontrakty treningowe są pomijane.
