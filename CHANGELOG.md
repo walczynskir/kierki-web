@@ -1,3 +1,7 @@
+# 1.7.5 — 2026-11-23
+
+- Wydanie do sprawdzenia powiadomienia i odświeżania gry na telefonie.
+
 # 1.7.4 — 2026-11-23
 
 - Przeniesiono komunikat o aktualizacji i przycisk „Odśwież grę” pod nagłówek.
