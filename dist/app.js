@@ -436,11 +436,12 @@ function update(move) {
 }
 
 function updateResultsToggle() {
-  const toggle = $('toggle-results');
-  if (!toggle) return;
   const open = $('scorecard').open;
-  toggle.textContent = t(open ? 'Schowaj wyniki' : 'Pokaż wyniki');
-  toggle.setAttribute('aria-expanded', String(open));
+  for (const toggle of [$('toggle-results'), $('live-results')]) {
+    if (!toggle) continue;
+    toggle.textContent = t(open ? 'Schowaj wyniki' : 'Pokaż wyniki');
+    toggle.setAttribute('aria-expanded', String(open));
+  }
 }
 
 function handFan(player, orderedHand, angle = 2.5) {
@@ -602,8 +603,9 @@ function render() {
   $('undo').hidden = $('redo').hidden = !showHistory;
   $('undo').disabled = !past.length;
   $('redo').disabled = !future.length;
-  const scorecard = $('scorecard');
   renderScorecard();
+  $('live-results').hidden = !showScores || game.phase === 'done';
+  updateResultsToggle();
   const actions = $('actions');
   actions.replaceChildren();
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
@@ -674,10 +676,7 @@ function render() {
       window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
       if (match.single) actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
     }
-    const resultsToggle = button('', () => {
-      setScorecardOpen(!scorecard.open);
-      if (scorecard.open) scorecard.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    });
+    const resultsToggle = button('', toggleScorecard);
     resultsToggle.id = 'toggle-results';
     resultsToggle.setAttribute('aria-controls', 'scorecard');
     actions.append(resultsToggle);
@@ -832,6 +831,12 @@ $('next-trick').onclick = () => {
   update(() => advance(game));
   if (game.phase === 'play' && game.turn === 0) $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
 };
+function toggleScorecard() {
+  const card = $('scorecard');
+  setScorecardOpen(!card.open);
+  if (card.open) card.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+$('live-results').onclick = toggleScorecard;
 function shouldOpenScorecard() {
   return scorecardOpen ?? ($('show-scores').checked || game.phase === 'done');
 }
@@ -853,7 +858,8 @@ $('scorecard').addEventListener('toggle', event => {
   if (!card.hidden && card.open !== shouldOpenScorecard()) setScorecardOpen(card.open);
 });
 function setFullscreen(full) {
-  $('game-area').classList.toggle('game-fullscreen', full);
+  const area = $('game-area');
+  if (area.classList.toggle('game-fullscreen', full)) area.scrollTop = 0;
   renderShell();
 }
 $('fullscreen').onclick = async () => {

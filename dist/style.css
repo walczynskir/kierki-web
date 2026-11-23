@@ -693,7 +693,7 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 }
 .puzzle-table::before { display: none; }
 @media (orientation: portrait) and (max-width: 600px) {
-  .game:has(.puzzle-table) .hand-area:has(.hand:not(.empty-hand)) {
+  #game-area:not(.game-fullscreen) .game:has(.puzzle-table) .hand-area:has(.hand:not(.empty-hand)) {
     position: sticky;
     bottom: env(safe-area-inset-bottom, 0px);
     z-index: 5;
@@ -826,4 +826,73 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 @media (max-width: 420px) {
   #scorecard table { table-layout: fixed; font-size: .72rem; }
   #scorecard :is(th, td) { padding-inline: 2px; overflow-wrap: anywhere; }
+}
+
+#live-results { display: none; }
+:root:has(.game-fullscreen),
+body:has(.game-fullscreen) { overflow: hidden; }
+#game-area.game-fullscreen {
+  overscroll-behavior: contain;
+  container-type: size;
+  overflow: clip;
+}
+#game-area.game-fullscreen:has(#scorecard[open]:not([hidden])) {
+  overflow: hidden auto;
+}
+.game-fullscreen :is(#scorecard:not([open]), #trick-history) { display: none; }
+.game-fullscreen #live-results:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 .55em;
+  min-height: 36px;
+  font-size: .8em;
+}
+.game-fullscreen > .game {
+  display: grid;
+  grid-template: "context" minmax(0, 8.3rem)
+    "felt" minmax(0, 1fr) "controls" minmax(0, 7.6rem) / minmax(0, 1fr);
+  block-size: calc(100cqh - 52px);
+  padding: 5px;
+  gap: 2px;
+}
+.game-fullscreen .game-context { grid-area: context; min-inline-size: 0; overflow-wrap: break-word; }
+.game-fullscreen #round { font-size: 1rem; }
+.game-fullscreen #status { min-height: 0; padding-block: 1px; }
+.game-fullscreen .game-controls { grid-area: controls; min-inline-size: 0; }
+.game-fullscreen .table-wrap { grid-area: felt; container-type: size; min-inline-size: 0; }
+.game-fullscreen .table {
+  --card-width: clamp(16px, min(10vw, 10cqh), 42px);
+  --table-padding-top: 2px;
+  --table-padding-bottom: 23px;
+  --table-border: 2px;
+  --table-end-height: calc(var(--card-height) + 23px);
+  --table-center-height: calc(100cqh - 2 * (var(--table-end-height) + var(--table-gap) + var(--table-border))
+    - var(--table-padding-top) - var(--table-padding-bottom));
+  --puzzle-step: calc((var(--table-center-height) - 2 * var(--puzzle-origin-step) - var(--card-height)) / 10);
+  block-size: 100%;
+  padding-inline: 3px;
+  overflow: clip;
+}
+.game-fullscreen .table .card :is(.card-rank, .card-suit, .puzzle-opposite-corner) {
+  font-size: clamp(8px, calc(var(--card-width) * .36), .87rem);
+}
+.game-fullscreen .puzzle-slot:is(.origin, .available):not(.filled) {
+  min-height: 10px;
+  font-size: clamp(8px, var(--puzzle-step), .8rem);
+}
+.game-fullscreen .puzzle-slot .court-portrait { inset-block: 25%; }
+.game-fullscreen .puzzle-slot.filled.origin { padding-top: 2px; }
+.game-fullscreen .seat { padding: 1px; }
+.game-fullscreen .puzzle-player.puzzle-result { block-size: min(4.5em, var(--table-end-height)); }
+.game-fullscreen .game-toolbar { margin-inline: auto; }
+@media (max-width: 420px) {
+  .game-fullscreen .game-toolbar button { flex-shrink: 1; min-inline-size: 0; }
+  .game-fullscreen .game-tools { flex-shrink: 1; min-inline-size: 0; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .game-fullscreen > .game {
+    grid-template: "felt context" auto "felt controls" 1fr / minmax(0, 3fr) minmax(0, 2fr);
+    max-width: 720px;
+    gap: 4px 8px;
+  }
 }
