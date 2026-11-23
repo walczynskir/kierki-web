@@ -88,12 +88,18 @@ html.larger .game-footer .support-causes .support-note, html .large .game-footer
 }
 
 .game-update:not([hidden]) {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 4px 10px;
-  padding-block: 4px;
+  inline-size: min(720px, calc(100% - 24px));
+  margin: 4px auto;
+  padding: 4px 10px;
+  border: 1px solid var(--line, currentColor);
+  border-radius: 10px;
+  background: var(--paper, Canvas);
   color: inherit;
   font-size: .9em;
 }

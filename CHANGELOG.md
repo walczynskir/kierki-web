@@ -1,3 +1,7 @@
+# 1.7.4 — 2026-11-23
+
+- Przeniesiono komunikat o aktualizacji i przycisk „Odśwież grę” pod nagłówek.
+
 # 1.7.3 — 2026-11-23
 
 - Dopasowano stół i sterowanie do pełnego ekranu w pionie i poziomie. Wszystkie kontrakty mają wspólny rozmiar stołu, a przewijanie w pionie pojawia się tylko przy otwartej punktacji.
