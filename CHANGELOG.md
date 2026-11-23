@@ -1,3 +1,7 @@
+# 1.6.2 — 2026-11-23
+
+- Przycisk pełnego ekranu w zainstalowanej aplikacji powiększa planszę bez komunikatu o wyjściu z pełnego ekranu przeglądarki.
+
 # 1.6.1 — 2026-11-22
 
 - Historia ostatnio otwieranych gier rozpoznaje Kierki przy przejściu do innej gry.

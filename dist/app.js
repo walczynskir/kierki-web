@@ -796,7 +796,8 @@ $('fullscreen').onclick = async () => {
     return;
   }
   const full = !$('game-area').classList.contains('game-fullscreen');
-  if (full && document.fullscreenEnabled) {
+  const installed = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (full && !installed && document.fullscreenEnabled) {
     try {
       await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
       return;
