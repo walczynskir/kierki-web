@@ -1,3 +1,7 @@
+# 1.7.7 — 2026-11-23
+
+- Wydanie do sprawdzenia kontrastowego paska aktualizacji na telefonie.
+
 # 1.7.6 — 2026-11-23
 
 - Pasek aktualizacji pod nagłówkiem ma kontrastowe tło i wyraźny przycisk dopasowane do motywu.
