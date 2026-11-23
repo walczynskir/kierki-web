@@ -1,3 +1,7 @@
+# 1.7.9 — 2026-11-23
+
+- Dodano instrukcję instalacji w Safari na Macu i wyrównano stopkę do obszaru gry.
+
 # 1.7.8 — 2026-11-23
 
 - Dodano przycisk „Zainstaluj grę” pod nagłówkiem i instrukcję instalacji w Safari na iPhonie.

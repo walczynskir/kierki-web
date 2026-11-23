@@ -4,9 +4,10 @@ html .game-footer {
   justify-items: stretch;
   align-items: start;
   gap: 0;
-  max-inline-size: 1200px;
+  grid-template-columns: minmax(0, 1fr);
+  inline-size: min(712px, calc(100% - 2 * clamp(10px, 3vw, 24px)));
   margin: 20px auto 0;
-  padding: 16px clamp(12px, 3vw, 24px) 24px;
+  padding: 16px 12px 24px;
   border-block-start: 1px solid var(--line, #b9c8bc);
   color: var(--ink, #253b30);
   font: 400 .85rem/1.6 system-ui, sans-serif;
@@ -55,6 +56,7 @@ html .game-footer .support-causes .support-note {
 }
 .game-footer .footer-details {
   display: grid;
+  inline-size: 100%;
   grid-template-columns: minmax(0, 1fr) auto;
   direction: ltr;
   align-items: center;
