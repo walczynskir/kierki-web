@@ -1,3 +1,8 @@
+# 1.8.0 — 2026-11-24
+
+- W punktacji można edytować imiona graczy. Gra pamięta je na urządzeniu.
+- Dotknięcie wiersza pokazuje wyniki wszystkich graczy po rozdaniach oraz wyróżnia wybraną kolumnę.
+
 # 1.7.20 — 2026-11-24
 
 - Na poziomie Trudnym w kontrakcie „Nie brać lew” komputer zrzuca króla w kolorze wyjścia pod asa.

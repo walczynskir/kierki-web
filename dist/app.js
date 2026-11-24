@@ -2,10 +2,10 @@ import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } f
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=discard-king-1';
-import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
+import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=deal-score-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=40';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=41';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -33,6 +33,12 @@ const playPaces = {
 const playPace = () => playPaces[$('play-pace').value];
 let activeDifficulty = 'medium';
 const gameKey = 'games-chest-kierki-game-v1';
+const playerNamesKey = 'games-chest-kierki-player-names-v1';
+const storedNames = read(playerNamesKey);
+const customNames = seatNames.map((_, player) => typeof storedNames?.[player] === 'string' ? storedNames[player] : '');
+const playerName = player => customNames[player] || t(seatNames[player]);
+let scoreHistoryPlayer = null;
+let editedPlayer = null;
 const trainingKey = 'games-chest-kierki-training-v1';
 const progressKey = 'games-chest-kierki-progress-v1';
 const profileKey = 'games-chest-kierki-profile-v1';
@@ -98,6 +104,7 @@ function gameRecord() {
 }
 
 function loadSession(session) {
+  scoreHistoryPlayer = null;
   ({ game, started } = session);
   scorecardOpen = typeof session.scorecardOpen === 'boolean' ? session.scorecardOpen : undefined;
   $('trick-history').open = false;
@@ -432,13 +439,13 @@ function renderTrickHistory() {
     for (const { trick, number } of tricks.reverse()) {
       const row = document.createElement('li');
       const summary = document.createElement('p');
-      summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze') + ' ' + t(seatNames[trick.taker]);
+      summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze') + ' ' + playerName(trick.taker);
       const cards = document.createElement('ul');
       cards.className = 'history-trick-cards';
       for (const { player, card } of trick.cards) {
         const item = document.createElement('li');
         const name = document.createElement('span');
-        name.textContent = t(seatNames[player]);
+        name.textContent = playerName(player);
         const played = face(document.createElement('span'), card);
         played.setAttribute('role', 'img');
         item.classList.toggle('took-trick', player === trick.taker);
@@ -624,12 +631,12 @@ function render() {
   const contract = trainingContracts[game.mode];
   const choosingTrump = game.phase === 'trump' && game.leader === 0;
   $('no-trump').hidden = !choosingTrump;
-  const names = seatNames.map(t);
+  const names = seatNames.map((_, player) => playerName(player));
   const lastDeal = match.number === matchLength(match);
   const scores = matchScores(match, game);
   const totals = scores.negative.map((score, player) => score + scores.positive[player] + scores.puzzle[player]);
   const winners = names.filter((_, player) => totals[player] === Math.max(...totals));
-  const won = winners.length === 1 && winners[0] === names[0];
+  const won = winners.length === 1 && totals[0] === Math.max(...totals);
   if (!match.single && lastDeal && game.phase === 'done') {
     record(winners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss', totals[0]);
   }
@@ -824,6 +831,7 @@ function render() {
   $('robber-score-heading').textContent = t(match.format === 'classic' && !match.single ? 'Punkty karne' : 'Rozbójnik');
   $('recovery-score-heading').hidden = !showRecoveryScores;
   $('puzzle-score-heading').hidden = !showPuzzleScores;
+  const focusedScoreControl = document.activeElement.closest('#scores button[data-player]');
   const numberFormat = new Intl.NumberFormat($('language').value);
   $('scores').replaceChildren(...names.map((name, player) => {
     const row = document.createElement('tr');
@@ -833,10 +841,30 @@ function render() {
     const badge = document.createElement('span');
     badge.className = 'score-place';
     badge.textContent = numberFormat.format(place) + '.';
-    heading.setAttribute('aria-label', name + ' · ' + badge.textContent + ' ' + t('miejsce'));
+    badge.title = badge.textContent + ' ' + t('miejsce');
+    const historyButton = button(name, () => {
+      scoreHistoryPlayer = scoreHistoryPlayer === player ? null : player;
+      renderScoreHistory();
+      if (scoreHistoryPlayer !== null) $('deal-score-history').scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+    historyButton.className = 'score-history-button';
+    historyButton.dataset.player = player;
+    historyButton.setAttribute('aria-controls', 'deal-score-history');
+    historyButton.setAttribute('aria-label', name + ' · ' + badge.title + ' · ' + t('Punkty za rozdania'));
+    const edit = button('✎', event => {
+      event.stopPropagation();
+      openNameEditor(player);
+    });
+    edit.className = 'score-edit-name';
+    edit.dataset.player = player;
+    edit.setAttribute('aria-label', t('Zmień imię gracza') + ' · ' + name);
+    edit.title = edit.getAttribute('aria-label');
+    row.addEventListener('click', event => {
+      if (!event.target.closest('button')) historyButton.click();
+    });
     const playerLabel = document.createElement('span');
     playerLabel.className = 'score-player';
-    playerLabel.append(badge, name);
+    playerLabel.append(badge, historyButton, edit);
     heading.append(playerLabel);
     row.append(heading);
     const negative = scores.negative[player];
@@ -852,7 +880,76 @@ function render() {
     }
     return row;
   }));
+  renderScoreHistory();
+  if (focusedScoreControl) {
+    const { className, dataset } = focusedScoreControl;
+    $('scores').querySelector(`.${className}[data-player="${dataset.player}"]`)?.focus({ preventScroll: true });
+  }
 }
+
+function renderScoreHistory() {
+  const panel = $('deal-score-history');
+  panel.hidden = scoreHistoryPlayer === null;
+  for (const control of $('scores').querySelectorAll('.score-history-button')) {
+    control.setAttribute('aria-expanded', String(Number(control.dataset.player) === scoreHistoryPlayer));
+  }
+  if (panel.hidden) return;
+
+  const deals = [...(match.dealHistory ?? [])];
+  if (game.phase === 'done') deals.push({ number: match.number, mode: game.mode, points: game.points });
+  const table = $('deal-scores-table');
+  table.hidden = deals.length === 0;
+  $('deal-scores-empty').hidden = deals.length > 0;
+  const headings = table.tHead.rows[0].cells;
+  for (const [player] of seatNames.entries()) {
+    headings[player + 1].textContent = playerName(player);
+    headings[player + 1].classList.toggle('score-history-selected', player === scoreHistoryPlayer);
+  }
+  table.tBodies[0].replaceChildren(...deals.map(deal => {
+    const row = document.createElement('tr');
+    const title = document.createElement('th');
+    title.scope = 'row';
+    title.textContent = deal.number + ' · ' + t(dealTitle(deal.mode));
+    row.append(title);
+    // Older sessions stored completed tricks with their signed points.
+    const points = deal.points ?? (deal.tricks ?? []).reduce((totals, trick) => {
+      totals[trick.taker] += trick.points;
+      return totals;
+    }, [0, 0, 0, 0]);
+    for (const [player, score] of points.entries()) {
+      const cell = row.insertCell();
+      cell.classList.toggle('score-history-selected', player === scoreHistoryPlayer);
+      cell.textContent = score > 0 ? '+' + score : score;
+    }
+    return row;
+  }));
+}
+
+function openNameEditor(player) {
+  editedPlayer = player;
+  const input = $('player-name-input');
+  input.value = customNames[player];
+  input.placeholder = t(seatNames[player]);
+  $('player-name-error').hidden = true;
+  $('player-name-dialog').showModal();
+}
+$('player-name-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const names = customNames.slice();
+  names[editedPlayer] = $('player-name-input').value.trim();
+  if (!write(playerNamesKey, names)) {
+    $('player-name-error').hidden = false;
+    return;
+  }
+  customNames[editedPlayer] = names[editedPlayer];
+  $('player-name-dialog').close();
+  render();
+});
+$('player-name-cancel').onclick = () => $('player-name-dialog').close();
+$('player-name-dialog').addEventListener('close', () => {
+  $('scores').querySelector(`.score-edit-name[data-player="${editedPlayer}"]`)?.focus({ preventScroll: true });
+  editedPlayer = null;
+});
 
 function start(single = null) {
   loadSession(freshSession(single));

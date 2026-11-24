@@ -52,7 +52,7 @@ export function matchScores(match, game) {
 export function nextMatchDeal(match, game, random = Math.random) {
   if (game.phase !== 'done' || match.number >= matchLength(match)) return null;
   const { negative, positive } = matchScores(match, game);
-  const dealHistory = [...(match.dealHistory ?? []), { number: match.number, mode: game.mode, tricks: game.tricks }];
+  const dealHistory = [...(match.dealHistory ?? []), { number: match.number, mode: game.mode, tricks: game.tricks, points: game.points.slice() }];
   const next = { ...match, number: match.number + 1, dealer: nextSeat(match.dealer), negative, positive, dealHistory };
   return { match: next, game: dealForMatch(next, random) };
 }

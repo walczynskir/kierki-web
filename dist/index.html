@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=score-ranks-1">
+<link rel="stylesheet" href="./style.css?v=score-player-details-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=discard-king-1"></script>
+<script type="module" src="./app.js?v=score-player-details-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -82,7 +82,26 @@
   <details class="scorecard" id="scorecard">
     <summary data-t="Punktacja">Punktacja</summary>
     <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
+    <section id="deal-score-history" aria-labelledby="deal-scores-title" hidden>
+      <h3 id="deal-scores-title" data-t="Punkty za rozdania">Punkty za rozdania</h3>
+      <p id="deal-scores-empty" data-t="Brak zakończonych rozdań.">Brak zakończonych rozdań.</p>
+      <table id="deal-scores-table" aria-labelledby="deal-scores-title">
+        <thead><tr><th scope="col" data-t="Rozdanie">Rozdanie</th><th scope="col"></th><th scope="col"></th><th scope="col"></th><th scope="col"></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
   </details>
+  <dialog id="player-name-dialog" aria-labelledby="player-name-title">
+    <form id="player-name-form">
+      <label id="player-name-title" for="player-name-input" data-t="Zmień imię gracza">Zmień imię gracza</label>
+      <input id="player-name-input" type="text" maxlength="24" dir="auto" autofocus>
+      <p id="player-name-error" role="status" data-t="Nie udało się zapisać ustawień." hidden></p>
+      <div class="actions">
+        <button id="player-name-cancel" type="button" data-t="Anuluj">Anuluj</button>
+        <button type="submit" class="primary" data-t="Zapisz">Zapisz</button>
+      </div>
+    </form>
+  </dialog>
   <details class="scorecard" id="trick-history" hidden>
     <summary data-t="Historia lew">Historia lew</summary>
     <p id="trick-history-empty" data-t="Brak zapisanych lew" hidden></p>
@@ -269,7 +288,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.7.20</span>
+    <span id="footer-version" translate="no">v1.8.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

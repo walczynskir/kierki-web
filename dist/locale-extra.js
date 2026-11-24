@@ -2,6 +2,11 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Zmień imię gracza|Spielernamen ändern|Cambiar nombre del jugador|Modifier le nom du joueur|Cambia nome del giocatore|Змінити ім’я гравця|تغيير اسم اللاعب|खिलाड़ी का नाम बदलें|修改玩家姓名
+Zapisz|Speichern|Guardar|Enregistrer|Salva|Зберегти|حفظ|सहेजें|保存
+Punkty za rozdania|Punkte pro Runde|Puntos por mano|Points par donne|Punti per mano|Очки за роздачами|النقاط حسب الجولة|हर बाज़ी के अंक|各局得分
+Brak zakończonych rozdań.|Noch keine abgeschlossenen Runden.|Aún no hay manos completadas.|Aucune donne terminée.|Nessuna mano conclusa.|Завершених роздач ще немає.|لا توجد جولات مكتملة بعد.|अभी कोई बाज़ी पूरी नहीं हुई है।|暂无已完成的牌局。
+
 Punktacja partii|Punkte je Partie|Puntuación de partidas|Scores des parties|Punteggi delle partite|Очки партій|نقاط المباريات|मैच के अंक|对局得分
 Partie|Partien|Partidas|Parties|Partite|Партії|المباريات|मैच|对局
 Suma punktów|Punktesumme|Puntos totales|Total des points|Totale punti|Сума очок|مجموع النقاط|कुल अंक|总分
