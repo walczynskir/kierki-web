@@ -1,3 +1,7 @@
+# 1.10.6 — 2026-11-24
+
+- Dodano ilustrowane kroki instalacji w Safari na Macu i iPhonie we wszystkich dziesięciu językach.
+
 # 1.10.5 — 2026-11-24
 
 - Ujednolicono nazwy kontraktu Rozbójnik, poprawiono komunikaty o ruchu i lewach, opisy Układanki oraz tłumaczenia podpisów w oknie „Inne gry”.
