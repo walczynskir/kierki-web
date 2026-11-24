@@ -18,7 +18,7 @@
     zh: ['其他游戏', '关闭', '所有游戏', '八张王牌', '双人接龙']
   };
   const key = 'games-chest-recent';
-  const catalogUrl = new URL('games-chest/games.json?v=barbu-1', document.currentScript.src);
+  const catalogUrl = new URL('games-chest/games.json?v=barbu-2', document.currentScript.src);
   const incoming = (new URLSearchParams(location.search).get('gc-recent') ?? '').split(',');
   let catalog = [];
   let ids = [];

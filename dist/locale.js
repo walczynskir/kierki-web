@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=23';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=24';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,10 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Gra {player}': '{player} to play',
+  'Lewę bierze {player}': '{player} takes the trick',
+  'Karty: {count}': 'Cards: {count}',
+  'Miejsce {place}': 'Place {place}',
   "Punktacja partii": "Match scores",
   "Partie": "Matches",
   "Suma punktów": "Total points",
@@ -93,7 +97,7 @@ const english = {
   'Rozpocznij układankę': 'Start Eights', 'Pas': 'Pass', kart: 'cards', miejsce: 'place',
   'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Kliknij kartę pod stołem, aby ją dołożyć.': 'Tap a card below the table to add it.',
   'Opis opcji układanki': 'Adds an Eights deal after the four recovery deals. Applies from the next game.',
-  'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn, or pass if you have no legal move. Players score +10, +5, −5 and −10 in the order they empty their hands.',
+  'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn. If you have no legal move, the game passes for you. Players score +10, +5, −5 and −10 in the order they empty their hands.',
   'Łatwy': 'Easy', 'Średni': 'Medium',
   'Trudny': 'Hard',
   'Opis poziomów z trudnym': 'Hard tests possible continuations using cards known to the player. The change applies from the next game.',
@@ -105,7 +109,7 @@ const english = {
   'Zakres kopii Kierek': 'Includes preferences, statistics and unlocked themes. The current game and move history stay on this device.',
   'Cofnij ostatnie zagranie': 'Undo your last play and the computer responses, or redo the move.',
   'Punktacja': 'Scores', 'Gracz': 'Player', 'Razem': 'Total', 'Zasady prototypu': 'Prototype rules',
-  'Rozbójnik': 'Bandit', 'Odgrywka': 'Recovery', 'Rozbójnik zakończony.': 'Bandit deal complete.',
+  'Rozbójnik': 'Robber', 'Odgrywka': 'Recovery', 'Rozbójnik zakończony.': 'Robber deal complete.',
   'Rozdaje': 'Dealer', 'Rozdanie zakończone.': 'Deal complete.', 'Następne rozdanie': 'Next deal',
   'Rozpocznij odgrywkę': 'Start recovery', 'Bez atu': 'No trump', 'Atut': 'Trump',
   'Kliknij stół, aby wziąć lewę': 'Tap the table to collect the trick',
@@ -116,7 +120,7 @@ const english = {
   'Pokaż wyniki': 'Show results',
   'Schowaj wyniki': 'Hide results',
   'Następna lewa': 'Next trick', 'Wynik rozdania': 'Deal result', 'Twój ruch': 'Your turn',
-  'Bierzesz lewę': 'You take the trick', 'Lewę bierze': 'Trick winner', 'Gra': 'Playing',
+  'Bierzesz lewę': 'You take the trick',
   'Wygrywasz!': 'You win!', 'Wygrywa': 'Winner', 'Remis': 'Tie', 'Lewa': 'Trick', 'pkt': 'pts',
   'Zagraj ponownie': 'Play again', 'Ukończone partie': 'Completed games', 'Wygrane': 'Wins', 'Rozliczone partie': 'Games recorded',
   'Liczba wziętych lew': 'Tricks taken', 'Karty w ręce': 'Cards in hand', 'Twoje karty': 'Your cards',
@@ -144,7 +148,7 @@ const english = {
   'Prototyp': 'Prototype', 'Automatyczny zapis partii': 'Game saved automatically',
   'Nie udało się zapisać partii.': 'Could not save the game.',
   'Przy stole grają': 'Four players sit at the table. Follow the suit led if you can. The winner leads to the next trick.',
-  'W rozbójniku unikaj': 'Avoid penalties in Bandit. Each trick and each heart costs 2 points, every jack or king costs 3, and each queen costs 5. The king of hearts costs an extra 16. The sixth and last tricks cost an extra 9 each. You can lead a heart only if you have no other suit.',
+  'W rozbójniku unikaj': 'Avoid penalties in Robber. Each trick and each heart costs 2 points, every jack or king costs 3, and each queen costs 5. The king of hearts costs an extra 16. The sixth and last tricks cost an extra 9 each. You can lead a heart only if you have no other suit.',
   'W odgrywce każda': 'In Recovery, each trick earns {points} points. The opening player chooses trumps using their first seven cards. If you cannot follow suit, play a trump if you have one. When playing a trump, overtrump if possible. In no-trump play, beat the highest card of the suit led if you can.'
 };
 
@@ -173,7 +177,7 @@ const polish = {
   'Opis treningu': 'Rozegraj jedno rozdanie. Trening nie zmienia statystyk, a do trwającej partii możesz wrócić.',
   'Opis opcji układanki': 'Dodaje układankę od ósemek po czterech odgrywkach. Zmiana obowiązuje od następnej partii.',
   'Opis wariantów partii': 'Rozbójniki zaczynają się od czterech Rozbójników. Partia klasyczna zaczyna się od sześciu kontraktów ujemnych i jednego Rozbójnika. W obu wariantach potem są cztery Odgrywki i opcjonalna Układanka. Zmiana obowiązuje od następnej partii.',
-  'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, spasuj. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
+  'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, gra automatycznie pasuje za Ciebie. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
   'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę na podstawie kart znanych graczowi. Zmiana obowiązuje od następnej partii.',
   'Opis poziomów Kierek': 'Łatwy używa prostej strategii prototypu. Średni uwzględnia także karty z wcześniejszych lew. Zmiana obowiązuje od następnej partii.',
   'Opis punktacji': 'Pokazuje na stole punkty za właśnie zakończoną lewę.',

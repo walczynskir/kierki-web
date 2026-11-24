@@ -1,3 +1,7 @@
+# 1.10.5 — 2026-11-24
+
+- Ujednolicono nazwy kontraktu Rozbójnik, poprawiono komunikaty o ruchu i lewach, opisy Układanki oraz tłumaczenia podpisów w oknie „Inne gry”.
+
 # 1.10.4 — 2026-11-24
 
 - Pomoc opisuje bieżące sterowanie, wszystkie kontrakty, warianty, trening, punktację i ustawienia.

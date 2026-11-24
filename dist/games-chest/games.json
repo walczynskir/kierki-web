@@ -4,14 +4,26 @@
     "url": "https://rsudoku.pl/",
     "pl": "Sudoku (krok po kroku)",
     "en": "Sudoku (step by step)",
-    "icon": "sudoku-logo.svg"
+    "icon": "sudoku-logo.svg",
+    "de": "Sudoku (Schritt für Schritt)",
+    "es": "Sudoku (paso a paso)",
+    "fr": "Sudoku (pas à pas)",
+    "it": "Sudoku (passo dopo passo)",
+    "uk": "Судоку (крок за кроком)",
+    "ar": "سودوكو (خطوة بخطوة)",
+    "hi": "सुडोकू (कदम दर कदम)",
+    "zh-Hans": "数独（循序渐进）"
   },
   {
     "id": "domino",
     "url": "https://domino.games-chest.com/",
     "pl": "Domino",
     "en": "Domino",
-    "icon": "domino-icon.png"
+    "icon": "domino-icon.png",
+    "uk": "Доміно",
+    "ar": "دومينو",
+    "hi": "डोमिनो",
+    "zh-Hans": "多米诺骨牌"
   },
   {
     "id": "eight-aces",
@@ -30,9 +42,17 @@
   {
     "id": "piec-w-rzedzie",
     "url": "https://gomoku.games-chest.com/",
-    "pl": "Gomoku",
-    "en": "Gomoku",
-    "icon": "gomoku-icon.png"
+    "pl": "Pięć w rzędzie",
+    "en": "Five in a Row",
+    "icon": "gomoku-icon.png",
+    "es": "Cinco en raya",
+    "de": "Fünf in einer Reihe",
+    "zh-Hans": "五子棋",
+    "hi": "पाँच एक पंक्ति में",
+    "fr": "Cinq en ligne",
+    "ar": "خمسة على التوالي",
+    "it": "Cinque in fila",
+    "uk": "П’ять у ряд"
   },
   {
     "id": "kierki",

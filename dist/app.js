@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=47';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=48';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -57,7 +57,10 @@ let unlockedThemes = [];
 let optionsSaved = true;
 let contrast = false;
 let gameSaved = true;
-const t = key => translate(key, $('language').value);
+const t = (key, value) => {
+  const label = translate(key, $('language').value);
+  return value === undefined ? label : label.replace(/\{(?:player|count|place)\}/, () => value);
+};
 
 function newId() {
   return globalThis.crypto?.randomUUID?.() ?? Date.now() + '-' + Math.random().toString(36).slice(2);
@@ -201,7 +204,7 @@ function renderPoints(entries) {
   const groups = summarizePoints(entries);
   const cards = $('points-groups');
   cards.replaceChildren();
-  const labels = ['Partie', 'Suma punktów', 'Średnia'].map(t);
+  const labels = ['Partie', 'Suma punktów', 'Średnia'].map(label => t(label));
   const numbers = new Intl.NumberFormat($('language').value, { maximumFractionDigits: 1 });
   for (const [variant, label] of Object.entries(pointsVariants)) {
     const levels = groups.get(variant);
@@ -445,7 +448,7 @@ function renderTrickHistory() {
     for (const { trick, number } of tricks.reverse()) {
       const row = document.createElement('li');
       const summary = document.createElement('p');
-      summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze') + ' ' + playerName(trick.taker);
+      summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze {player}', playerName(trick.taker));
       const cards = document.createElement('ul');
       cards.className = 'history-trick-cards';
       for (const { player, card } of trick.cards) {
@@ -549,7 +552,7 @@ function renderPuzzleTable(names, legal, orderedHand) {
     const passed = madeLastMove && game.lastMove.card === null;
     title.classList.toggle('puzzle-last-player', madeLastMove && !passed);
     info.classList.toggle('puzzle-pass-badge', passed);
-    info.textContent = passed ? t('Pas') : place ? place + '. ' + t('miejsce') : game.hands[player].length + ' ' + t('kart');
+    info.textContent = passed ? t('Pas') : place ? t('Miejsce {place}', place) : t('Karty: {count}', game.hands[player].length);
     const handSlot = document.createElement('div');
     handSlot.className = 'puzzle-hand-slot';
     const fan = handFan(player, orderedHand, 1.6);
@@ -697,7 +700,7 @@ function render() {
     const lastMove = moveLabel ? moveLabel + ' · ' : '';
     $('status').textContent = lastMove + (game.turn === 0
       ? t(legal.length ? 'Twój ruch' : 'Nie masz pasującej karty. Pasujesz automatycznie.')
-      : t('Gra') + ' ' + names[game.turn]);
+      : t('Gra {player}', names[game.turn]));
     if (game.turn !== 0 || !legal.length) {
       timer = setTimeout(() => {
         const card = game.turn === 0 ? null : activeDifficulty === 'hard' ? decideHardPuzzleCard(game)
@@ -716,7 +719,7 @@ function render() {
     }
   } else if (game.phase === 'review') {
     const { taker, points } = game.tricks.at(-1);
-    $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
+    $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze {player}', names[taker]))
       + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
     tableAction.firstElementChild.textContent = t(dealFinished(game)
       ? 'Kliknij stół, aby zobaczyć wynik rozdania'
@@ -738,7 +741,7 @@ function render() {
     updateResultsToggle();
   } else {
     const number = game.tricks.length + 1;
-    $('status').textContent = t('Lewa') + ' ' + number + ' / 13 · ' + (game.turn === 0 ? t('Twój ruch') : t('Gra') + ' ' + names[game.turn]);
+    $('status').textContent = t('Lewa') + ' ' + number + ' / 13 · ' + (game.turn === 0 ? t('Twój ruch') : t('Gra {player}', names[game.turn]));
     if (game.turn !== 0) timer = setTimeout(() => {
       const view = computerView(game);
       const card = activeDifficulty === 'easy' ? computerCard(view, view.legal)
@@ -852,7 +855,7 @@ function render() {
     const badge = document.createElement('span');
     badge.className = 'score-place';
     badge.textContent = numberFormat.format(place) + '.';
-    badge.title = badge.textContent + ' ' + t('miejsce');
+    badge.title = t('Miejsce {place}', numberFormat.format(place));
     const historyButton = button(name, () => {
       scoreHistoryPlayer = scoreHistoryPlayer === player ? null : player;
       renderScoreHistory();
