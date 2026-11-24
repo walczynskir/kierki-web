@@ -1,3 +1,7 @@
+# 1.10.7 — 2026-11-24
+
+- Powiększono strzałkę wyboru wariantu obok przycisku nowej gry.
+
 # 1.10.6 — 2026-11-24
 
 - Dodano ilustrowane kroki instalacji w Safari na Macu i iPhonie we wszystkich dziesięciu językach.

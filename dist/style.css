@@ -407,6 +407,13 @@ dialog p { margin-block: 8px 12px; }
   background: var(--wash);
   color: var(--ink);
 }
+#pick-variant span {
+  width: 10px;
+  height: 10px;
+  border: solid currentColor;
+  border-width: 0 2.5px 2.5px 0;
+  transform: translateY(-2px) rotate(45deg);
+}
 .new-game-buttons button:focus-visible { z-index: 1; }
 @media (max-width: 360px) {
   .game-toolbar .game-tools { min-width: 0; }
