@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=stable-game-picker-1">
+<link rel="stylesheet" href="./style.css?v=current-help-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=stable-game-picker-1"></script>
+<script type="module" src="./app.js?v=current-help-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -139,13 +139,45 @@
     </form>
   </dialog>
   <dialog id="help" aria-labelledby="help-title">
-    <div class="round"><h2 id="help-title" data-t="Zasady prototypu">Zasady prototypu</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
-    <p data-t="Przy stole grają">Przy stole grają cztery osoby. Dokładaj do koloru wyjścia. Zwycięzca lewy wychodzi do następnej.</p>
-    <p data-t="W rozbójniku unikaj">W rozbójniku unikaj kar. Za lewę i za każdego kiera są po 2 punkty ujemne, za waleta lub króla 3, za damę 5, za króla kier dodatkowe 16. Szósta i ostatnia lewa kosztują dodatkowo po 9. W kiery można wyjść, gdy nie ma innego koloru.</p>
-    <p id="help-recovery"></p>
-    <p data-t="Zasady układanki"></p>
-    <p data-save-help translate="no"></p>
-</dialog>
+    <div class="round help-heading"><h2 id="help-title" data-t="Jak grać">Jak grać</h2><form method="dialog"><button aria-label="Zamknij" autofocus>×</button></form></div>
+    <section aria-labelledby="help-play-title">
+      <h3 id="help-play-title" data-t="Rozgrywka">Rozgrywka</h3>
+      <p data-t="Pomoc Kierek lewy"></p>
+      <p data-t="Pomoc Kierek sterowanie"></p>
+    </section>
+    <section aria-labelledby="help-formats-title">
+      <h3 id="help-formats-title" data-t="Warianty i trening">Warianty i trening</h3>
+      <ul>
+        <li><strong data-t="Klasyczna">Klasyczna</strong><p data-t="Pomoc Kierek klasyczna"></p></li>
+        <li><strong data-t="Cykl czterech partii">Cykl czterech partii</strong><p data-t="Pomoc Kierek cykl"></p></li>
+        <li><strong data-t="Rozbójniki">Rozbójniki</strong><p data-t="Pomoc Kierek rozbojniki"></p></li>
+        <li><strong data-t="Trening">Trening</strong><p data-t="Opis pojedynczego kontraktu"></p></li>
+      </ul>
+    </section>
+    <section aria-labelledby="help-penalties-title">
+      <h3 id="help-penalties-title" data-t="Kontrakty ujemne">Kontrakty ujemne</h3>
+      <ul id="help-contracts"></ul>
+      <p data-t="Pomoc Kierek wyjscie w kiery"></p>
+      <h4 data-t="Rozbójnik">Rozbójnik</h4>
+      <p data-t="W rozbójniku unikaj"></p>
+    </section>
+    <section aria-labelledby="help-recovery-title">
+      <h3 id="help-recovery-title" data-t="Odgrywka">Odgrywka</h3>
+      <p data-t="Pomoc Kierek punkty odgrywki"></p>
+      <p data-t="Pomoc Kierek atu"></p>
+    </section>
+    <section aria-labelledby="help-eights-title">
+      <h3 id="help-eights-title" data-t="Układanka">Układanka</h3>
+      <p data-t="Zasady układanki"></p>
+      <p data-t="Pomoc Kierek pas automatyczny"></p>
+    </section>
+    <section aria-labelledby="help-settings-title">
+      <h3 id="help-settings-title" data-t="Punktacja i ustawienia">Punktacja i ustawienia</h3>
+      <p data-t="Pomoc Kierek punktacja"></p>
+      <p data-t="Pomoc Kierek ustawienia"></p>
+      <p data-save-help translate="no"></p>
+    </section>
+  </dialog>
 
 <dialog id="theme-gallery" aria-labelledby="gallery-title">
   <div class="round"><h2 id="gallery-title" data-t="Motywy">Motywy</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
@@ -325,7 +357,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.10.3</span>
+    <span id="footer-version" translate="no">v1.10.4</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

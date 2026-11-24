@@ -1,3 +1,7 @@
+# 1.10.4 — 2026-11-24
+
+- Pomoc opisuje bieżące sterowanie, wszystkie kontrakty, warianty, trening, punktację i ustawienia.
+
 # 1.10.3 — 2026-11-24
 
 - Okno wyboru wariantu ma tę samą wysokość w obu zakładkach, a opis treningu jest oddzielony od przewijanej listy.

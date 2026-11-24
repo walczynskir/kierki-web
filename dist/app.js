@@ -2,10 +2,10 @@ import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } f
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=discard-king-1';
-import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=46';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=47';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -282,6 +282,13 @@ function renderShell() {
     document.querySelector(selector).setAttribute('aria-label', t(label));
   }
   for (const element of document.querySelectorAll('[data-t]')) element.textContent = t(element.dataset.t);
+  $('help-contracts').replaceChildren(...Object.values(trainingContracts).map(([name, rule]) => {
+    const item = document.createElement('li');
+    const title = document.createElement('strong');
+    title.textContent = t(name);
+    item.append(title, ' · ' + t(rule));
+    return item;
+  }));
   for (const info of $('options').querySelectorAll('.setting-info')) {
     info.setAttribute('aria-label', t('Informacje o ustawieniu') + ': ' + info.parentElement.querySelector('label [data-t]').textContent);
   }
@@ -744,7 +751,6 @@ function render() {
   if (!lastDeal || game.phase !== 'done') window.GameVictory?.(false);
   renderShell();
   if (trickHistory.open) renderTrickHistory();
-  $('help-recovery').textContent = t('W odgrywce każda').replace('{points}', String(matchRecoveryPoints(match)));
   const result = game.phase === 'review' ? game.tricks.at(-1) : null;
   const collectedTricks = result ? game.tricks.slice(0, -1) : game.tricks;
   const hand = game.phase === 'done' ? [] : choosingTrump ? game.hands[0].slice(0, 7) : game.hands[0];

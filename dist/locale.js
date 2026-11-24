@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=22';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=23';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -45,6 +45,20 @@ const english = {
   'Powitanie Kierek cele': 'Avoid penalties in negative contracts. Take tricks in Recovery and build up and down from the eights in Eights.',
   'Powitanie Kierek ustawienia': 'Change difficulty and pace in Settings. Under New game, you can also choose a single contract for practice.',
   'Pełna partia': 'Full match',
+  'Warianty i trening': 'Formats and practice',
+  'Kontrakty ujemne': 'Penalty contracts',
+  'Punktacja i ustawienia': 'Scores and settings',
+  'Pomoc Kierek lewy': 'You play against three computer players. Each trick has four cards. Follow the led suit if you can. The highest card of that suit wins unless trumped. Aces are high, and the winner leads the next trick.',
+  'Pomoc Kierek sterowanie': 'Tap a playable card below the table. Once all four cards are down, tap the table to collect the trick and continue. The plus starts the same format again. Use the arrow beside it to choose another format or a practice contract.',
+  'Pomoc Kierek klasyczna': 'Six penalty contracts, one Robber deal, and four Recovery deals. Eights can be added as the last deal.',
+  'Pomoc Kierek cykl': 'Four classic matches, with or without Eights. Each player opens one match. The best combined score from the four matches wins.',
+  'Pomoc Kierek rozbojniki': 'Four Robber deals followed by four Recovery deals, with optional Eights at the end.',
+  'Pomoc Kierek wyjscie w kiery': 'In No Hearts, No King of Hearts, and Robber, you can lead hearts only if you have no other suit. A penalty contract can end early once all its penalty cards have been taken.',
+  'Pomoc Kierek punkty odgrywki': 'Try to take as many tricks as possible. Each trick earns 5 points in Classic and the four-match series, or 10 in Robber matches and single-contract practice.',
+  'Pomoc Kierek atu': 'The opening player chooses trump by tapping one of their first seven cards, or chooses No trump. Follow suit if you can. If you cannot, play a trump if possible and overtrump if you can. When following suit in no-trump play, you must beat the highest card already played if possible.',
+  'Pomoc Kierek pas automatyczny': 'The game passes automatically when a player has no legal move.',
+  'Pomoc Kierek punktacja': 'The highest total wins. Open Scores under the table and tap a player’s row to see points by deal. The pencil lets you change that player’s name.',
+  'Pomoc Kierek ustawienia': 'Set the computer difficulty and pace in Settings. You can also enable Undo, Redo and trick history, or reopen the introduction. Settings also contains backup and restore.',
   'Wybierz wariant': 'Choose a variant',
   'Klasyczna': 'Classic', 'Cykl czterech partii': 'Four-match series', 'Rozbójniki': 'Robber matches',
   'Pojedynczy kontrakt (trening)': 'Single contract (practice)',
@@ -135,6 +149,17 @@ const english = {
 };
 
 const polish = {
+  'Pomoc Kierek lewy': 'Grasz przeciwko trzem komputerom. Każda lewa to cztery karty. Dokładaj do koloru wyjścia, jeśli możesz. Lewę wygrywa najwyższa karta w tym kolorze, chyba że ktoś przebił atutem. As jest najwyższy, a zwycięzca lewy wychodzi do następnej.',
+  'Pomoc Kierek sterowanie': 'Kliknij dostępną kartę poniżej stołu. Gdy na stole leżą cztery karty, kliknij stół, aby zebrać lewę i przejść dalej. Plus rozpoczyna ten sam wariant od nowa. Strzałka obok plusa otwiera wybór wariantu lub treningu.',
+  'Pomoc Kierek klasyczna': 'Sześć kontraktów ujemnych, jeden Rozbójnik i cztery Odgrywki. Układankę można dodać jako ostatnie rozdanie.',
+  'Pomoc Kierek cykl': 'Cztery partie klasyczne, z Układanką lub bez niej. Każdy gracz raz otwiera partię. Wygrywa najwyższa suma punktów z czterech partii.',
+  'Pomoc Kierek rozbojniki': 'Cztery Rozbójniki i cztery Odgrywki. Na końcu można dołączyć Układankę.',
+  'Pomoc Kierek wyjscie w kiery': 'W „Nie brać kierów”, „Nie brać króla kier” i Rozbójniku możesz wyjść w kiery tylko wtedy, gdy nie masz innego koloru. Kontrakt ujemny może skończyć się wcześniej, gdy wszystkie karne karty zostały już wzięte.',
+  'Pomoc Kierek punkty odgrywki': 'Staraj się wziąć jak najwięcej lew. Każda daje 5 pkt w partii klasycznej i w cyklu, a 10 pkt w wariancie Rozbójniki oraz w treningu.',
+  'Pomoc Kierek atu': 'Rozpoczynający wybiera atu, klikając jedną z pierwszych siedmiu kart, albo wybiera „Bez atu”. Jeśli możesz, dokładasz do koloru wyjścia. Jeśli nie możesz, zagrywasz atut, gdy go masz, i przebijasz wyższym atutem, jeśli możesz. Bez atu musisz przebić w kolorze wyjścia, jeśli masz wyższą kartę.',
+  'Pomoc Kierek pas automatyczny': 'Jeśli żaden ruch nie jest możliwy, gra automatycznie zgłasza pas za gracza.',
+  'Pomoc Kierek punktacja': 'Wygrywa najwyższy wynik łączny. Rozwiń Punktację pod stołem i kliknij wiersz gracza, aby zobaczyć punkty za poszczególne rozdania. Ołówek pozwala zmienić imię gracza.',
+  'Pomoc Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności komputerów i tempo gry. Możesz tam też włączyć cofanie i przywracanie ruchów, historię lew, ponownie otworzyć wprowadzenie oraz zapisać lub przywrócić kopię.',
   'Powitanie Kierek zasady': 'Grasz przeciwko trzem graczom komputerowym. Dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.',
   'Powitanie Kierek warianty': 'Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.',
   'Powitanie Kierek cele': 'W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.',

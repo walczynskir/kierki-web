@@ -1101,3 +1101,23 @@ body:has(.game-fullscreen) { overflow: hidden; }
   min-block-size: 40px;
 }
 #welcome .actions { justify-content: flex-end; }
+
+#help {
+  inline-size: min(560px, calc(100% - 24px));
+  max-block-size: calc(100dvh - 24px);
+  overflow: auto;
+}
+.help-heading {
+  position: sticky;
+  top: -1em;
+  z-index: 1;
+  padding-block: 6px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+#help section + section { border-top: 1px solid var(--line); }
+#help h3 { font-size: 1rem; }
+#help h4 { margin-block: 10px 0; }
+#help ul { margin-block: 8px 12px; padding-inline-start: 1.25em; }
+#help li + li { margin-block-start: 6px; }
+#help li p { margin-block: 3px 8px; }
