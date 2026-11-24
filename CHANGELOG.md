@@ -1,3 +1,7 @@
+# 1.7.15 — 2026-11-24
+
+- Po zakończeniu pełnej partii widok przewija się automatycznie do punktacji.
+
 # 1.7.14 — 2026-11-24
 
 - Komunikat po lewie wskazuje właściwy krok w zależności od tego, kto ją zdobył.

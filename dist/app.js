@@ -457,10 +457,17 @@ function renderTrickHistory() {
 
 function update(move, previousPhase = game.phase) {
   move();
-  if (previousPhase !== 'done' && game.phase === 'done') scorecardOpen = undefined;
+  const finishedDeal = previousPhase !== 'done' && game.phase === 'done';
+  if (finishedDeal) scorecardOpen = undefined;
   if (game.tricks.length || game.trick.length || game.lastMove) started = true;
   saveGame();
   render();
+  if (finishedDeal && !match.single && match.number === matchLength(match)) {
+    const scorecard = $('scorecard');
+    scorecard.querySelector('summary').focus({ preventScroll: true });
+    scorecard.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    return;
+  }
   if (!$('next-trick').hidden) $('next-trick').focus({ preventScroll: true });
   else if (game.phase === 'done') {
     const control = $('game-area').classList.contains('game-fullscreen')
