@@ -1,3 +1,7 @@
+# 1.7.13 — 2026-11-24
+
+- Ujednolicono wskazówki na stole dotyczące zagrywania kart, wyboru atu i odbierania lewy.
+
 # 1.7.12 — 2026-11-24
 
 - Punktacja jest dostępna przez całą partię i zwija się przed kolejnym rozdaniem.

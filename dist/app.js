@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=37';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=39';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -655,7 +655,7 @@ function render() {
     && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length));
   cue.classList.toggle('puzzle-move-cue', Boolean(puzzleMove));
   const canPlayPuzzle = puzzle && game.phase === 'play' && game.turn === 0 && legal.length;
-  cue.textContent = moveLabel ? moveLabel + (canPlayPuzzle ? ' · ' + t('Dołóż kartę') : '') : t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
+  cue.textContent = moveLabel ? moveLabel + (canPlayPuzzle ? ' · ' + t('Kliknij kartę pod stołem, aby ją dołożyć.') : '') : t(choosingTrump ? 'Kliknij kartę pod stołem, aby wybrać atu.' : puzzle ? 'Kliknij kartę pod stołem, aby ją dołożyć.' : 'Kliknij kartę pod stołem, aby ją zagrać.');
   $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
     + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;
@@ -700,7 +700,7 @@ function render() {
     $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
       + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
     tableAction.firstElementChild.textContent = t(dealFinished(game)
-      ? 'Kliknij stół, aby zobaczyć wynik rozdania' : 'Kliknij stół, aby zagrać następną lewę');
+      ? 'Kliknij stół, aby zobaczyć wynik rozdania' : 'Kliknij stół, aby wziąć lewę');
   } else if (game.phase === 'done') {
     if (!lastDeal) {
       $('status').textContent = t('Rozdanie zakończone.');

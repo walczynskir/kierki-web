@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=13';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=15';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -58,7 +58,7 @@ const english = {
   'Nie udało się przełączyć rozgrywki.': 'Could not switch games.',
   'Z układanką': 'With Eights', 'Bez układanki': 'Without Eights',
   'Rozpocznij układankę': 'Start Eights', 'Pas': 'Pass', kart: 'cards', miejsce: 'place',
-  'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Dołóż kartę': 'Add a card',
+  'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Kliknij kartę pod stołem, aby ją dołożyć.': 'Tap a card below the table to add it.',
   'Opis opcji układanki': 'Adds an Eights deal after the four recovery deals. Applies from the next game.',
   'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn, or pass if you have no legal move. Players score +10, +5, −5 and −10 in the order they empty their hands.',
   'Łatwy': 'Easy', 'Średni': 'Medium',
@@ -75,10 +75,10 @@ const english = {
   'Rozbójnik': 'Bandit', 'Odgrywka': 'Recovery', 'Rozbójnik zakończony.': 'Bandit deal complete.',
   'Rozdaje': 'Dealer', 'Rozdanie zakończone.': 'Deal complete.', 'Następne rozdanie': 'Next deal',
   'Rozpocznij odgrywkę': 'Start recovery', 'Bez atu': 'No trump', 'Atut': 'Trump',
-  'Kliknij stół, aby zagrać następną lewę': 'Tap the table for the next trick',
+  'Kliknij stół, aby wziąć lewę': 'Tap the table to collect the trick',
   'Kliknij stół, aby przejść do następnego rozdania': 'Tap the table for the next deal',
   'Kliknij stół, aby zobaczyć wynik rozdania': 'Tap the table for the deal result',
-  'Zagraj kartę': 'Play a card',
+  'Kliknij kartę pod stołem, aby ją zagrać.': 'Tap a card below the table to play it.',
   'Pokaż wyniki': 'Show results',
   'Schowaj wyniki': 'Hide results',
   'Następna lewa': 'Next trick', 'Wynik rozdania': 'Deal result', 'Twój ruch': 'Your turn',
@@ -87,7 +87,7 @@ const english = {
   'Zagraj ponownie': 'Play again', 'Ukończone partie': 'Completed games', 'Wygrane': 'Wins', 'Rozliczone partie': 'Games recorded',
   'Liczba wziętych lew': 'Tricks taken', 'Karty w ręce': 'Cards in hand', 'Twoje karty': 'Your cards',
   'Pierwsze siedem kart': 'First seven cards', 'Komputer wybiera atu.': 'Computer is choosing a trump suit.',
-  'Dotknij karty pod stołem, by wybrać atu': 'Tap a card below the table to choose trump',
+  'Kliknij kartę pod stołem, aby wybrać atu.': 'Tap a card below the table to choose trump.',
   'Wybór atu': 'Trump selection',
   'Wybierz atu': 'Choose trump',
   'Ty': 'You', 'Zachód': 'West', 'Północ': 'North', 'Wschód': 'East',

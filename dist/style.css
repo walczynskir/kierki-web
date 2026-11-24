@@ -37,7 +37,7 @@ button:disabled { cursor: default; }
   --seat-name-height: 1em;
   --table-gap: 3px;
   --table-padding-top: 6px;
-  --table-padding-bottom: 34px;
+  --table-padding-bottom: 39px;
   --table-border: 3px;
   --table-end-height: calc(var(--card-height) + 16px + 2em);
   --puzzle-step: .95rem;
@@ -598,6 +598,8 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   color: #fff6d7;
   font-size: .75rem;
   font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
 }
 #play-card-cue {
   position: absolute;
@@ -873,7 +875,7 @@ body:has(.game-fullscreen) { overflow: hidden; }
 .game-fullscreen .table {
   --card-width: clamp(16px, min(10vw, 10cqh), 42px);
   --table-padding-top: 2px;
-  --table-padding-bottom: 23px;
+  --table-padding-bottom: 39px;
   --table-border: 2px;
   --table-end-height: calc(var(--card-height) + 23px);
   --table-center-height: calc(100cqh - 2 * (var(--table-end-height) + var(--table-gap) + var(--table-border))
