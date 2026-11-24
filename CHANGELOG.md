@@ -1,3 +1,7 @@
+# 1.7.18 — 2026-11-24
+
+- W Układance pola graczy zachowują rozmiar przez całe rozdanie, a podpis pod stołem wskazuje wyłącznie ruch gracza.
+
 # 1.7.17 — 2026-11-24
 
 - Widok przewija się do punktacji po każdym zakończonym rozdaniu i po ręcznym rozwinięciu tabeli.

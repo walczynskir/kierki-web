@@ -653,11 +653,10 @@ function render() {
   const moveCard = puzzleMove?.card;
   const moveLabel = puzzleMove ? names[puzzleMove.player] + ' · ' + (moveCard === null ? t('Pas')
     : rankLabel(rank(moveCard), $('language').value) + suit(moveCard)) : '';
-  cue.hidden = !tableAction.hidden || (!puzzleMove && !choosingTrump
+  cue.hidden = !tableAction.hidden || (!choosingTrump
     && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length));
-  cue.classList.toggle('puzzle-move-cue', Boolean(puzzleMove));
-  const canPlayPuzzle = puzzle && game.phase === 'play' && game.turn === 0 && legal.length;
-  cue.textContent = moveLabel ? moveLabel + (canPlayPuzzle ? ' · ' + t('Kliknij kartę pod stołem, aby ją dołożyć.') : '') : t(choosingTrump ? 'Kliknij kartę pod stołem, aby wybrać atu.' : puzzle ? 'Kliknij kartę pod stołem, aby ją dołożyć.' : 'Kliknij kartę pod stołem, aby ją zagrać.');
+  cue.textContent = t(choosingTrump ? 'Kliknij kartę pod stołem, aby wybrać atu.'
+    : puzzle ? 'Kliknij kartę pod stołem, aby ją dołożyć.' : 'Kliknij kartę pod stołem, aby ją zagrać.');
   $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
     + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;

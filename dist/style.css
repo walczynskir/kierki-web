@@ -714,6 +714,9 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 .puzzle-player {
   display: grid;
   justify-items: center;
+  align-content: center;
+  inline-size: min(7.5rem, 100%);
+  block-size: var(--table-end-height);
   min-width: 0;
   max-width: 100%;
   padding: 2px;
@@ -735,21 +738,14 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   gap: 0 5px;
   text-align: center;
 }
-.puzzle-player:is([data-position="west"], [data-position="east"], .puzzle-result) .puzzle-player-caption {
+.puzzle-player:is([data-position="west"], [data-position="east"]) {
+  inline-size: min(5.4rem, 100%);
+  block-size: calc(var(--card-height) + 2.5em + 6px);
+}
+.puzzle-player:is([data-position="west"], [data-position="east"]) .puzzle-player-caption {
   flex-direction: column;
 }
-.puzzle-player.puzzle-result {
-  inline-size: min(5em, calc((100cqw - 4 * var(--card-width) - 12px) / 2));
-  block-size: 4.5em;
-  align-content: center;
-  line-height: 1.15;
-}
 .puzzle-result .puzzle-hand-slot { display: none; }
-.puzzle-result .puzzle-player-caption strong { font-size: .9em; white-space: nowrap; }
-.puzzle-result .puzzle-player-caption {
-  flex-wrap: nowrap;
-  inline-size: 100%;
-}
 .puzzle-player.current { border-color: #f7db86; color: #f7db86; }
 .puzzle-pass-badge {
   padding-inline: 5px;
@@ -895,7 +891,6 @@ body:has(.game-fullscreen) { overflow: hidden; }
 .game-fullscreen .puzzle-slot .court-portrait { inset-block: 25%; }
 .game-fullscreen .puzzle-slot.filled.origin { padding-top: 2px; }
 .game-fullscreen .seat { padding: 1px; }
-.game-fullscreen .puzzle-player.puzzle-result { block-size: min(4.5em, var(--table-end-height)); }
 .game-fullscreen .game-toolbar { margin-inline: auto; }
 @media (max-width: 420px) {
   .game-fullscreen .game-toolbar button { flex-shrink: 1; min-inline-size: 0; }
@@ -909,8 +904,7 @@ body:has(.game-fullscreen) { overflow: hidden; }
   }
 }
 
-.puzzle-last-player,
-#play-card-cue.puzzle-move-cue {
+.puzzle-last-player {
   background: #f7db86;
   color: #123328;
 }
@@ -919,7 +913,7 @@ body:has(.game-fullscreen) { overflow: hidden; }
   border-color: #73530c;
   box-shadow: inset 0 0 0 2px #d89820, 0 2px 4px #09271ca6;
 }
-:root[data-theme="contrast"] :is(.puzzle-last-player, #play-card-cue.puzzle-move-cue) {
+:root[data-theme="contrast"] .puzzle-last-player {
   background: #fff;
   color: #111;
 }
