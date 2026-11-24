@@ -680,6 +680,7 @@ function render() {
     symbol.textContent = game.trump;
     trumpLabel.append(symbol);
   }
+  if (showTrump) trumpLabel.append(' (' + names[game.leader] + ')');
   $('status').classList.toggle('puzzle-live-status', puzzle && game.phase === 'play');
   if (puzzle && game.phase === 'play') {
     const lastMove = moveLabel ? moveLabel + ' · ' : '';

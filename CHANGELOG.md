@@ -1,3 +1,7 @@
+# 1.7.16 — 2026-11-24
+
+- W Odgrywce przy atucie widać, kto go wybrał, także przy grze bez atu.
+
 # 1.7.15 — 2026-11-24
 
 - Po zakończeniu pełnej partii widok przewija się automatycznie do punktacji.
