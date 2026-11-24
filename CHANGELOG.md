@@ -1,3 +1,7 @@
+# 1.7.19 — 2026-11-24
+
+- Punktacja pokazuje aktualne miejsce każdego gracza na podstawie sumy punktów, z uwzględnieniem remisów.
+
 # 1.7.18 — 2026-11-24
 
 - W Układance pola graczy zachowują rozmiar przez całe rozdanie, a podpis pod stołem wskazuje wyłącznie ruch gracza.

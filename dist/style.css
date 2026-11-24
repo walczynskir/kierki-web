@@ -258,6 +258,24 @@ dialog p { margin-block: 8px 12px; }
 
 .scorecard { margin-top: 0; }
 .scorecard[hidden] { display: none; }
+.score-player {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 5px;
+  text-align: start;
+}
+.score-place {
+  display: inline-block;
+  min-inline-size: 1.55em;
+  padding-inline: 3px;
+  border-radius: 4px;
+  background: var(--wash);
+  color: var(--ink);
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
 .training-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .training-controls select {
   flex: 1 1 8rem;

@@ -824,11 +824,20 @@ function render() {
   $('robber-score-heading').textContent = t(match.format === 'classic' && !match.single ? 'Punkty karne' : 'Rozbójnik');
   $('recovery-score-heading').hidden = !showRecoveryScores;
   $('puzzle-score-heading').hidden = !showPuzzleScores;
+  const numberFormat = new Intl.NumberFormat($('language').value);
   $('scores').replaceChildren(...names.map((name, player) => {
     const row = document.createElement('tr');
     const heading = document.createElement('th');
     heading.scope = 'row';
-    heading.textContent = name;
+    const place = 1 + totals.filter(total => total > totals[player]).length;
+    const badge = document.createElement('span');
+    badge.className = 'score-place';
+    badge.textContent = numberFormat.format(place) + '.';
+    heading.setAttribute('aria-label', name + ' · ' + badge.textContent + ' ' + t('miejsce'));
+    const playerLabel = document.createElement('span');
+    playerLabel.className = 'score-player';
+    playerLabel.append(badge, name);
+    heading.append(playerLabel);
     row.append(heading);
     const negative = scores.negative[player];
     const positive = scores.positive[player];
