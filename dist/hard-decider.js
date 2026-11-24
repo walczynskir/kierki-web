@@ -99,6 +99,11 @@ function finishTricks(game) {
 export function decideHardCard(view, samples = 16) {
   const fallback = decideComputerCard(view);
   if (view.legal.length < 2) return fallback;
+  const leadCard = view.trick[0]?.card;
+  if (view.mode === 'no-tricks' && leadCard !== undefined && rank(leadCard) === 14) {
+    const king = view.legal.find(card => suit(card) === suit(leadCard) && rank(card) === 13);
+    if (king !== undefined) return king;
+  }
   const sample = hiddenHandsSampler(view);
   if (!sample) return fallback;
 

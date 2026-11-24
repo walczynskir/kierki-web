@@ -75,3 +75,18 @@ test('hard puzzle only uses public hand sizes and chooses a legal move', () => {
   }
   assert.equal(decideHardPuzzleCard(game, 2), card);
 });
+
+test('hard discards the king of the led suit under an ace in No Tricks', () => {
+  let seed = 13;
+  const random = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 2 ** 32;
+  };
+  const game = deal('no-tricks', 0, random);
+  const aceOfSpades = 38;
+  const kingOfSpades = 37;
+  assert.ok(play(game, aceOfSpades));
+  const view = computerView(game);
+  assert.ok(view.legal.includes(kingOfSpades));
+  assert.equal(decideHardCard(view), kingOfSpades);
+});

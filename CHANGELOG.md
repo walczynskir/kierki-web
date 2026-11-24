@@ -1,3 +1,7 @@
+# 1.7.20 — 2026-11-24
+
+- Na poziomie Trudnym w kontrakcie „Nie brać lew” komputer zrzuca króla w kolorze wyjścia pod asa.
+
 # 1.7.19 — 2026-11-24
 
 - Punktacja pokazuje aktualne miejsce każdego gracza na podstawie sumy punktów, z uwzględnieniem remisów.
