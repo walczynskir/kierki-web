@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=new-game-choice-1">
+<link rel="stylesheet" href="./style.css?v=new-game-cards-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=new-game-choice-1"></script>
+<script type="module" src="./app.js?v=new-game-cards-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -260,28 +260,35 @@
 <dialog id="restart" aria-labelledby="restart-title">
   <form id="new-game-form">
     <h2 id="restart-title" data-t="Nowa gra">Nowa gra</h2>
-    <label for="new-game-variant" data-t="Wariant partii">Wariant partii</label>
-    <select id="new-game-variant" aria-describedby="restart-warning" autofocus>
-      <optgroup id="full-match-options">
-        <option value="with" data-t="Rozbójniki z układanką">Rozbójniki z układanką</option>
-              <option value="without" data-t="Rozbójniki bez układanki">Rozbójniki bez układanki</option>
-              <option value="classic-with" data-t="Klasyczna z układanką">Klasyczna z układanką</option>
-              <option value="classic-without" data-t="Klasyczna bez układanki">Klasyczna bez układanki</option>
-              <option value="cycle-with" data-t="Cykl czterech partii z układanką">Cykl czterech partii z układanką</option>
-              <option value="cycle-without" data-t="Cykl czterech partii bez układanki">Cykl czterech partii bez układanki</option>
-      </optgroup>
-      <optgroup id="single-contract-options">
-        <option value="single-no-tricks" data-t="Nie brać lew">Nie brać lew</option>
-            <option value="single-no-hearts" data-t="Nie brać kierów">Nie brać kierów</option>
-            <option value="single-no-boys" data-t="Nie brać chłopców">Nie brać chłopców</option>
-            <option value="single-no-ladies" data-t="Nie brać dam">Nie brać dam</option>
-            <option value="single-no-king-of-hearts" data-t="Nie brać króla kier">Nie brać króla kier</option>
-            <option value="single-no-six-and-last" data-t="Nie brać szóstej i ostatniej lewy">Nie brać szóstej i ostatniej lewy</option>
-            <option value="single-robber" data-t="Rozbójnik">Rozbójnik</option>
-            <option value="single-recover" data-t="Odgrywka">Odgrywka</option>
-            <option value="single-puzzle" data-t="Układanka">Układanka</option>
-      </optgroup>
-    </select>
+    <div class="new-game-types" role="group" aria-labelledby="restart-title">
+      <button type="button" id="choose-full-match" aria-controls="full-match-options" aria-pressed="true" data-t="Pełna partia">Pełna partia</button>
+      <button type="button" id="choose-single-contract" aria-controls="single-contract-options" aria-pressed="false" data-t="Pojedynczy kontrakt (trening)">Pojedynczy kontrakt (trening)</button>
+    </div>
+    <div id="full-match-options" class="variant-options">
+      <fieldset class="variant-family"><legend data-t="Klasyczna">Klasyczna</legend><div class="variant-pair">
+        <label class="variant-option"><input name="full-variant" type="radio" value="classic-with"><span data-t="Z układanką">Z układanką</span></label>
+        <label class="variant-option"><input name="full-variant" type="radio" value="classic-without"><span data-t="Bez układanki">Bez układanki</span></label>
+      </div></fieldset>
+      <fieldset class="variant-family"><legend data-t="Cykl czterech partii">Cykl czterech partii</legend><div class="variant-pair">
+        <label class="variant-option"><input name="full-variant" type="radio" value="cycle-with"><span data-t="Z układanką">Z układanką</span></label>
+        <label class="variant-option"><input name="full-variant" type="radio" value="cycle-without"><span data-t="Bez układanki">Bez układanki</span></label>
+      </div></fieldset>
+      <fieldset class="variant-family"><legend data-t="Rozbójniki">Rozbójniki</legend><div class="variant-pair">
+        <label class="variant-option"><input name="full-variant" type="radio" value="with"><span data-t="Z układanką">Z układanką</span></label>
+        <label class="variant-option"><input name="full-variant" type="radio" value="without"><span data-t="Bez układanki">Bez układanki</span></label>
+      </div></fieldset>
+    </div>
+    <div id="single-contract-options" class="variant-options single-variants" hidden>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-tricks"><span data-t="Nie brać lew">Nie brać lew</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-hearts"><span data-t="Nie brać kierów">Nie brać kierów</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-boys"><span data-t="Nie brać chłopców">Nie brać chłopców</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-ladies"><span data-t="Nie brać dam">Nie brać dam</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-king-of-hearts"><span data-t="Nie brać króla kier">Nie brać króla kier</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-no-six-and-last"><span data-t="Nie brać szóstej i ostatniej lewy">Nie brać szóstej i ostatniej lewy</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-robber"><span data-t="Rozbójnik">Rozbójnik</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-recover"><span data-t="Odgrywka">Odgrywka</span></label>
+        <label class="variant-option"><input name="single-variant" type="radio" value="single-puzzle"><span data-t="Układanka">Układanka</span></label>
+    </div>
     <p id="single-contract-note" data-t="Opis pojedynczego kontraktu" hidden>Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.</p>
     <p id="restart-warning" data-t="Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę." hidden>Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.</p>
     <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
@@ -309,7 +316,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.10.0</span>
+    <span id="footer-version" translate="no">v1.10.1</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

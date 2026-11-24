@@ -1,3 +1,7 @@
+# 1.10.1 — 2026-11-24
+
+- Nowa gra ma przyciski wyboru zamiast przewijanej listy systemowej. Pełne warianty są w kolejności: klasyczne, cykle czterech partii, Rozbójniki.
+
 # 1.10.0 — 2026-11-24
 
 - Wariant wybiera się w oknie „Nowa gra”, które grupuje pełne partie i pojedyncze kontrakty treningowe.

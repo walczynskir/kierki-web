@@ -2,6 +2,9 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Klasyczna|Klassisch|Clásica|Classique|Classica|Класична|كلاسيكية|क्लासिक|经典局
+Cykl czterech partii|Serie aus vier Partien|Serie de cuatro partidas|Série de quatre parties|Serie di quattro partite|Серія з чотирьох партій|سلسلة أربع مباريات|चार मैचों की श्रृंखला|四局系列赛
+Rozbójniki|Räuberpartien|Generalas|Salades|Briganti|Розбійники|الجولات الشاملة|मिश्रित दौर|综合局
 Pełna partia|Ganze Partie|Partida completa|Partie complète|Partita completa|Повна партія|مباراة كاملة|पूरा मैच|完整对局
 Pojedynczy kontrakt (trening)|Einzelner Vertrag (Training)|Un solo contrato (práctica)|Contrat unique (entraînement)|Singolo contratto (allenamento)|Окремий контракт (тренування)|عقد واحد (تدريب)|एक दौर (अभ्यास)|单个项目（练习）
 Opis pojedynczego kontraktu|Spiele eine Trainingsrunde. Das Ergebnis zählt nicht zur Statistik.|Juega una mano de práctica. El resultado no cuenta para las estadísticas.|Jouez une donne d’entraînement. Le résultat ne compte pas dans les statistiques.|Gioca una mano di allenamento. Il risultato non conta nelle statistiche.|Зіграйте одну тренувальну роздачу. Результат не враховується у статистиці.|العب جولة تدريبية واحدة. لا تُحتسب النتيجة في الإحصاءات.|एक अभ्यास बाज़ी खेलें। उसका नतीजा आँकड़ों में नहीं गिना जाता।|进行一局练习，结果不计入统计。

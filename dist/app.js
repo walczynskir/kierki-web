@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=44';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=45';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -1014,29 +1014,36 @@ function start(single = null) {
 }
 
 const newGameDialog = $('restart');
-const variantSelect = $('new-game-variant');
-function updateNewGameChoice() {
-  $('single-contract-note').hidden = !variantSelect.value.startsWith('single-');
+function showNewGameType(practice) {
+  $('full-match-options').hidden = practice;
+  $('single-contract-options').hidden = !practice;
+  $('single-contract-note').hidden = !practice;
+  $('choose-full-match').setAttribute('aria-pressed', String(!practice));
+  $('choose-single-contract').setAttribute('aria-pressed', String(practice));
 }
+function selectNewGameVariant(value) {
+  newGameDialog.querySelector(`input[value="${value}"]`).checked = true;
+}
+$('choose-full-match').onclick = () => showNewGameType(false);
+$('choose-single-contract').onclick = () => showNewGameType(true);
 $('new-game').onclick = () => {
   const finished = game.phase === 'done' && match.number === matchLength(match)
     && (!match.cycle || match.cycle.results.length === cycleLength - 1);
-  variantSelect.value = match.single ? 'single-' + match.single : preferredVariant;
-  $('full-match-options').label = t('Pełna partia');
-  $('single-contract-options').label = t('Pojedynczy kontrakt (trening)');
+  selectNewGameVariant(preferredVariant);
+  selectNewGameVariant('single-' + (match.single ?? 'no-tricks'));
+  showNewGameType(Boolean(match.single));
   $('restart-warning').hidden = !started || finished;
   $('training-save-error').hidden = true;
-  updateNewGameChoice();
   clearTimeout(timer);
   newGameDialog.returnValue = '';
   newGameDialog.showModal();
 };
-variantSelect.onchange = updateNewGameChoice;
 $('cancel-new-game').onclick = () => newGameDialog.close();
 $('new-game-form').onsubmit = event => {
   event.preventDefault();
-  const selected = variantSelect.value;
-  const practice = selected.startsWith('single-');
+  const practice = !$('single-contract-options').hidden;
+  const group = practice ? 'single-variant' : 'full-variant';
+  const selected = new FormData(event.currentTarget).get(group);
   const session = practice ? freshSession(selected.slice(7)) : freshSession(null, selected);
   const saved = practice ? write(trainingKey, { active: true, session })
     : write(gameKey, session) && (!match.single || write(trainingKey, { active: false }));

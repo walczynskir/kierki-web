@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=20';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=21';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -45,6 +45,7 @@ const english = {
   'Powitanie Kierek cele': 'Avoid penalties in negative contracts. Take tricks in Recovery and build up and down from the eights in Eights.',
   'Powitanie Kierek ustawienia': 'Change difficulty and pace in Settings. Under New game, you can also choose a single contract for practice.',
   'Pełna partia': 'Full match',
+  'Klasyczna': 'Classic', 'Cykl czterech partii': 'Four-match series', 'Rozbójniki': 'Robber matches',
   'Pojedynczy kontrakt (trening)': 'Single contract (practice)',
   'Opis pojedynczego kontraktu': 'Play one practice deal. Its result does not count toward statistics.',
   'Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.': 'Starting a new game ends the current game.',

@@ -277,17 +277,61 @@ dialog p { margin-block: 8px 12px; }
   font-variant-numeric: tabular-nums;
 }
 #new-game-form { display: grid; gap: 8px; }
-#new-game-variant {
-  inline-size: 100%;
+#restart { max-block-size: calc(100dvh - 24px); }
+.new-game-types, .variant-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.new-game-types button {
+  padding: 5px;
+  font-size: .88em;
+  line-height: 1.2;
+}
+.new-game-types button[aria-pressed="true"] {
+  background: var(--green);
+  color: var(--palette-primary-ink, white);
+  border-color: var(--green);
+  font-weight: 750;
+}
+.variant-options { min-inline-size: 0; }
+.variant-family {
   min-inline-size: 0;
-  min-height: 44px;
+  margin: 0;
+  padding: 4px 0 6px;
+  border: 0;
+}
+.variant-family legend { padding: 0; font-weight: 650; }
+.single-variants:not([hidden]) {
+  display: grid;
+  gap: 4px;
+  max-block-size: 48dvh;
+  overflow-y: auto;
+  padding: 2px;
+}
+.variant-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding: 5px 7px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 6px 8px;
-  background: var(--paper);
-  color: inherit;
-  font: inherit;
+  font-size: .88em;
+  line-height: 1.25;
+  cursor: pointer;
 }
+.variant-option:has(:checked) {
+  border-color: var(--accent);
+  background: var(--wash);
+  font-weight: 700;
+}
+.variant-option input {
+  flex: none;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.variant-option span { overflow-wrap: anywhere; }
 #new-game-form p { margin: 0; }
 #restart-warning { font-size: .9em; color: var(--muted); }
 #new-game-form .actions { justify-content: flex-end; }
