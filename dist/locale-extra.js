@@ -2,6 +2,7 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Wybierz wariant|Variante wählen|Elegir variante|Choisir une variante|Scegli variante|Вибрати варіант|اختر نمطًا|मोड चुनें|选择玩法
 Klasyczna|Klassisch|Clásica|Classique|Classica|Класична|كلاسيكية|क्लासिक|经典局
 Cykl czterech partii|Serie aus vier Partien|Serie de cuatro partidas|Série de quatre parties|Serie di quattro partite|Серія з чотирьох партій|سلسلة أربع مباريات|चार मैचों की श्रृंखला|四局系列赛
 Rozbójniki|Räuberpartien|Generalas|Salades|Briganti|Розбійники|الجولات الشاملة|मिश्रित दौर|综合局

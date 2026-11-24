@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=45';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=46';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -273,7 +273,7 @@ function renderShell() {
   $('contrast').textContent = '◐ ' + t('Kontrast');
   for (const [id, label] of Object.entries({
     contrast: 'Wysoki kontrast', large: 'Większy tekst', language: 'Język', theme: 'Motyw', table: 'Stół',
-    'open-options': 'Ustawienia', 'help-button': 'Jak grać', undo: 'Cofnij', redo: 'Przywróć', 'new-game': 'Nowa gra'
+    'open-options': 'Ustawienia', 'help-button': 'Jak grać', undo: 'Cofnij', redo: 'Przywróć', 'new-game': 'Nowa gra', 'pick-variant': 'Wybierz wariant'
   })) {
     $(id).setAttribute('aria-label', t(label));
     if ($(id).hasAttribute('title')) $(id).title = t(label);
@@ -1014,52 +1014,79 @@ function start(single = null) {
 }
 
 const newGameDialog = $('restart');
+const variantTabs = [$('choose-full-match'), $('choose-single-contract')];
 function showNewGameType(practice) {
   $('full-match-options').hidden = practice;
   $('single-contract-options').hidden = !practice;
   $('single-contract-note').hidden = !practice;
-  $('choose-full-match').setAttribute('aria-pressed', String(!practice));
-  $('choose-single-contract').setAttribute('aria-pressed', String(practice));
+  for (const [index, tab] of variantTabs.entries()) {
+    const selected = Boolean(index) === practice;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  }
+}
+for (const [index, tab] of variantTabs.entries()) {
+  tab.onclick = () => showNewGameType(Boolean(index));
+  tab.onkeydown = event => {
+    const destination = { ArrowLeft: 1 - index, ArrowRight: 1 - index, Home: 0, End: 1 }[event.key];
+    if (destination === undefined) return;
+    event.preventDefault();
+    showNewGameType(Boolean(destination));
+    variantTabs[destination].focus();
+  };
 }
 function selectNewGameVariant(value) {
   newGameDialog.querySelector(`input[value="${value}"]`).checked = true;
 }
-$('choose-full-match').onclick = () => showNewGameType(false);
-$('choose-single-contract').onclick = () => showNewGameType(true);
-$('new-game').onclick = () => {
-  const finished = game.phase === 'done' && match.number === matchLength(match)
+function currentVariant() {
+  return match.single ? 'single-' + match.single
+    : formatOption({ 'match-format': match.cycle ? 'cycle' : match.format, 'include-puzzle': match.includePuzzle });
+}
+function openNewGameDialog(chooseVariant) {
+  const selection = currentVariant();
+  const practice = selection.startsWith('single-');
+  const complete = game.phase === 'done' && match.number === matchLength(match)
     && (!match.cycle || match.cycle.results.length === cycleLength - 1);
-  selectNewGameVariant(preferredVariant);
-  selectNewGameVariant('single-' + (match.single ?? 'no-tricks'));
-  showNewGameType(Boolean(match.single));
-  $('restart-warning').hidden = !started || finished;
-  $('training-save-error').hidden = true;
+  const confirm = started && !complete;
+  if (!chooseVariant && !confirm && startSelectedGame(selection)) return;
+
+  $('variant-picker').hidden = !chooseVariant;
+  selectNewGameVariant(practice ? preferredVariant : selection);
+  selectNewGameVariant(practice ? selection : 'single-no-tricks');
+  showNewGameType(practice);
+  $('restart-warning').hidden = !confirm;
+  $('training-save-error').hidden = confirm || chooseVariant;
   clearTimeout(timer);
   newGameDialog.returnValue = '';
   newGameDialog.showModal();
-};
+  (chooseVariant ? variantTabs[Number(practice)] : $('cancel-new-game')).focus();
+}
+
+$('new-game').onclick = () => openNewGameDialog(false);
+$('pick-variant').onclick = () => openNewGameDialog(true);
 $('cancel-new-game').onclick = () => newGameDialog.close();
 $('new-game-form').onsubmit = event => {
   event.preventDefault();
-  const practice = !$('single-contract-options').hidden;
-  const group = practice ? 'single-variant' : 'full-variant';
-  const selected = new FormData(event.currentTarget).get(group);
-  const session = practice ? freshSession(selected.slice(7)) : freshSession(null, selected);
+  const group = $('single-contract-options').hidden ? 'full-variant' : 'single-variant';
+  const selection = $('variant-picker').hidden ? currentVariant() : new FormData(event.currentTarget).get(group);
+  if (!startSelectedGame(selection)) $('training-save-error').hidden = false;
+};
+function startSelectedGame(selection) {
+  const practice = selection.startsWith('single-');
+  const session = practice ? freshSession(selection.slice(7)) : freshSession(null, selection);
   const saved = practice ? write(trainingKey, { active: true, session })
     : write(gameKey, session) && (!match.single || write(trainingKey, { active: false }));
-  if (!saved) {
-    $('training-save-error').hidden = false;
-    return;
-  }
+  if (!saved) return false;
   if (!practice) {
-    preferredVariant = selected;
+    preferredVariant = selection;
     optionsSaved = persistProfile(currentPreferences(), mergeProgress());
   }
   loadSession(session);
   gameSaved = true;
-  newGameDialog.close('start');
+  if (newGameDialog.open) newGameDialog.close('start');
   render();
-};
+  return true;
+}
 newGameDialog.addEventListener('close', () => {
   if (newGameDialog.returnValue !== 'start') render();
 });

@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=new-game-cards-1">
+<link rel="stylesheet" href="./style.css?v=split-new-game-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=new-game-cards-1"></script>
+<script type="module" src="./app.js?v=split-new-game-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -46,7 +46,10 @@
     <span class="progress-count" id="progress-next" hidden><span aria-hidden="true">🎁</span> <bdi id="progress-next-count"></bdi></span>
     <span class="progress-chevron" aria-hidden="true">›</span></button>
   <div class="game-toolbar" aria-label="Sterowanie grą" role="group">
-    <button id="new-game" type="button" class="primary" aria-label="Nowa gra"><span class="toolbar-icon" aria-hidden="true">＋</span><span class="toolbar-label" data-t="Nowa gra">Nowa gra</span></button>
+    <div class="new-game-buttons">
+      <button id="new-game" type="button" class="primary" aria-label="Nowa gra"><span class="toolbar-icon" aria-hidden="true">＋</span><span class="toolbar-label" data-t="Nowa gra">Nowa gra</span></button>
+      <button id="pick-variant" type="button" aria-label="Wybierz wariant" aria-haspopup="dialog" aria-controls="restart" title="Wybierz wariant"><span aria-hidden="true">▾</span></button>
+    </div>
     <div class="game-tools"><button id="game-picker-button" type="button" aria-haspopup="dialog" aria-controls="game-picker" aria-label="Inne gry" translate="no">
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="12" y="2" width="6" height="6" rx="1"/><rect x="2" y="12" width="6" height="6" rx="1"/><rect x="12" y="12" width="6" height="6" rx="1"/></svg><span class="toolbar-label">Inne gry</span></button>
       <button id="undo" type="button" aria-label="Cofnij" title="Cofnij" hidden><span class="toolbar-icon" aria-hidden="true">↶</span><span class="toolbar-label" data-t="Cofnij">Cofnij</span></button>
@@ -260,11 +263,12 @@
 <dialog id="restart" aria-labelledby="restart-title">
   <form id="new-game-form">
     <h2 id="restart-title" data-t="Nowa gra">Nowa gra</h2>
-    <div class="new-game-types" role="group" aria-labelledby="restart-title">
-      <button type="button" id="choose-full-match" aria-controls="full-match-options" aria-pressed="true" data-t="Pełna partia">Pełna partia</button>
-      <button type="button" id="choose-single-contract" aria-controls="single-contract-options" aria-pressed="false" data-t="Pojedynczy kontrakt (trening)">Pojedynczy kontrakt (trening)</button>
+    <div id="variant-picker">
+    <div class="new-game-types" role="tablist" aria-labelledby="restart-title">
+      <button type="button" id="choose-full-match" role="tab" aria-controls="full-match-options" aria-selected="true" data-t="Pełna partia">Pełna partia</button>
+      <button type="button" id="choose-single-contract" role="tab" aria-controls="single-contract-options" aria-selected="false" tabindex="-1" data-t="Trening">Trening</button>
     </div>
-    <div id="full-match-options" class="variant-options">
+    <div id="full-match-options" class="variant-options" role="tabpanel" aria-labelledby="choose-full-match">
       <fieldset class="variant-family"><legend data-t="Klasyczna">Klasyczna</legend><div class="variant-pair">
         <label class="variant-option"><input name="full-variant" type="radio" value="classic-with"><span data-t="Z układanką">Z układanką</span></label>
         <label class="variant-option"><input name="full-variant" type="radio" value="classic-without"><span data-t="Bez układanki">Bez układanki</span></label>
@@ -278,7 +282,7 @@
         <label class="variant-option"><input name="full-variant" type="radio" value="without"><span data-t="Bez układanki">Bez układanki</span></label>
       </div></fieldset>
     </div>
-    <div id="single-contract-options" class="variant-options single-variants" hidden>
+    <div id="single-contract-options" class="variant-options single-variants" role="tabpanel" aria-labelledby="choose-single-contract" hidden>
         <label class="variant-option"><input name="single-variant" type="radio" value="single-no-tricks"><span data-t="Nie brać lew">Nie brać lew</span></label>
         <label class="variant-option"><input name="single-variant" type="radio" value="single-no-hearts"><span data-t="Nie brać kierów">Nie brać kierów</span></label>
         <label class="variant-option"><input name="single-variant" type="radio" value="single-no-boys"><span data-t="Nie brać chłopców">Nie brać chłopców</span></label>
@@ -290,6 +294,7 @@
         <label class="variant-option"><input name="single-variant" type="radio" value="single-puzzle"><span data-t="Układanka">Układanka</span></label>
     </div>
     <p id="single-contract-note" data-t="Opis pojedynczego kontraktu" hidden>Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.</p>
+    </div>
     <p id="restart-warning" data-t="Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę." hidden>Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.</p>
     <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
     <div class="actions"><button type="button" id="cancel-new-game" data-t="Anuluj">Anuluj</button><button type="submit" class="primary" data-t="Rozpocznij">Rozpocznij</button></div>
@@ -316,7 +321,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.10.1</span>
+    <span id="footer-version" translate="no">v1.10.2</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

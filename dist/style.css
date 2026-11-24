@@ -284,16 +284,23 @@ dialog p { margin-block: 8px 12px; }
   gap: 6px;
 }
 .new-game-types button {
-  padding: 5px;
-  font-size: .88em;
+  padding: 8px 5px;
+  border: 0;
+  border-bottom: 3px solid var(--line);
+  border-radius: 8px 8px 0 0;
+  background: var(--wash);
+  color: var(--ink);
+  font-size: .95em;
+  font-weight: 650;
   line-height: 1.2;
 }
-.new-game-types button[aria-pressed="true"] {
+.new-game-types button[aria-selected="true"] {
   background: var(--green);
   color: var(--palette-primary-ink, white);
-  border-color: var(--green);
+  border-color: var(--palette-primary-ink, white);
   font-weight: 750;
 }
+.new-game-types { margin-block-end: 8px; }
 .variant-options { min-inline-size: 0; }
 .variant-family {
   min-inline-size: 0;
@@ -370,6 +377,25 @@ dialog p { margin-block: 8px 12px; }
 }
 .game-toolbar button[hidden] { display: none; }
 .game-toolbar button:disabled { opacity: .45; }
+.new-game-buttons { display: flex; flex: none; }
+.new-game-buttons #new-game {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+.game-toolbar #pick-variant {
+  min-width: 32px;
+  padding: 0 6px;
+  border-inline-start: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  background: var(--wash);
+  color: var(--ink);
+}
+.new-game-buttons button:focus-visible { z-index: 1; }
+@media (max-width: 360px) {
+  .game-toolbar .game-tools { min-width: 0; }
+  .game-toolbar .game-tools button { flex: 1 1 44px; min-width: 0; }
+}
 .toolbar-icon { display: none; font: 24px/1 system-ui, sans-serif; }
 .game-toolbar .shared-settings-button {
   width: 44px;

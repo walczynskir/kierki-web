@@ -1,3 +1,7 @@
+# 1.10.2 — 2026-11-24
+
+- Plus rozpoczyna ponownie bieżący wariant. Strzałka obok otwiera wybór rozgrywki z zakładkami „Pełna partia” i „Trening”.
+
 # 1.10.1 — 2026-11-24
 
 - Nowa gra ma przyciski wyboru zamiast przewijanej listy systemowej. Pełne warianty są w kolejności: klasyczne, cykle czterech partii, Rozbójniki.
