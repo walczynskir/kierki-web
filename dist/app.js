@@ -2,10 +2,10 @@ import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } f
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=2';
-import { newMatch, legacyMatch, matchLength, matchMode, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
+import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=35';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=37';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -329,7 +329,7 @@ function humanMove(move) {
   if (!move()) return;
   past.push(before);
   future.length = 0;
-  update(() => {});
+  update(() => {}, before.game.phase);
 }
 
 function layCard(card, handCard) {
@@ -455,25 +455,30 @@ function renderTrickHistory() {
   $('trick-history-empty').hidden = history.childElementCount !== 0;
 }
 
-function update(move) {
+function update(move, previousPhase = game.phase) {
   move();
+  if (previousPhase !== 'done' && game.phase === 'done') scorecardOpen = undefined;
   if (game.tricks.length || game.trick.length || game.lastMove) started = true;
   saveGame();
   render();
   if (!$('next-trick').hidden) $('next-trick').focus({ preventScroll: true });
-  else if (game.phase === 'done') $('actions').querySelector('button')?.focus({ preventScroll: true });
+  else if (game.phase === 'done') {
+    const control = $('game-area').classList.contains('game-fullscreen')
+      ? $('scorecard').querySelector('summary') : $('toggle-results');
+    control?.focus({ preventScroll: true });
+  }
 }
 
 function updateResultsToggle() {
   const open = $('scorecard').open;
-  for (const toggle of [$('toggle-results'), $('live-results')]) {
-    if (!toggle) continue;
-    toggle.textContent = t(open ? 'Schowaj wyniki' : 'Pokaż wyniki');
-    toggle.setAttribute('aria-expanded', String(open));
-  }
+  const toggle = $('toggle-results');
+  if (!toggle) return;
+  toggle.textContent = t(open ? 'Schowaj wyniki' : 'Pokaż wyniki');
+  toggle.setAttribute('aria-expanded', String(open));
 }
 
 function handFan(player, orderedHand, angle = 2.5) {
+  if (game.phase === 'done') return null;
   const cardsLeft = game.hands[player].length;
   if (player === 0 && orderedHand.length) {
     const faces = document.createElement('span');
@@ -635,7 +640,6 @@ function render() {
   $('undo').disabled = !past.length;
   $('redo').disabled = !future.length;
   renderScorecard();
-  $('live-results').hidden = !showScores || game.phase === 'done';
   updateResultsToggle();
   const actions = $('actions');
   actions.replaceChildren();
@@ -696,14 +700,11 @@ function render() {
     $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
       + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
     tableAction.firstElementChild.textContent = t(dealFinished(game)
-      ? 'Dotknij stołu, by zobaczyć wynik rozdania' : 'Dotknij stołu, by zagrać następną lewę');
+      ? 'Kliknij stół, aby zobaczyć wynik rozdania' : 'Kliknij stół, aby zagrać następną lewę');
   } else if (game.phase === 'done') {
     if (!lastDeal) {
       $('status').textContent = t('Rozdanie zakończone.');
-      const nextMode = matchMode(match, match.number + 1);
-      const nextTitle = nextMode === 'recover' && game.mode !== 'recover' ? 'Rozpocznij odgrywkę'
-        : nextMode === 'puzzle' ? 'Rozpocznij układankę' : 'Następne rozdanie';
-      tableAction.firstElementChild.textContent = t(nextTitle);
+      tableAction.firstElementChild.textContent = t('Kliknij stół, aby przejść do następnego rozdania');
     } else {
       $('status').textContent = winners.length > 1 ? t('Remis') + ': ' + winners.join(', ') : won ? t('Wygrywasz!') : t('Wygrywa') + ': ' + winners[0];
       window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
@@ -731,7 +732,8 @@ function render() {
   if (trickHistory.open) renderTrickHistory();
   $('help-recovery').textContent = t('W odgrywce każda').replace('{points}', String(matchRecoveryPoints(match)));
   const result = game.phase === 'review' ? game.tricks.at(-1) : null;
-  const hand = choosingTrump ? game.hands[0].slice(0, 7) : game.hands[0];
+  const hand = game.phase === 'done' ? [] : choosingTrump ? game.hands[0].slice(0, 7) : game.hands[0];
+  $('hand').closest('.hand-area').hidden = game.phase === 'done';
   const orderedHand = [...hand].sort((a, b) => a - b);
   $('table').classList.toggle('table-with-scores', showScores);
   $('table').classList.toggle('puzzle-table', puzzle);
@@ -877,16 +879,11 @@ function toggleScorecard() {
   setScorecardOpen(!card.open);
   if (card.open) card.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
-$('live-results').onclick = toggleScorecard;
 function shouldOpenScorecard() {
-  return scorecardOpen ?? ($('show-scores').checked || game.phase === 'done');
+  return scorecardOpen ?? game.phase === 'done';
 }
 function renderScorecard() {
-  const card = $('scorecard');
-  const done = game.phase === 'done';
-  const open = shouldOpenScorecard();
-  card.hidden = done ? !open : !$('show-scores').checked;
-  card.open = !card.hidden && open;
+  $('scorecard').open = shouldOpenScorecard();
 }
 function setScorecardOpen(open) {
   scorecardOpen = open;
@@ -894,13 +891,15 @@ function setScorecardOpen(open) {
   updateResultsToggle();
   saveGame();
 }
-$('scorecard').addEventListener('toggle', event => {
-  const card = event.currentTarget;
-  if (!card.hidden && card.open !== shouldOpenScorecard()) setScorecardOpen(card.open);
+$('scorecard').querySelector('summary').addEventListener('click', event => {
+  event.preventDefault();
+  setScorecardOpen(!$('scorecard').open);
 });
 function setFullscreen(full) {
   const area = $('game-area');
   if (area.classList.toggle('game-fullscreen', full)) area.scrollTop = 0;
+  renderScorecard();
+  updateResultsToggle();
   renderShell();
 }
 $('fullscreen').onclick = async () => {
@@ -1124,20 +1123,13 @@ $('restore-progress').onclick = () => {
   $('include-puzzle').value = formatOption(preferences);
   contrast = preferences.contrast;
   theme = preferences.theme;
-  scorecardOpen = undefined;
   saveGame();
   optionsSaved = true;
   backupNotice = ['success', ...(imported.skipped ? [imported.skipped] : [])];
   $('confirm-progress').close();
   render();
 };
-for (const id of optionIds) $(id).onchange = () => {
-  if (id === 'show-scores') {
-    scorecardOpen = undefined;
-    saveGame();
-  }
-  saveOptions();
-};
+for (const id of optionIds) $(id).onchange = saveOptions;
 $('language').onchange = saveOptions;
 $('difficulty').onchange = saveOptions;
 $('play-pace').onchange = saveOptions;

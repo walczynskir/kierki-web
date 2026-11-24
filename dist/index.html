@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=results-button-1">
+<link rel="stylesheet" href="./style.css?v=score-summary-fit-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=table-next-deal-1"></script>
+<script type="module" src="./app.js?v=scorecard-always-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -62,7 +62,6 @@
       <p id="dealer"></p>
       <p id="contract-rule" hidden></p>
       <p id="status" role="status"></p>
-      <button id="live-results" type="button" aria-controls="scorecard" hidden></button>
     </div>
     <div class="table-wrap">
       <div id="table" class="table" dir="ltr" aria-label="Stół"></div>
@@ -80,7 +79,7 @@
       </section>
     </div>
   </section>
-  <details class="scorecard" id="scorecard" hidden>
+  <details class="scorecard" id="scorecard">
     <summary data-t="Punktacja">Punktacja</summary>
     <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
   </details>
@@ -179,10 +178,10 @@
         </div>
         <div class="setting-item">
           <div class="setting-row">
-            <label><input id="show-scores" type="checkbox"><span class="setting-caption"><span data-t="Pokaż punktację">Pokaż punktację</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <label><input id="show-scores" type="checkbox"><span class="setting-caption"><span data-t="Pokaż punkty za lewę">Pokaż punkty za lewę</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
             <button type="button" class="setting-info" aria-expanded="false" aria-controls="show-scores-note">ⓘ</button>
           </div>
-          <p id="show-scores-note" class="setting-description" data-t="Opis punktacji" hidden>Pokazuje punkty za lewę i tabelę wyników już w trakcie rozdania.</p>
+          <p id="show-scores-note" class="setting-description" data-t="Opis punktacji" hidden>Pokazuje na stole punkty za właśnie zakończoną lewę.</p>
         </div>
         <div class="setting-item">
           <div class="setting-row">
@@ -270,7 +269,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.7.11</span>
+    <span id="footer-version" translate="no">v1.7.12</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

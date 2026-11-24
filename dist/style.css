@@ -240,7 +240,7 @@ button:disabled { cursor: default; }
 }
 .actions { display: flex; flex-wrap: wrap; gap: 5px; }
 #actions:not(:empty) { padding-block: 8px 0; }
-:is(#toggle-results, #live-results) {
+#toggle-results {
   background: var(--wash);
   color: var(--ink);
   border-color: var(--accent);
@@ -610,7 +610,7 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   pointer-events: none;
 }
 @media (max-width: 360px) {
-  #play-card-cue { font-size: .7rem; }
+  :is(#play-card-cue, .table-next .table-cue) { font-size: .7rem; }
 }
 .seat-name {
   display: grid;
@@ -834,7 +834,6 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   #scorecard :is(th, td) { padding-inline: 2px; overflow-wrap: anywhere; }
 }
 
-#live-results { display: none; }
 :root:has(.game-fullscreen),
 body:has(.game-fullscreen) { overflow: hidden; }
 #game-area.game-fullscreen {
@@ -845,25 +844,30 @@ body:has(.game-fullscreen) { overflow: hidden; }
 #game-area.game-fullscreen:has(#scorecard[open]:not([hidden])) {
   overflow: hidden auto;
 }
-.game-fullscreen :is(#scorecard:not([open]), #trick-history) { display: none; }
-.game-fullscreen #live-results:not([hidden]) {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 .55em;
-  min-height: 36px;
-  font-size: .8em;
+.game-fullscreen :is(#trick-history, #toggle-results) { display: none; }
+.game-fullscreen #scorecard {
+  padding: 0;
+}
+.game-fullscreen #scorecard summary {
+  padding: 4px 10px;
+  min-block-size: 30px;
+}
+.game-fullscreen #scorecard table {
+  margin: 0 auto 8px;
+  width: calc(100% - 16px);
 }
 .game-fullscreen > .game {
   display: grid;
-  grid-template: "context" minmax(0, 8.3rem)
+  grid-template: "context" minmax(0, calc(8.3rem - 34px))
     "felt" minmax(0, 1fr) "controls" minmax(0, 7.6rem) / minmax(0, 1fr);
-  block-size: calc(100cqh - 52px);
+  block-size: calc(100cqh - 86px);
   padding: 5px;
   gap: 2px;
 }
 .game-fullscreen .game-context { grid-area: context; min-inline-size: 0; overflow-wrap: break-word; }
 .game-fullscreen #round { font-size: 1rem; }
-.game-fullscreen #status { min-height: 0; padding-block: 1px; }
+.game-fullscreen #status { min-height: 0; padding-block: 1px; font-size: .875rem; }
+.game-fullscreen :is(#dealer, #contract-rule) { font-size: .75rem; }
 .game-fullscreen .game-controls { grid-area: controls; min-inline-size: 0; }
 .game-fullscreen .table-wrap { grid-area: felt; container-type: size; min-inline-size: 0; }
 .game-fullscreen .table {

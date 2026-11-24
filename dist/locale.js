@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=11';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=13';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -47,7 +47,7 @@ const english = {
   'Opis tempa gry': 'Sets the pause between computer plays. After a pass, the pause is longer so you can see who passed.',
   'Pełny ekran': 'Fullscreen', 'Wyjdź z pełnego ekranu': 'Exit fullscreen', 'Jak grać': 'How to play',
   'Nowa gra': 'New game', 'Cofnij': 'Undo', 'Przywróć': 'Redo', 'Ustawienia': 'Settings',
-  'Pokaż punktację': 'Show scores', 'Cofnij i Przywróć': 'Undo and Redo',
+  'Pokaż punkty za lewę': 'Show trick points', 'Cofnij i Przywróć': 'Undo and Redo',
   'Wygląd i informacje': 'Display and information', 'Działa od razu': 'Applies immediately',
   'Komputer': 'Computer', 'Poziom trudności': 'Difficulty', 'Od następnej partii': 'From the next game',
   'Układanka': 'Eights', 'Układanka na koniec': 'Eights at the end',
@@ -68,15 +68,16 @@ const english = {
   'Zmiany zapisują się automatycznie.': 'Changes are saved automatically.',
   'Nie udało się zapisać ustawień.': 'Could not save settings.',
   'Spróbuj ponownie': 'Try again', 'Informacje o ustawieniu': 'About this setting',
-  'Opis punktacji': 'Show trick points and the score table during a deal.',
+  'Opis punktacji': 'Show the points for the latest completed trick on the table.',
   'Zakres kopii Kierek': 'Includes preferences, statistics and unlocked themes. The current game and move history stay on this device.',
   'Cofnij ostatnie zagranie': 'Undo your last play and the computer responses, or redo the move.',
   'Punktacja': 'Scores', 'Gracz': 'Player', 'Razem': 'Total', 'Zasady prototypu': 'Prototype rules',
   'Rozbójnik': 'Bandit', 'Odgrywka': 'Recovery', 'Rozbójnik zakończony.': 'Bandit deal complete.',
   'Rozdaje': 'Dealer', 'Rozdanie zakończone.': 'Deal complete.', 'Następne rozdanie': 'Next deal',
   'Rozpocznij odgrywkę': 'Start recovery', 'Bez atu': 'No trump', 'Atut': 'Trump',
-  'Dotknij stołu, by zagrać następną lewę': 'Tap the table for the next trick',
-  'Dotknij stołu, by zobaczyć wynik rozdania': 'Tap the table for the deal result',
+  'Kliknij stół, aby zagrać następną lewę': 'Tap the table for the next trick',
+  'Kliknij stół, aby przejść do następnego rozdania': 'Tap the table for the next deal',
+  'Kliknij stół, aby zobaczyć wynik rozdania': 'Tap the table for the deal result',
   'Zagraj kartę': 'Play a card',
   'Pokaż wyniki': 'Show results',
   'Schowaj wyniki': 'Hide results',
@@ -124,7 +125,7 @@ const polish = {
   'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, spasuj. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
   'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę na podstawie kart znanych graczowi. Zmiana obowiązuje od następnej partii.',
   'Opis poziomów Kierek': 'Łatwy używa prostej strategii prototypu. Średni uwzględnia także karty z wcześniejszych lew. Zmiana obowiązuje od następnej partii.',
-  'Opis punktacji': 'Pokazuje punkty za lewę i tabelę wyników już w trakcie rozdania.',
+  'Opis punktacji': 'Pokazuje na stole punkty za właśnie zakończoną lewę.',
   'Zakres kopii Kierek': 'Kopia obejmuje ustawienia, statystyki i odblokowane motywy. Bieżąca partia i historia ruchów pozostają na tym urządzeniu.',
   'Wsparcie Ukrainy i zwierząt': 'Jeśli chcesz, wesprzyj pomoc osobom dotkniętym wojną w Ukrainie lub psom i kotom w Gdyni.',
   'Linki prowadzą do organizacji': 'Linki prowadzą do oficjalnych stron organizacji. Nie zbieramy wpłat ani nie pobieramy prowizji.',

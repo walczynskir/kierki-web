@@ -1,3 +1,8 @@
+# 1.7.12 — 2026-11-24
+
+- Punktacja jest dostępna przez całą partię i zwija się przed kolejnym rozdaniem.
+- W pełnym ekranie zmieszczono zwiniętą punktację pod stołem. Po rozdaniu znikają niewykorzystane karty, a komunikaty na stole prowadzą do kolejnego kroku.
+
 # 1.7.11 — 2026-11-24
 
 - Kolejne rozdanie rozpoczyna się po dotknięciu stołu.
