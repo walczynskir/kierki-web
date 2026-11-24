@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=15';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=16';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -76,6 +76,7 @@ const english = {
   'Rozdaje': 'Dealer', 'Rozdanie zakończone.': 'Deal complete.', 'Następne rozdanie': 'Next deal',
   'Rozpocznij odgrywkę': 'Start recovery', 'Bez atu': 'No trump', 'Atut': 'Trump',
   'Kliknij stół, aby wziąć lewę': 'Tap the table to collect the trick',
+  'Kliknij stół, aby przejść do następnej lewy': 'Tap the table to continue to the next trick',
   'Kliknij stół, aby przejść do następnego rozdania': 'Tap the table for the next deal',
   'Kliknij stół, aby zobaczyć wynik rozdania': 'Tap the table for the deal result',
   'Kliknij kartę pod stołem, aby ją zagrać.': 'Tap a card below the table to play it.',

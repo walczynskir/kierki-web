@@ -1,3 +1,7 @@
+# 1.7.14 — 2026-11-24
+
+- Komunikat po lewie wskazuje właściwy krok w zależności od tego, kto ją zdobył.
+
 # 1.7.13 — 2026-11-24
 
 - Ujednolicono wskazówki na stole dotyczące zagrywania kart, wyboru atu i odbierania lewy.

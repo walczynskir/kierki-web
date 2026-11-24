@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=classic-match-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=39';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=40';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -700,7 +700,8 @@ function render() {
     $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
       + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
     tableAction.firstElementChild.textContent = t(dealFinished(game)
-      ? 'Kliknij stół, aby zobaczyć wynik rozdania' : 'Kliknij stół, aby wziąć lewę');
+      ? 'Kliknij stół, aby zobaczyć wynik rozdania'
+      : taker === 0 ? 'Kliknij stół, aby wziąć lewę' : 'Kliknij stół, aby przejść do następnej lewy');
   } else if (game.phase === 'done') {
     if (!lastDeal) {
       $('status').textContent = t('Rozdanie zakończone.');
