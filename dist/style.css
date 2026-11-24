@@ -309,12 +309,28 @@ dialog p { margin-block: 8px 12px; }
   border: 0;
 }
 .variant-family legend { padding: 0; font-weight: 650; }
+.variant-panels { position: relative; }
+#full-match-options[hidden] {
+  display: block;
+  visibility: hidden;
+}
 .single-variants:not([hidden]) {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.single-variant-list {
   display: grid;
   gap: 4px;
-  max-block-size: 48dvh;
   overflow-y: auto;
   padding: 2px;
+}
+#single-contract-note {
+  padding: 4px 2px;
+  font-size: .875em;
+  color: var(--muted);
 }
 .variant-option {
   display: flex;

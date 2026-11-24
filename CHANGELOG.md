@@ -1,3 +1,7 @@
+# 1.10.3 — 2026-11-24
+
+- Okno wyboru wariantu ma tę samą wysokość w obu zakładkach, a opis treningu jest oddzielony od przewijanej listy.
+
 # 1.10.2 — 2026-11-24
 
 - Plus rozpoczyna ponownie bieżący wariant. Strzałka obok otwiera wybór rozgrywki z zakładkami „Pełna partia” i „Trening”.

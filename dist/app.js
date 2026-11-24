@@ -1018,7 +1018,6 @@ const variantTabs = [$('choose-full-match'), $('choose-single-contract')];
 function showNewGameType(practice) {
   $('full-match-options').hidden = practice;
   $('single-contract-options').hidden = !practice;
-  $('single-contract-note').hidden = !practice;
   for (const [index, tab] of variantTabs.entries()) {
     const selected = Boolean(index) === practice;
     tab.setAttribute('aria-selected', String(selected));
