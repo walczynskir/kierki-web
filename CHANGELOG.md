@@ -1,3 +1,7 @@
+# 1.8.1 — 2026-11-24
+
+- Lewa pojawia się w stosie zwycięzcy dopiero po jej zebraniu ze stołu.
+
 # 1.8.0 — 2026-11-24
 
 - W punktacji można edytować imiona graczy. Gra pamięta je na urządzeniu.

@@ -742,6 +742,7 @@ function render() {
   if (trickHistory.open) renderTrickHistory();
   $('help-recovery').textContent = t('W odgrywce każda').replace('{points}', String(matchRecoveryPoints(match)));
   const result = game.phase === 'review' ? game.tricks.at(-1) : null;
+  const collectedTricks = result ? game.tricks.slice(0, -1) : game.tricks;
   const hand = game.phase === 'done' ? [] : choosingTrump ? game.hands[0].slice(0, 7) : game.hands[0];
   $('hand').closest('.hand-area').hidden = game.phase === 'done';
   const orderedHand = [...hand].sort((a, b) => a - b);
@@ -758,7 +759,7 @@ function render() {
     const heading = document.createElement('strong');
     heading.textContent = name;
     const signedPoints = result?.points > 0 ? '+' + result.points : '−' + Math.abs(result?.points ?? 0);
-    const tricksWon = game.tricks.filter(trick => trick.taker === player).length;
+    const tricksWon = collectedTricks.filter(trick => trick.taker === player).length;
     const count = document.createElement('span');
     count.className = 'trick-stack';
     count.classList.toggle('stack-empty', tricksWon === 0);
