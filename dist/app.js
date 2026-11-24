@@ -34,8 +34,10 @@ const playPace = () => playPaces[$('play-pace').value];
 let activeDifficulty = 'medium';
 const gameKey = 'games-chest-kierki-game-v1';
 const playerNamesKey = 'games-chest-kierki-player-names-v1';
+const maxPlayerNameLength = 16;
+const limitPlayerName = value => Array.from(typeof value === 'string' ? value.trim() : '').slice(0, maxPlayerNameLength).join('');
 const storedNames = read(playerNamesKey);
-const customNames = seatNames.map((_, player) => typeof storedNames?.[player] === 'string' ? storedNames[player] : '');
+const customNames = seatNames.map((_, player) => limitPlayerName(storedNames?.[player]));
 const playerName = player => customNames[player] || t(seatNames[player]);
 let scoreHistoryPlayer = null;
 let editedPlayer = null;
@@ -849,6 +851,7 @@ function render() {
       if (scoreHistoryPlayer !== null) $('deal-score-history').scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     historyButton.className = 'score-history-button';
+    historyButton.title = name;
     historyButton.dataset.player = player;
     historyButton.setAttribute('aria-controls', 'deal-score-history');
     historyButton.setAttribute('aria-label', name + ' · ' + badge.title + ' · ' + t('Punkty za rozdania'));
@@ -929,6 +932,7 @@ function renderScoreHistory() {
 function openNameEditor(player) {
   editedPlayer = player;
   const input = $('player-name-input');
+  input.maxLength = maxPlayerNameLength;
   input.value = customNames[player];
   input.placeholder = t(seatNames[player]);
   $('player-name-error').hidden = true;
@@ -937,7 +941,7 @@ function openNameEditor(player) {
 $('player-name-form').addEventListener('submit', event => {
   event.preventDefault();
   const names = customNames.slice();
-  names[editedPlayer] = $('player-name-input').value.trim();
+  names[editedPlayer] = limitPlayerName($('player-name-input').value);
   if (!write(playerNamesKey, names)) {
     $('player-name-error').hidden = false;
     return;

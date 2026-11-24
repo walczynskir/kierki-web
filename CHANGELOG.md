@@ -1,3 +1,7 @@
+# 1.8.2 — 2026-11-24
+
+- W punktacji miejsce, imię i ołówek mieszczą się w jednym wierszu. Imiona są ograniczone do 16 znaków.
+
 # 1.8.1 — 2026-11-24
 
 - Lewa pojawia się w stosie zwycięzcy dopiero po jej zebraniu ze stołu.

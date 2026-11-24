@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=score-player-details-1">
+<link rel="stylesheet" href="./style.css?v=compact-score-names-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=collect-trick-1"></script>
+<script type="module" src="./app.js?v=compact-score-names-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -94,7 +94,7 @@
   <dialog id="player-name-dialog" aria-labelledby="player-name-title">
     <form id="player-name-form">
       <label id="player-name-title" for="player-name-input" data-t="Zmień imię gracza">Zmień imię gracza</label>
-      <input id="player-name-input" type="text" maxlength="24" dir="auto" autofocus>
+      <input id="player-name-input" type="text" dir="auto" autofocus>
       <p id="player-name-error" role="status" data-t="Nie udało się zapisać ustawień." hidden></p>
       <div class="actions">
         <button id="player-name-cancel" type="button" data-t="Anuluj">Anuluj</button>
@@ -288,7 +288,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.8.1</span>
+    <span id="footer-version" translate="no">v1.8.2</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

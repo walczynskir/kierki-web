@@ -260,13 +260,13 @@ dialog p { margin-block: 8px 12px; }
 .scorecard[hidden] { display: none; }
 .score-player {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 2px 5px;
+  align-items: center;
+  gap: 3px;
   text-align: start;
 }
 .score-place {
   display: inline-block;
+  flex: none;
   min-inline-size: 1.55em;
   padding-inline: 3px;
   border-radius: 4px;
@@ -950,12 +950,18 @@ body:has(.game-fullscreen) { overflow: hidden; }
   font-weight: inherit;
 }
 .score-history-button {
-  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: start;
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
-.score-edit-name { min-width: 28px; color: var(--accent); }
+.score-edit-name { flex: none; min-width: 26px; color: var(--accent); }
+@media (max-width: 420px) {
+  #scorecard > table thead th:first-child { width: 35%; }
+}
 #scores tr { cursor: pointer; }
 .score-history-selected { background: var(--wash); font-weight: 750; }
 #deal-score-history {
