@@ -240,6 +240,12 @@ button:disabled { cursor: default; }
 }
 .actions { display: flex; flex-wrap: wrap; gap: 5px; }
 #actions:not(:empty) { padding-block: 8px 0; }
+:is(#toggle-results, #live-results) {
+  background: var(--wash);
+  color: var(--ink);
+  border-color: var(--accent);
+  font-weight: 700;
+}
 details { margin-top: 12px; border: 1px solid var(--line); border-radius: 11px; padding: 8px 12px; background: var(--paper); }
 summary { cursor: pointer; font-weight: 650; }
 details p { margin-top: 8px; }

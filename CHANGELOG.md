@@ -1,3 +1,8 @@
+# 1.7.11 — 2026-11-24
+
+- Kolejne rozdanie rozpoczyna się po dotknięciu stołu.
+- Przycisk pokazywania i chowania wyników ma mocniejszy kontrast.
+
 # 1.7.10 — 2026-11-24
 
 - Dodano animację zagrywania kart w Układance i rozdaniach z lewami.

@@ -460,8 +460,8 @@ function update(move) {
   if (game.tricks.length || game.trick.length || game.lastMove) started = true;
   saveGame();
   render();
-  if (game.phase === 'review') $('next-trick').focus({ preventScroll: true });
-  if (game.phase === 'done') $('actions').querySelector('button')?.focus({ preventScroll: true });
+  if (!$('next-trick').hidden) $('next-trick').focus({ preventScroll: true });
+  else if (game.phase === 'done') $('actions').querySelector('button')?.focus({ preventScroll: true });
 }
 
 function updateResultsToggle() {
@@ -640,13 +640,15 @@ function render() {
   const actions = $('actions');
   actions.replaceChildren();
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
-  $('next-trick').hidden = game.phase !== 'review';
+  const tableAction = $('next-trick');
+  tableAction.hidden = game.phase !== 'review' && (game.phase !== 'done' || lastDeal);
   const cue = $('play-card-cue');
   const puzzleMove = puzzle ? game.lastMove : null;
   const moveCard = puzzleMove?.card;
   const moveLabel = puzzleMove ? names[puzzleMove.player] + ' · ' + (moveCard === null ? t('Pas')
     : rankLabel(rank(moveCard), $('language').value) + suit(moveCard)) : '';
-  cue.hidden = !puzzleMove && !choosingTrump && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length);
+  cue.hidden = !tableAction.hidden || (!puzzleMove && !choosingTrump
+    && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length));
   cue.classList.toggle('puzzle-move-cue', Boolean(puzzleMove));
   const canPlayPuzzle = puzzle && game.phase === 'play' && game.turn === 0 && legal.length;
   cue.textContent = moveLabel ? moveLabel + (canPlayPuzzle ? ' · ' + t('Dołóż kartę') : '') : t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
@@ -693,7 +695,7 @@ function render() {
     const { taker, points } = game.tricks.at(-1);
     $('status').textContent = (taker === 0 ? t('Bierzesz lewę') : t('Lewę bierze') + ' ' + names[taker])
       + (showScores && points !== 0 ? ' · ' + (points > 0 ? '+' : '−') + Math.abs(points) + ' ' + t('pkt') : '');
-    $('next-trick').firstElementChild.textContent = t(dealFinished(game)
+    tableAction.firstElementChild.textContent = t(dealFinished(game)
       ? 'Dotknij stołu, by zobaczyć wynik rozdania' : 'Dotknij stołu, by zagrać następną lewę');
   } else if (game.phase === 'done') {
     if (!lastDeal) {
@@ -701,13 +703,7 @@ function render() {
       const nextMode = matchMode(match, match.number + 1);
       const nextTitle = nextMode === 'recover' && game.mode !== 'recover' ? 'Rozpocznij odgrywkę'
         : nextMode === 'puzzle' ? 'Rozpocznij układankę' : 'Następne rozdanie';
-      actions.append(button(t(nextTitle), () => {
-        ({ match, game } = nextMatchDeal(match, game));
-        scorecardOpen = undefined;
-        saveGame();
-        render();
-        actions.firstElementChild?.focus();
-      }, true));
+      tableAction.firstElementChild.textContent = t(nextTitle);
     } else {
       $('status').textContent = winners.length > 1 ? t('Remis') + ': ' + winners.join(', ') : won ? t('Wygrywasz!') : t('Wygrywa') + ': ' + winners[0];
       window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
@@ -865,8 +861,16 @@ $('trick-history').addEventListener('toggle', event => {
 $('no-trump').onclick = () => chooseTrump(null);
 $('help-button').onclick = () => $('help').showModal();
 $('next-trick').onclick = () => {
-  update(() => advance(game));
-  if (game.phase === 'play' && game.turn === 0) $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
+  if (game.phase === 'review') update(() => advance(game));
+  else if (game.phase === 'done' && match.number < matchLength(match)) {
+    ({ match, game } = nextMatchDeal(match, game));
+    scorecardOpen = undefined;
+    saveGame();
+    render();
+  }
+  if ((game.phase === 'play' && game.turn === 0) || (game.phase === 'trump' && game.leader === 0)) {
+    $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
+  }
 };
 function toggleScorecard() {
   const card = $('scorecard');
