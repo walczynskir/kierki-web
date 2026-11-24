@@ -1,11 +1,11 @@
-import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js';
+import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js?v=cycle-1';
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=discard-king-1';
-import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal } from './match.js?v=deal-score-history-1';
+import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=41';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=42';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -21,8 +21,8 @@ const future = [];
 const optionsKey = 'games-chest-kierki-options-v1';
 const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'large'];
 const includesPuzzle = () => !$('include-puzzle').value.endsWith('without');
-const selectedFormat = () => $('include-puzzle').value.startsWith('classic-') ? 'classic' : 'robbers';
-const formatOption = preferences => (preferences?.['match-format'] === 'classic' ? 'classic-' : '')
+const selectedFormat = () => ['classic', 'cycle'].find(format => $('include-puzzle').value.startsWith(format + '-')) ?? 'robbers';
+const formatOption = preferences => (['classic', 'cycle'].includes(preferences?.['match-format']) ? preferences['match-format'] + '-' : '')
   + (preferences?.['include-puzzle'] === false ? 'without' : 'with');
 const difficulties = ['easy', 'medium', 'hard'];
 const playPaces = {
@@ -195,7 +195,8 @@ function renderProgress() {
 
 const pointsVariants = {
   'robbers-with': 'Rozbójniki z układanką', 'robbers-without': 'Rozbójniki bez układanki',
-  'classic-with': 'Klasyczna z układanką', 'classic-without': 'Klasyczna bez układanki'
+  'classic-with': 'Klasyczna z układanką', 'classic-without': 'Klasyczna bez układanki',
+  'cycle-with': 'Cykl czterech partii z układanką', 'cycle-without': 'Cykl czterech partii bez układanki'
 };
 const pointsLevels = { easy: 'Łatwy', medium: 'Średni', hard: 'Trudny' };
 
@@ -637,10 +638,15 @@ function render() {
   const lastDeal = match.number === matchLength(match);
   const scores = matchScores(match, game);
   const totals = scores.negative.map((score, player) => score + scores.positive[player] + scores.puzzle[player]);
-  const winners = names.filter((_, player) => totals[player] === Math.max(...totals));
-  const won = winners.length === 1 && totals[0] === Math.max(...totals);
-  if (!match.single && lastDeal && game.phase === 'done') {
-    record(winners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss', totals[0]);
+  const matchFinished = lastDeal && game.phase === 'done';
+  const cyclePart = match.cycle ? match.cycle.results.length + 1 : null;
+  const cycleFinished = matchFinished && cyclePart === cycleLength;
+  const seriesTotals = cycleTotals(match, totals);
+  const winners = topPlayers(totals);
+  const overallWinners = cycleFinished ? topPlayers(seriesTotals) : winners;
+  const won = overallWinners.length === 1 && overallWinners[0] === 0;
+  if (!match.single && matchFinished && (!cyclePart || cycleFinished)) {
+    record(overallWinners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss', seriesTotals[0]);
   }
   const showScores = $('show-scores').checked;
   const showHistory = $('show-history').checked;
@@ -666,7 +672,8 @@ function render() {
     && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length));
   cue.textContent = t(choosingTrump ? 'Kliknij kartę pod stołem, aby wybrać atu.'
     : puzzle ? 'Kliknij kartę pod stołem, aby ją dołożyć.' : 'Kliknij kartę pod stołem, aby ją zagrać.');
-  $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
+  $('round').textContent = (cyclePart ? t('Partia') + ' ' + cyclePart + '/' + cycleLength + ' · ' : '')
+    + (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
     + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;
   $('contract-rule').textContent = contract ? t(contract[1]) : '';
@@ -718,7 +725,8 @@ function render() {
       $('status').textContent = t('Rozdanie zakończone.');
       tableAction.firstElementChild.textContent = t('Kliknij stół, aby przejść do następnego rozdania');
     } else {
-      $('status').textContent = winners.length > 1 ? t('Remis') + ': ' + winners.join(', ') : won ? t('Wygrywasz!') : t('Wygrywa') + ': ' + winners[0];
+      $('status').textContent = match.single ? winnerText(winners, names)
+        : t(cycleFinished ? 'Koniec cyklu' : 'Koniec partii');
       window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
       if (match.single) actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
     }
@@ -840,7 +848,7 @@ function render() {
     const row = document.createElement('tr');
     const heading = document.createElement('th');
     heading.scope = 'row';
-    const place = 1 + totals.filter(total => total > totals[player]).length;
+    const place = playerPlace(totals, player);
     const badge = document.createElement('span');
     badge.className = 'score-place';
     badge.textContent = numberFormat.format(place) + '.';
@@ -885,11 +893,59 @@ function render() {
     return row;
   }));
   renderScoreHistory();
+  renderMatchResult(names, totals, winners, matchFinished && !match.single, cyclePart, cycleFinished, seriesTotals, overallWinners);
   if (focusedScoreControl) {
     const { className, dataset } = focusedScoreControl;
     $('scores').querySelector(`.${className}[data-player="${dataset.player}"]`)?.focus({ preventScroll: true });
   }
 }
+
+const topPlayers = totals => totals.flatMap((points, player) => points === Math.max(...totals) ? [player] : []);
+const playerPlace = (totals, player) => 1 + totals.filter(points => points > totals[player]).length;
+const signedScore = points => points > 0 ? '+' + points : String(points);
+
+function winnerText(winners, names) {
+  if (winners.length > 1) return t('Remis') + ' · ' + winners.map(player => names[player]).join(', ');
+  return winners[0] === 0 ? t('Wygrywasz!') : t('Wygrywa') + ' · ' + names[winners[0]];
+}
+
+function renderMatchResult(names, totals, winners, finished, cyclePart, cycleFinished, seriesTotals, overallWinners) {
+  const summary = $('match-result');
+  summary.hidden = !finished;
+  if (finished) {
+    $('match-result-title').textContent = t(cycleFinished ? 'Koniec cyklu' : 'Koniec partii');
+    $('match-result-winner').textContent = winnerText(overallWinners, names);
+    const result = cycleFinished ? seriesTotals : totals;
+    $('match-result-player').textContent = t('Twoje miejsce') + ' · ' + playerPlace(result, 0) + '. · ' + signedScore(result[0]) + ' ' + t('pkt');
+    $('match-result-last').hidden = !cycleFinished;
+    if (cycleFinished) $('match-result-last').textContent = t('Ostatnia partia') + ' · ' + winnerText(winners, names);
+  }
+  $('cycle-standings').hidden = !cyclePart;
+  $('next-cycle-match').hidden = !cyclePart || !finished || cycleFinished;
+  if (!cyclePart) return;
+
+  $('cycle-scores').replaceChildren(...names.map((name, player) => {
+    const row = document.createElement('tr');
+    const heading = document.createElement('th');
+    heading.scope = 'row';
+    heading.textContent = playerPlace(seriesTotals, player) + '. ' + name;
+    row.append(heading);
+    row.insertCell().textContent = signedScore(seriesTotals[player]);
+    return row;
+  }));
+}
+
+$('next-cycle-match').onclick = () => {
+  const next = nextCycleMatch(match, game);
+  if (!next) return;
+  loadSession({ ...gameRecord(), ...next, started: true, past: [], future: [], scorecardOpen: undefined });
+  saveGame();
+  render();
+  const area = $('game-area');
+  if (area.classList.contains('game-fullscreen')) area.scrollTop = 0;
+  else area.scrollIntoView({ block: 'start' });
+  $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
+};
 
 function renderScoreHistory() {
   const panel = $('deal-score-history');
@@ -963,7 +1019,8 @@ function start(single = null) {
 }
 
 $('new-game').onclick = () => {
-  const finished = game.phase === 'done' && match.number === matchLength(match);
+  const finished = game.phase === 'done' && match.number === matchLength(match)
+    && (!match.cycle || match.cycle.results.length === cycleLength - 1);
   if (!started || finished) return start(match.single);
   const warning = $('restart-warning');
   warning.dataset.t = match.single ? 'Rozpocząć trening od nowa?' : 'Rozpocząć nową partię i zakończyć obecną bez zaliczenia?';
@@ -1122,7 +1179,7 @@ const backupSchema = {
   languages,
   options: {
     ...legacyBackupOptions,
-    'match-format': value => ['robbers', 'classic'].includes(value)
+    'match-format': value => ['robbers', 'classic', 'cycle'].includes(value)
   },
   validProgress(progress) {
     if (!progress || Object.keys(progress).length !== 2 || !Object.hasOwn(progress, 'results')

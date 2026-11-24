@@ -1,3 +1,8 @@
+# 1.9.0 — 2026-11-24
+
+- Po partii punktacja pokazuje wyraźne podsumowanie z wynikiem, zwycięzcą i miejscem gracza.
+- Dodano dwa warianty cyklu czterech klasycznych partii, z Układanką i bez niej. W każdej partii grę otwiera inny gracz, a klasyfikacja uwzględnia sumę wszystkich partii.
+
 # 1.8.2 — 2026-11-24
 
 - W punktacji miejsce, imię i ołówek mieszczą się w jednym wierszu. Imiona są ograniczone do 16 znaków.

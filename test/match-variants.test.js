@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { advance, computerCard, computerView, play, setTrump } from '../dist/engine.js';
-import { legacyMatch, matchLength, matchScores, newMatch, nextMatchDeal } from '../dist/match.js';
+import { legacyMatch, matchLength, matchScores, newMatch, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from '../dist/match.js';
 import { computerPuzzleCard, playPuzzle } from '../dist/puzzle.js';
 
 const random = () => .314;
@@ -71,4 +71,35 @@ test('stored matches without a format keep their original schedule, and training
   assert.equal(practice.game.recoveryPoints, 10);
   finish(practice.game);
   assert.equal(nextMatchDeal(practice.match, practice.game, random), null);
+});
+
+test('classic cycles rotate the opening player and accumulate four complete matches', () => {
+  for (const includePuzzle of [false, true]) {
+    let { match, game } = newMatch(random, includePuzzle, null, 'cycle');
+    const openingPlayers = [];
+    let expectedTotal = [0, 0, 0, 0];
+    for (let part = 0; part < cycleLength; part++) {
+      openingPlayers.push(game.leader);
+      assert.equal(match.cycle.results.length, part);
+      assert.equal(matchLength(match), includePuzzle ? 12 : 11);
+      assert.equal(game.mode, 'no-tricks');
+      assert.equal(nextCycleMatch(match, game, random), null);
+      do {
+        finish(game);
+        const next = nextMatchDeal(match, game, random);
+        if (!next) break;
+        ({ match, game } = next);
+      } while (true);
+      assert.equal(game.mode, includePuzzle ? 'puzzle' : 'recover');
+      const { negative, positive, puzzle } = matchScores(match, game);
+      const points = negative.map((value, player) => value + positive[player] + puzzle[player]);
+      expectedTotal = expectedTotal.map((value, player) => value + points[player]);
+      assert.deepEqual(cycleTotals(match, points), expectedTotal);
+      const persisted = JSON.parse(JSON.stringify({ match, game }));
+      const next = nextCycleMatch(persisted.match, persisted.game, random);
+      if (part === cycleLength - 1) assert.equal(next, null);
+      else ({ match, game } = next);
+    }
+    assert.deepEqual(openingPlayers, [2, 3, 0, 1]);
+  }
 });

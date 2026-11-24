@@ -1,6 +1,6 @@
 export function pointsRecord(match, difficulty, points, outcome) {
   if (match.single) return null;
-  const format = match.format === 'classic' ? 'classic' : 'robbers';
+  const format = match.cycle ? 'cycle' : match.format === 'classic' ? 'classic' : 'robbers';
   return { outcome, variant: format + (match.includePuzzle ? '-with' : '-without'), difficulty, points };
 }
 
@@ -10,7 +10,7 @@ export function completionOutcome(record) {
 
 export function validPointsRecord(record) {
   return record && typeof record === 'object' && Object.keys(record).length === 4
-    && ['classic-with', 'classic-without', 'robbers-with', 'robbers-without'].includes(record.variant)
+    && ['classic-with', 'classic-without', 'robbers-with', 'robbers-without', 'cycle-with', 'cycle-without'].includes(record.variant)
     && ['easy', 'medium', 'hard'].includes(record.difficulty) && Number.isSafeInteger(record.points)
     && ['win', 'draw', 'completed-loss'].includes(record.outcome);
 }

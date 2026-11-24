@@ -27,8 +27,9 @@ function dealForMatch(match, random) {
 export function newMatch(random = Math.random, includePuzzle = true, single = null, format = 'robbers') {
   const match = {
     number: 1, dealer: Math.floor(random() * 4), dealsPerMode: 4,
-    negative: emptyPoints(), positive: emptyPoints(), includePuzzle, single, format
+    negative: emptyPoints(), positive: emptyPoints(), includePuzzle, single, format: format === 'cycle' ? 'classic' : format
   };
+  if (format === 'cycle' && !single) match.cycle = { firstDealer: match.dealer, results: [] };
   return { match, game: dealForMatch(match, random) };
 }
 
@@ -54,5 +55,24 @@ export function nextMatchDeal(match, game, random = Math.random) {
   const { negative, positive } = matchScores(match, game);
   const dealHistory = [...(match.dealHistory ?? []), { number: match.number, mode: game.mode, tricks: game.tricks, points: game.points.slice() }];
   const next = { ...match, number: match.number + 1, dealer: nextSeat(match.dealer), negative, positive, dealHistory };
+  return { match: next, game: dealForMatch(next, random) };
+}
+
+export const cycleLength = 4;
+
+export function cycleTotals(match, totals) {
+  return (match.cycle?.results ?? []).reduce(
+    (sum, result) => sum.map((points, player) => points + result[player]), totals.slice());
+}
+
+export function nextCycleMatch(match, game, random = Math.random) {
+  if (!match.cycle || match.cycle.results.length >= cycleLength - 1
+      || game.phase !== 'done' || match.number !== matchLength(match)) return null;
+  const { negative, positive, puzzle } = matchScores(match, game);
+  const totals = negative.map((points, player) => points + positive[player] + puzzle[player]);
+  const cycle = { ...match.cycle, results: [...match.cycle.results, totals] };
+  const dealer = (cycle.firstDealer + cycle.results.length) % 4;
+  const next = { number: 1, dealer, dealsPerMode: 4, negative: emptyPoints(),
+    positive: emptyPoints(), includePuzzle: match.includePuzzle, single: null, format: 'classic', cycle };
   return { match: next, game: dealForMatch(next, random) };
 }

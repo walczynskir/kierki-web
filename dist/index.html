@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=compact-score-names-1">
+<link rel="stylesheet" href="./style.css?v=classic-cycle-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=compact-score-names-1"></script>
+<script type="module" src="./app.js?v=classic-cycle-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -81,7 +81,18 @@
   </section>
   <details class="scorecard" id="scorecard">
     <summary data-t="Punktacja">Punktacja</summary>
+    <section class="match-result" id="match-result" aria-labelledby="match-result-title" hidden>
+      <h3 id="match-result-title"></h3>
+      <p id="match-result-winner"></p>
+      <p id="match-result-player"></p>
+      <p id="match-result-last" hidden></p>
+    </section>
     <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
+    <section id="cycle-standings" aria-labelledby="cycle-title" hidden>
+      <h3 id="cycle-title" data-t="Klasyfikacja cyklu">Klasyfikacja cyklu</h3>
+      <table aria-labelledby="cycle-title"><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="cycle-scores"></tbody></table>
+      <button id="next-cycle-match" type="button" class="primary" data-t="Rozpocznij kolejną partię" hidden>Rozpocznij kolejną partię</button>
+    </section>
     <section id="deal-score-history" aria-labelledby="deal-scores-title" hidden>
       <h3 id="deal-scores-title" data-t="Punkty za rozdania">Punkty za rozdania</h3>
       <p id="deal-scores-empty" data-t="Brak zakończonych rozdań.">Brak zakończonych rozdań.</p>
@@ -180,6 +191,8 @@
               <option value="without" data-t="Rozbójniki bez układanki">Rozbójniki bez układanki</option>
               <option value="classic-with" data-t="Klasyczna z układanką">Klasyczna z układanką</option>
               <option value="classic-without" data-t="Klasyczna bez układanki">Klasyczna bez układanki</option>
+              <option value="cycle-with" data-t="Cykl czterech partii z układanką">Cykl czterech partii z układanką</option>
+              <option value="cycle-without" data-t="Cykl czterech partii bez układanki">Cykl czterech partii bez układanki</option>
             </select>
             <button type="button" class="setting-info" aria-expanded="false" aria-controls="include-puzzle-note">ⓘ</button>
           </div>
@@ -288,7 +301,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.8.2</span>
+    <span id="footer-version" translate="no">v1.9.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

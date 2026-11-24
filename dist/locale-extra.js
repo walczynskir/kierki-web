@@ -2,6 +2,16 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Partia|Partie|Partida|Partie|Partita|Партія|مباراة|मैच|对局
+Koniec partii|Partie beendet|Fin de la partida|Fin de la partie|Partita conclusa|Партію завершено|انتهت المباراة|मैच पूरा हुआ|对局结束
+Koniec cyklu|Serie beendet|Fin de la serie|Fin de la série|Serie conclusa|Серію завершено|انتهت السلسلة|श्रृंखला पूरी हुई|系列赛结束
+Twoje miejsce|Dein Platz|Tu puesto|Votre place|Il tuo posto|Ваше місце|مركزك|आपका स्थान|你的名次
+Ostatnia partia|Letzte Partie|Última partida|Dernière partie|Ultima partita|Остання партія|المباراة الأخيرة|आखिरी मैच|最后一局
+Klasyfikacja cyklu|Serienwertung|Clasificación de la serie|Classement de la série|Classifica della serie|Таблиця серії|ترتيب السلسلة|श्रृंखला की तालिका|系列赛排名
+Rozpocznij kolejną partię|Nächste Partie starten|Empezar la siguiente partida|Commencer la partie suivante|Inizia la prossima partita|Почати наступну партію|ابدأ المباراة التالية|अगला मैच शुरू करें|开始下一局
+Cykl czterech partii z układanką|Vier Partien mit Achter|Serie de cuatro partidas con Ochos|Série de quatre parties avec les Huit|Serie di quattro partite con gli Otto|Серія з чотирьох партій із вісімками|سلسلة أربع مباريات مع الثمانيات|आठों के साथ चार मैचों की श्रृंखला|四局系列赛（含八点接龙）
+Cykl czterech partii bez układanki|Vier Partien ohne Achter|Serie de cuatro partidas sin Ochos|Série de quatre parties sans les Huit|Serie di quattro partite senza gli Otto|Серія з чотирьох партій без вісімок|سلسلة أربع مباريات دون الثمانيات|आठों के बिना चार मैचों की श्रृंखला|四局系列赛（不含八点接龙）
+
 Zmień imię gracza|Spielernamen ändern|Cambiar nombre del jugador|Modifier le nom du joueur|Cambia nome del giocatore|Змінити ім’я гравця|تغيير اسم اللاعب|खिलाड़ी का नाम बदलें|修改玩家姓名
 Zapisz|Speichern|Guardar|Enregistrer|Salva|Зберегти|حفظ|सहेजें|保存
 Punkty za rozdania|Punkte pro Runde|Puntos por mano|Points par donne|Punti per mano|Очки за роздачами|النقاط حسب الجولة|हर बाज़ी के अंक|各局得分

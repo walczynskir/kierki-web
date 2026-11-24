@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=17';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=18';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -39,6 +39,11 @@ const english = {
   'Za każdego wziętego kiera: −2 pkt.': 'Each heart taken costs 2 points.',
   'Za każdego wziętego króla lub waleta: −3 pkt.': 'Each king or jack taken costs 3 points.',
   'Zmień imię gracza': 'Edit player name', 'Zapisz': 'Save',
+  'Partia': 'Match', 'Koniec partii': 'Match complete', 'Koniec cyklu': 'Series complete',
+  'Twoje miejsce': 'Your place', 'Ostatnia partia': 'Last match', 'Klasyfikacja cyklu': 'Series standings',
+  'Rozpocznij kolejną partię': 'Start the next match',
+  'Cykl czterech partii z układanką': 'Four-match series with Eights',
+  'Cykl czterech partii bez układanki': 'Four-match series without Eights',
   'Punkty za rozdania': 'Points by deal', 'Brak zakończonych rozdań.': 'No completed deals yet.',
   'Historia lew': 'Trick history', 'Rozdanie': 'Deal',
   'Brak zapisanych lew': 'There are no recorded tricks in this match yet.',

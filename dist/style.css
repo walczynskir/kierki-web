@@ -981,3 +981,19 @@ body:has(.game-fullscreen) { overflow: hidden; }
   border-radius: 7px;
   font: inherit;
 }
+
+.match-result {
+  margin: 6px 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--wash);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.match-result h3 { margin: 0 0 4px; font-size: 1.1rem; }
+.match-result p { margin: 2px 0; }
+#match-result-winner { font-weight: 750; }
+#cycle-standings { margin: 8px; }
+#cycle-standings th { overflow-wrap: anywhere; }
+#next-cycle-match:not([hidden]) { margin-top: 8px; }
