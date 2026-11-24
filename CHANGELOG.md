@@ -1,3 +1,7 @@
+# 1.7.17 — 2026-11-24
+
+- Widok przewija się do punktacji po każdym zakończonym rozdaniu i po ręcznym rozwinięciu tabeli.
+
 # 1.7.16 — 2026-11-24
 
 - W Odgrywce przy atucie widać, kto go wybrał, także przy grze bez atu.

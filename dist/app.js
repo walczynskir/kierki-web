@@ -462,12 +462,7 @@ function update(move, previousPhase = game.phase) {
   if (game.tricks.length || game.trick.length || game.lastMove) started = true;
   saveGame();
   render();
-  if (finishedDeal && !match.single && match.number === matchLength(match)) {
-    const scorecard = $('scorecard');
-    scorecard.querySelector('summary').focus({ preventScroll: true });
-    scorecard.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    return;
-  }
+  if (finishedDeal) scrollToScorecard();
   if (!$('next-trick').hidden) $('next-trick').focus({ preventScroll: true });
   else if (game.phase === 'done') {
     const control = $('game-area').classList.contains('game-fullscreen')
@@ -883,10 +878,16 @@ $('next-trick').onclick = () => {
     $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
   }
 };
+function scrollToScorecard() {
+  requestAnimationFrame(() => {
+    const card = $('scorecard');
+    if (card.open) card.scrollIntoView({ block: 'start', inline: 'nearest' });
+  });
+}
 function toggleScorecard() {
   const card = $('scorecard');
   setScorecardOpen(!card.open);
-  if (card.open) card.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  if (card.open) scrollToScorecard();
 }
 function shouldOpenScorecard() {
   return scorecardOpen ?? game.phase === 'done';
@@ -902,7 +903,7 @@ function setScorecardOpen(open) {
 }
 $('scorecard').querySelector('summary').addEventListener('click', event => {
   event.preventDefault();
-  setScorecardOpen(!$('scorecard').open);
+  toggleScorecard();
 });
 function setFullscreen(full) {
   const area = $('game-area');
