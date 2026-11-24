@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=18';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=19';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -39,6 +39,12 @@ const english = {
   'Za każdego wziętego kiera: −2 pkt.': 'Each heart taken costs 2 points.',
   'Za każdego wziętego króla lub waleta: −3 pkt.': 'Each king or jack taken costs 3 points.',
   'Zmień imię gracza': 'Edit player name', 'Zapisz': 'Save',
+  'Wprowadzenie do Kierek': 'Getting started', 'Nie wyświetlaj więcej': 'Don’t show again',
+  'Powitanie Kierek zasady': 'You play against three computer players. Follow the led suit. Tap a card below the table to play it.',
+  'Powitanie Kierek warianty': 'Choose Robber, a classic match, or a four-match series. All three are available with or without Eights.',
+  'Powitanie Kierek cele': 'Avoid penalties in negative contracts. Take tricks in Recovery and build up and down from the eights in Eights.',
+  'Powitanie Kierek ustawienia': 'Change difficulty and pace in Settings. Use Practice to play a single contract.',
+  'Powitanie Kierek wyniki': 'The scorecard below the table shows the results. Tap “?” for the full rules.',
   'Partia': 'Match', 'Koniec partii': 'Match complete', 'Koniec cyklu': 'Series complete',
   'Twoje miejsce': 'Your place', 'Ostatnia partia': 'Last match', 'Klasyfikacja cyklu': 'Series standings',
   'Rozpocznij kolejną partię': 'Start the next match',

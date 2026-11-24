@@ -997,3 +997,17 @@ body:has(.game-fullscreen) { overflow: hidden; }
 #cycle-standings { margin: 8px; }
 #cycle-standings th { overflow-wrap: anywhere; }
 #next-cycle-match:not([hidden]) { margin-top: 8px; }
+
+#welcome {
+  max-block-size: calc(100dvh - 24px);
+  overflow: auto;
+}
+#welcome ul { margin-block: 8px 12px; padding-inline-start: 1.25em; }
+#welcome li + li { margin-block-start: 6px; }
+.welcome-opt-out {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 40px;
+}
+#welcome .actions { justify-content: flex-end; }

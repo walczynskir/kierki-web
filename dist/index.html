@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=classic-cycle-1">
+<link rel="stylesheet" href="./style.css?v=kierki-welcome-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=classic-cycle-1"></script>
+<script type="module" src="./app.js?v=kierki-welcome-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -118,6 +118,23 @@
     <p id="trick-history-empty" data-t="Brak zapisanych lew" hidden></p>
     <div id="trick-history-list"></div>
   </details>
+  <dialog id="welcome" aria-labelledby="welcome-title">
+    <form method="dialog">
+      <h2 id="welcome-title" data-t="Wprowadzenie do Kierek">Wprowadzenie do Kierek</h2>
+      <p data-t="Powitanie Kierek zasady">Grasz przeciwko trzem graczom komputerowym. W lewach dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.</p>
+      <ul>
+        <li data-t="Powitanie Kierek warianty">Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.</li>
+        <li data-t="Powitanie Kierek cele">W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.</li>
+        <li data-t="Powitanie Kierek ustawienia">W Ustawieniach zmienisz poziom trudności i tempo gry. W Treningu zagrasz wybrany kontrakt.</li>
+        <li data-t="Powitanie Kierek wyniki">Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.</li>
+      </ul>
+      <label class="welcome-opt-out"><input id="welcome-skip" type="checkbox"> <span data-t="Nie wyświetlaj więcej">Nie wyświetlaj więcej</span></label>
+      <p id="welcome-save-error" role="status" data-t="Nie udało się zapisać ustawień." hidden></p>
+      <div class="actions">
+        <button class="primary" data-t="Zamknij">Zamknij</button>
+      </div>
+    </form>
+  </dialog>
   <dialog id="help" aria-labelledby="help-title">
     <div class="round"><h2 id="help-title" data-t="Zasady prototypu">Zasady prototypu</h2><form method="dialog"><button aria-label="Zamknij">×</button></form></div>
     <p data-t="Przy stole grają">Przy stole grają cztery osoby. Dokładaj do koloru wyjścia. Zwycięzca lewy wychodzi do następnej.</p>
@@ -250,6 +267,9 @@
         </div>
         <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
       </section>
+      <section class="settings-section">
+        <button id="open-welcome" type="button" data-t="Wprowadzenie do Kierek">Wprowadzenie do Kierek</button>
+      </section>
       <section class="settings-section" aria-labelledby="preferences-file-heading">
         <h3 id="preferences-file-heading"></h3>
         <p id="preferences-file-scope" class="settings-file-scope" data-t="Zakres kopii Kierek"></p>
@@ -301,7 +321,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.9.0</span>
+    <span id="footer-version" translate="no">v1.9.1</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

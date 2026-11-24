@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=42';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=43';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -892,6 +892,7 @@ function render() {
     }
     return row;
   }));
+  if ($('welcome').open) clearTimeout(timer);
   renderScoreHistory();
   renderMatchResult(names, totals, winners, matchFinished && !match.single, cyclePart, cycleFinished, seriesTotals, overallWinners);
   if (focusedScoreControl) {
@@ -1033,6 +1034,29 @@ $('trick-history').addEventListener('toggle', event => {
 });
 $('no-trump').onclick = () => chooseTrump(null);
 $('help-button').onclick = () => $('help').showModal();
+
+const welcomePreferenceKey = 'games-chest-kierki-hide-welcome';
+const welcomeSessionKey = 'games-chest-kierki-welcome-shown';
+function showWelcome() {
+  $('welcome-skip').checked = read(welcomePreferenceKey) === true;
+  $('welcome-save-error').hidden = true;
+  clearTimeout(timer);
+  $('welcome').showModal();
+}
+$('open-welcome').onclick = showWelcome;
+$('welcome-skip').onchange = () => {
+  $('welcome-save-error').hidden = write(welcomePreferenceKey, $('welcome-skip').checked);
+};
+$('welcome').addEventListener('close', render);
+
+function showWelcomeOnLaunch() {
+  if (read(welcomePreferenceKey) === true) return;
+  try {
+    if (sessionStorage.getItem(welcomeSessionKey)) return;
+    sessionStorage.setItem(welcomeSessionKey, '1');
+  } catch { /* The introduction still works without session storage. */ }
+  showWelcome();
+}
 $('next-trick').onclick = () => {
   if (game.phase === 'review') update(() => advance(game));
   else if (game.phase === 'done' && match.number < matchLength(match)) {
@@ -1327,3 +1351,4 @@ $('restart').addEventListener('close', () => {
 });
 saveGame();
 render();
+showWelcomeOnLaunch();

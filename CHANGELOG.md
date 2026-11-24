@@ -1,3 +1,7 @@
+# 1.9.1 — 2026-11-24
+
+- Dodano krótkie wprowadzenie przy uruchomieniu, możliwość ukrycia go na stałe i ponownego otwarcia w Ustawieniach.
+
 # 1.9.0 — 2026-11-24
 
 - Po partii punktacja pokazuje wyraźne podsumowanie z wynikiem, zwycięzcą i miejscem gracza.
