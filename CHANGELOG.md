@@ -1,3 +1,8 @@
+# 1.10.0 — 2026-11-24
+
+- Wariant wybiera się w oknie „Nowa gra”, które grupuje pełne partie i pojedyncze kontrakty treningowe.
+- Potwierdzenie nowej gry zastępuje bieżącą rozgrywkę. Przed przerwaniem rozpoczętej gry pojawia się ostrzeżenie.
+
 # 1.9.1 — 2026-11-24
 
 - Dodano krótkie wprowadzenie przy uruchomieniu, możliwość ukrycia go na stałe i ponownego otwarcia w Ustawieniach.

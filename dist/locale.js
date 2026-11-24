@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=19';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=20';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -43,7 +43,11 @@ const english = {
   'Powitanie Kierek zasady': 'You play against three computer players. Follow the led suit. Tap a card below the table to play it.',
   'Powitanie Kierek warianty': 'Choose Robber, a classic match, or a four-match series. All three are available with or without Eights.',
   'Powitanie Kierek cele': 'Avoid penalties in negative contracts. Take tricks in Recovery and build up and down from the eights in Eights.',
-  'Powitanie Kierek ustawienia': 'Change difficulty and pace in Settings. Use Practice to play a single contract.',
+  'Powitanie Kierek ustawienia': 'Change difficulty and pace in Settings. Under New game, you can also choose a single contract for practice.',
+  'Pełna partia': 'Full match',
+  'Pojedynczy kontrakt (trening)': 'Single contract (practice)',
+  'Opis pojedynczego kontraktu': 'Play one practice deal. Its result does not count toward statistics.',
+  'Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.': 'Starting a new game ends the current game.',
   'Powitanie Kierek wyniki': 'The scorecard below the table shows the results. Tap “?” for the full rules.',
   'Partia': 'Match', 'Koniec partii': 'Match complete', 'Koniec cyklu': 'Series complete',
   'Twoje miejsce': 'Your place', 'Ostatnia partia': 'Last match', 'Klasyfikacja cyklu': 'Series standings',
@@ -129,6 +133,12 @@ const english = {
 };
 
 const polish = {
+  'Powitanie Kierek zasady': 'Grasz przeciwko trzem graczom komputerowym. Dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.',
+  'Powitanie Kierek warianty': 'Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.',
+  'Powitanie Kierek cele': 'W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.',
+  'Powitanie Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności i tempo. W „Nowej grze” możesz wybrać też pojedynczy kontrakt treningowy.',
+  'Powitanie Kierek wyniki': 'Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.',
+  'Opis pojedynczego kontraktu': 'Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.',
   'Brak zapisanych lew': 'W tej partii nie ma jeszcze zapisanych lew.',
   'Opis historii lew': 'Dodaje pod punktacją zwijaną sekcję z lewami bieżącej partii.',
   'Opis wysuwania kart': 'Wysuwa karty, które możesz zagrać, ponad resztę ręki. Działa od razu we wszystkich trybach.',

@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=kierki-welcome-1">
+<link rel="stylesheet" href="./style.css?v=new-game-choice-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=kierki-welcome-1"></script>
+<script type="module" src="./app.js?v=new-game-choice-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=kierki-footer-fit-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -125,7 +125,7 @@
       <ul>
         <li data-t="Powitanie Kierek warianty">Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.</li>
         <li data-t="Powitanie Kierek cele">W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.</li>
-        <li data-t="Powitanie Kierek ustawienia">W Ustawieniach zmienisz poziom trudności i tempo gry. W Treningu zagrasz wybrany kontrakt.</li>
+        <li data-t="Powitanie Kierek ustawienia">W Ustawieniach zmienisz poziom trudności i tempo gry. W „Nowej grze” możesz wybrać także pojedynczy kontrakt treningowy.</li>
         <li data-t="Powitanie Kierek wyniki">Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.</li>
       </ul>
       <label class="welcome-opt-out"><input id="welcome-skip" type="checkbox"> <span data-t="Nie wyświetlaj więcej">Nie wyświetlaj więcej</span></label>
@@ -199,24 +199,6 @@
         </div>
       </fieldset>
       <fieldset class="settings-section">
-        <legend data-t="Rozgrywka">Rozgrywka</legend>
-        <div class="setting-item">
-          <div class="setting-row difficulty-row puzzle-choice-row">
-            <label for="include-puzzle"><span class="setting-caption"><span data-t="Wariant partii">Wariant partii</span><small class="setting-timing" data-t="Od następnej partii">Od następnej partii</small></span></label>
-            <select id="include-puzzle">
-              <option value="with" data-t="Rozbójniki z układanką">Rozbójniki z układanką</option>
-              <option value="without" data-t="Rozbójniki bez układanki">Rozbójniki bez układanki</option>
-              <option value="classic-with" data-t="Klasyczna z układanką">Klasyczna z układanką</option>
-              <option value="classic-without" data-t="Klasyczna bez układanki">Klasyczna bez układanki</option>
-              <option value="cycle-with" data-t="Cykl czterech partii z układanką">Cykl czterech partii z układanką</option>
-              <option value="cycle-without" data-t="Cykl czterech partii bez układanki">Cykl czterech partii bez układanki</option>
-            </select>
-            <button type="button" class="setting-info" aria-expanded="false" aria-controls="include-puzzle-note">ⓘ</button>
-          </div>
-          <p id="include-puzzle-note" class="setting-description" data-t="Opis wariantów partii" hidden></p>
-        </div>
-      </fieldset>
-      <fieldset class="settings-section">
         <legend data-t="Wygląd i informacje">Wygląd i informacje</legend>
         <div class="setting-item">
           <div class="setting-row">
@@ -247,26 +229,6 @@
           <p id="trick-history-note" class="setting-description" data-t="Opis historii lew" hidden></p>
         </div>
       </fieldset>
-      <section class="settings-section" aria-labelledby="training-title">
-        <h3 id="training-title" data-t="Trening">Trening</h3>
-        <p id="training-note" class="settings-file-scope" data-t="Opis treningu"></p>
-        <div class="training-controls">
-          <select id="training-format" aria-describedby="training-note">
-            <option value="no-tricks" data-t="Nie brać lew">Nie brać lew</option>
-            <option value="no-hearts" data-t="Nie brać kierów">Nie brać kierów</option>
-            <option value="no-boys" data-t="Nie brać chłopców">Nie brać chłopców</option>
-            <option value="no-ladies" data-t="Nie brać dam">Nie brać dam</option>
-            <option value="no-king-of-hearts" data-t="Nie brać króla kier">Nie brać króla kier</option>
-            <option value="no-six-and-last" data-t="Nie brać szóstej i ostatniej lewy">Nie brać szóstej i ostatniej lewy</option>
-            <option value="robber" data-t="Rozbójnik">Rozbójnik</option>
-            <option value="recover" data-t="Odgrywka">Odgrywka</option>
-            <option value="puzzle" data-t="Układanka" selected>Układanka</option>
-          </select>
-          <button id="start-training" type="button" data-t="Rozpocznij trening">Rozpocznij trening</button>
-          <button id="resume-match" type="button" data-t="Wróć do partii" hidden>Wróć do partii</button>
-        </div>
-        <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
-      </section>
       <section class="settings-section">
         <button id="open-welcome" type="button" data-t="Wprowadzenie do Kierek">Wprowadzenie do Kierek</button>
       </section>
@@ -296,9 +258,35 @@
   </dialog>
 </dialog>
 <dialog id="restart" aria-labelledby="restart-title">
-  <h2 id="restart-title" data-t="Nowa gra">Nowa gra</h2>
-  <p id="restart-warning" data-t="Rozpocząć nową partię i zakończyć obecną bez zaliczenia?">Rozpocząć nową partię i zakończyć obecną bez zaliczenia?</p>
-  <form method="dialog" class="actions"><button value="cancel" autofocus data-t="Anuluj">Anuluj</button><button value="start" class="primary" data-t="Rozpocznij">Rozpocznij</button></form>
+  <form id="new-game-form">
+    <h2 id="restart-title" data-t="Nowa gra">Nowa gra</h2>
+    <label for="new-game-variant" data-t="Wariant partii">Wariant partii</label>
+    <select id="new-game-variant" aria-describedby="restart-warning" autofocus>
+      <optgroup id="full-match-options">
+        <option value="with" data-t="Rozbójniki z układanką">Rozbójniki z układanką</option>
+              <option value="without" data-t="Rozbójniki bez układanki">Rozbójniki bez układanki</option>
+              <option value="classic-with" data-t="Klasyczna z układanką">Klasyczna z układanką</option>
+              <option value="classic-without" data-t="Klasyczna bez układanki">Klasyczna bez układanki</option>
+              <option value="cycle-with" data-t="Cykl czterech partii z układanką">Cykl czterech partii z układanką</option>
+              <option value="cycle-without" data-t="Cykl czterech partii bez układanki">Cykl czterech partii bez układanki</option>
+      </optgroup>
+      <optgroup id="single-contract-options">
+        <option value="single-no-tricks" data-t="Nie brać lew">Nie brać lew</option>
+            <option value="single-no-hearts" data-t="Nie brać kierów">Nie brać kierów</option>
+            <option value="single-no-boys" data-t="Nie brać chłopców">Nie brać chłopców</option>
+            <option value="single-no-ladies" data-t="Nie brać dam">Nie brać dam</option>
+            <option value="single-no-king-of-hearts" data-t="Nie brać króla kier">Nie brać króla kier</option>
+            <option value="single-no-six-and-last" data-t="Nie brać szóstej i ostatniej lewy">Nie brać szóstej i ostatniej lewy</option>
+            <option value="single-robber" data-t="Rozbójnik">Rozbójnik</option>
+            <option value="single-recover" data-t="Odgrywka">Odgrywka</option>
+            <option value="single-puzzle" data-t="Układanka">Układanka</option>
+      </optgroup>
+    </select>
+    <p id="single-contract-note" data-t="Opis pojedynczego kontraktu" hidden>Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.</p>
+    <p id="restart-warning" data-t="Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę." hidden>Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.</p>
+    <p id="training-save-error" role="alert" data-t="Nie udało się przełączyć rozgrywki." hidden></p>
+    <div class="actions"><button type="button" id="cancel-new-game" data-t="Anuluj">Anuluj</button><button type="submit" class="primary" data-t="Rozpocznij">Rozpocznij</button></div>
+  </form>
 </dialog>
 <dialog id="game-picker" aria-labelledby="game-picker-title" translate="no">
   <div class="game-picker-header">
@@ -321,7 +309,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.9.1</span>
+    <span id="footer-version" translate="no">v1.10.0</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

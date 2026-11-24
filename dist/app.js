@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchRecoveryPoints, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=43';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=44';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -20,8 +20,8 @@ const past = [];
 const future = [];
 const optionsKey = 'games-chest-kierki-options-v1';
 const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'large'];
-const includesPuzzle = () => !$('include-puzzle').value.endsWith('without');
-const selectedFormat = () => ['classic', 'cycle'].find(format => $('include-puzzle').value.startsWith(format + '-')) ?? 'robbers';
+const includesPuzzle = (variant = preferredVariant) => !variant.endsWith('without');
+const selectedFormat = (variant = preferredVariant) => ['classic', 'cycle'].find(format => variant.startsWith(format + '-')) ?? 'robbers';
 const formatOption = preferences => (['classic', 'cycle'].includes(preferences?.['match-format']) ? preferences['match-format'] + '-' : '')
   + (preferences?.['include-puzzle'] === false ? 'without' : 'with');
 const difficulties = ['easy', 'medium', 'hard'];
@@ -51,9 +51,7 @@ const themes = {
 const rewards = { 'orange-grove': 3, copper: 5, 'night-sky': 10 };
 let gameId = newId();
 let started = false;
-let suspendedMatch;
 let scorecardOpen;
-let trainingSaveFailed = false;
 let results = {};
 let unlockedThemes = [];
 let optionsSaved = true;
@@ -76,7 +74,7 @@ function write(key, value) {
 const profile = read(profileKey);
 const options = profile?.preferences ?? read(optionsKey);
 for (const id of optionIds) $(id).checked = options?.[id] === true;
-$('include-puzzle').value = formatOption(options);
+let preferredVariant = formatOption(options);
 $('language').value = languages.includes(options?.language) ? options.language : 'pl';
 $('difficulty').value = difficulties.includes(options?.difficulty) ? options.difficulty : 'medium';
 $('play-pace').value = Object.hasOwn(playPaces, options?.['play-pace']) ? options['play-pace'] : 'normal';
@@ -88,7 +86,6 @@ const savedGame = read(gameKey);
 const savedTraining = read(trainingKey);
 const restoredTraining = savedTraining?.active ? savedTraining.session : !savedTraining && savedGame?.match?.single ? savedGame : null;
 if (validSession(restoredTraining)) {
-  suspendedMatch = validSession(savedGame) && !savedGame.match?.single ? savedGame : undefined;
   loadSession(restoredTraining);
 } else if (validSession(savedGame) && !savedGame.match?.single) {
   loadSession(savedGame);
@@ -123,8 +120,8 @@ function saveGame() {
     : write(gameKey, gameRecord());
 }
 
-function freshSession(single = null) {
-  return { ...newMatch(Math.random, includesPuzzle(), single, selectedFormat()), started: false, id: newId(),
+function freshSession(single = null, variant = preferredVariant) {
+  return { ...newMatch(Math.random, includesPuzzle(variant), single, selectedFormat(variant)), started: false, id: newId(),
     difficulty: $('difficulty').value, past: [], future: [] };
 }
 
@@ -276,8 +273,7 @@ function renderShell() {
   $('contrast').textContent = '◐ ' + t('Kontrast');
   for (const [id, label] of Object.entries({
     contrast: 'Wysoki kontrast', large: 'Większy tekst', language: 'Język', theme: 'Motyw', table: 'Stół',
-    'open-options': 'Ustawienia', 'help-button': 'Jak grać', undo: 'Cofnij', redo: 'Przywróć', 'new-game': 'Nowa gra',
-    'training-format': 'Rozdanie treningowe'
+    'open-options': 'Ustawienia', 'help-button': 'Jak grać', undo: 'Cofnij', redo: 'Przywróć', 'new-game': 'Nowa gra'
   })) {
     $(id).setAttribute('aria-label', t(label));
     if ($(id).hasAttribute('title')) $(id).title = t(label);
@@ -677,8 +673,6 @@ function render() {
     + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;
   $('contract-rule').textContent = contract ? t(contract[1]) : '';
-  $('resume-match').hidden = !match.single;
-  $('training-save-error').hidden = !trainingSaveFailed;
   $('dealer').textContent = t('Rozdaje') + ': ' + names[match.dealer];
   const trumpLabel = $('trump');
   const showTrump = game.mode === 'recover' && game.phase !== 'trump' && game.tricks.length < 13;
@@ -892,7 +886,7 @@ function render() {
     }
     return row;
   }));
-  if ($('welcome').open) clearTimeout(timer);
+  if ($('welcome').open || $('restart').open) clearTimeout(timer);
   renderScoreHistory();
   renderMatchResult(names, totals, winners, matchFinished && !match.single, cyclePart, cycleFinished, seriesTotals, overallWinners);
   if (focusedScoreControl) {
@@ -1019,16 +1013,50 @@ function start(single = null) {
   render();
 }
 
+const newGameDialog = $('restart');
+const variantSelect = $('new-game-variant');
+function updateNewGameChoice() {
+  $('single-contract-note').hidden = !variantSelect.value.startsWith('single-');
+}
 $('new-game').onclick = () => {
   const finished = game.phase === 'done' && match.number === matchLength(match)
     && (!match.cycle || match.cycle.results.length === cycleLength - 1);
-  if (!started || finished) return start(match.single);
-  const warning = $('restart-warning');
-  warning.dataset.t = match.single ? 'Rozpocząć trening od nowa?' : 'Rozpocząć nową partię i zakończyć obecną bez zaliczenia?';
-  warning.textContent = t(warning.dataset.t);
-  $('restart').returnValue = '';
-  $('restart').showModal();
+  variantSelect.value = match.single ? 'single-' + match.single : preferredVariant;
+  $('full-match-options').label = t('Pełna partia');
+  $('single-contract-options').label = t('Pojedynczy kontrakt (trening)');
+  $('restart-warning').hidden = !started || finished;
+  $('training-save-error').hidden = true;
+  updateNewGameChoice();
+  clearTimeout(timer);
+  newGameDialog.returnValue = '';
+  newGameDialog.showModal();
 };
+variantSelect.onchange = updateNewGameChoice;
+$('cancel-new-game').onclick = () => newGameDialog.close();
+$('new-game-form').onsubmit = event => {
+  event.preventDefault();
+  const selected = variantSelect.value;
+  const practice = selected.startsWith('single-');
+  const session = practice ? freshSession(selected.slice(7)) : freshSession(null, selected);
+  const saved = practice ? write(trainingKey, { active: true, session })
+    : write(gameKey, session) && (!match.single || write(trainingKey, { active: false }));
+  if (!saved) {
+    $('training-save-error').hidden = false;
+    return;
+  }
+  if (!practice) {
+    preferredVariant = selected;
+    optionsSaved = persistProfile(currentPreferences(), mergeProgress());
+  }
+  loadSession(session);
+  gameSaved = true;
+  newGameDialog.close('start');
+  render();
+};
+newGameDialog.addEventListener('close', () => {
+  if (newGameDialog.returnValue !== 'start') render();
+});
+
 $('trick-history').addEventListener('toggle', event => {
   if (event.currentTarget.open) renderTrickHistory();
 });
@@ -1131,35 +1159,6 @@ document.addEventListener('keydown', event => {
   }
 });
 $('open-options').onclick = () => $('options').showModal();
-$('start-training').onclick = () => {
-  const session = freshSession($('training-format').value);
-  if (!match.single) suspendedMatch = structuredClone(gameRecord());
-  if (!write(trainingKey, { active: true, session })) {
-    trainingSaveFailed = true;
-    render();
-    return;
-  }
-  loadSession(session);
-  trainingSaveFailed = false;
-  gameSaved = true;
-  $('options').close();
-  render();
-};
-$('resume-match').onclick = () => {
-  if (!match.single) return;
-  const session = suspendedMatch ?? freshSession();
-  if (!write(gameKey, session) || !write(trainingKey, { active: false })) {
-    trainingSaveFailed = true;
-    render();
-    return;
-  }
-  loadSession(session);
-  suspendedMatch = undefined;
-  trainingSaveFailed = false;
-  gameSaved = true;
-  $('options').close();
-  render();
-};
 $('options').addEventListener('close', () => $('open-options').focus());
 for (const info of $('options').querySelectorAll('.setting-info')) info.onclick = () => {
   const note = $(info.getAttribute('aria-controls'));
@@ -1321,7 +1320,7 @@ $('restore-progress').onclick = () => {
   $('language').value = preferences.language;
   $('difficulty').value = preferences.difficulty;
   $('play-pace').value = preferences['play-pace'];
-  $('include-puzzle').value = formatOption(preferences);
+  preferredVariant = formatOption(preferences);
   contrast = preferences.contrast;
   theme = preferences.theme;
   saveGame();
@@ -1334,7 +1333,6 @@ for (const id of optionIds) $(id).onchange = saveOptions;
 $('language').onchange = saveOptions;
 $('difficulty').onchange = saveOptions;
 $('play-pace').onchange = saveOptions;
-$('include-puzzle').onchange = saveOptions;
 $('theme').onchange = () => {
   if ($('theme').value === 'gallery') {
     $('theme').value = theme;
@@ -1345,10 +1343,6 @@ $('theme').onchange = () => {
   saveOptions();
 };
 $('contrast').onclick = () => { contrast = !contrast; saveOptions(); };
-$('restart').addEventListener('close', () => {
-  if ($('restart').returnValue === 'start') start(match.single);
-  $('restart').returnValue = '';
-});
 saveGame();
 render();
 showWelcomeOnLaunch();
