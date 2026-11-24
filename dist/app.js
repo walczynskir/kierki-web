@@ -8,6 +8,7 @@ import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
 import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=35';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
+const seatPositions = ['south', 'west', 'north', 'east'];
 const suitNames = { '♣': 'Trefle', '♦': 'Kara', '♠': 'Piki', '♥': 'Kiery' };
 const figureNames = { 11: 'Walet', 12: 'Dama', 13: 'Król', 14: 'As' };
 const courtRanks = { 11: 'jack', 12: 'queen', 13: 'king' };
@@ -331,6 +332,34 @@ function humanMove(move) {
   update(() => {});
 }
 
+function layCard(card, handCard) {
+  const puzzle = game.mode === 'puzzle';
+  const player = game.turn;
+  const position = seatPositions[player];
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const source = card !== null && !reducedMotion
+    ? (handCard ?? $('table').querySelector(`[data-position="${position}"] :is(.seat-hand-slot, .puzzle-hand-slot)`))
+      ?.getBoundingClientRect() : null;
+  let played;
+  const move = () => {
+    played = puzzle ? playPuzzle(game, card) : play(game, card);
+    return played;
+  };
+  if (handCard) humanMove(move);
+  else update(move);
+  if (!played || !source?.width || !source.height) return;
+
+  const target = $('table').querySelector(puzzle ? '.puzzle-last-card' : `.played[data-position="${position}"]`);
+  if (!target) return;
+  const destination = target.getBoundingClientRect();
+  const dx = source.x + source.width / 2 - destination.x - destination.width / 2;
+  const dy = source.y + source.height / 2 - destination.y - destination.height / 2;
+  target.animate([
+    { translate: dx + 'px ' + dy + 'px', opacity: .55 },
+    { translate: '0 0', opacity: 1 }
+  ], { duration: Math.min(340, playPace().move * .75), easing: 'cubic-bezier(.22,.75,.25,1)' });
+}
+
 function chooseTrump(color) {
   humanMove(() => setTrump(game, color));
   $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
@@ -486,18 +515,19 @@ const puzzlePipPositions = {
 
 function renderPuzzleTable(names, legal, orderedHand) {
   const seats = [];
-  const positions = ['south', 'west', 'north', 'east'];
   for (const [player, name] of names.entries()) {
     const seat = document.createElement('div');
     seat.className = 'puzzle-player';
     seat.classList.toggle('puzzle-result', game.phase === 'done');
-    seat.dataset.position = positions[player];
+    seat.dataset.position = seatPositions[player];
     seat.classList.toggle('current', game.phase === 'play' && game.turn === player);
     const place = game.finishOrder.indexOf(player) + 1;
     const title = document.createElement('strong');
     title.textContent = name;
     const info = document.createElement('span');
-    const passed = game.lastMove?.player === player && game.lastMove.card === null;
+    const madeLastMove = game.lastMove?.player === player;
+    const passed = madeLastMove && game.lastMove.card === null;
+    title.classList.toggle('puzzle-last-player', madeLastMove && !passed);
     info.classList.toggle('puzzle-pass-badge', passed);
     info.textContent = passed ? t('Pas') : place ? place + '. ' + t('miejsce') : game.hands[player].length + ' ' + t('kart');
     const handSlot = document.createElement('div');
@@ -530,6 +560,7 @@ function renderPuzzleTable(names, legal, orderedHand) {
       if (placed) {
         face(slot, card);
         slot.classList.add('filled');
+        slot.classList.toggle('puzzle-last-card', game.lastMove?.card === card);
         const oppositeCorner = document.createElement('span');
         oppositeCorner.className = 'puzzle-opposite-corner';
         oppositeCorner.setAttribute('aria-hidden', 'true');
@@ -611,8 +642,14 @@ function render() {
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
   $('next-trick').hidden = game.phase !== 'review';
   const cue = $('play-card-cue');
-  cue.hidden = !choosingTrump && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length);
-  cue.textContent = t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
+  const puzzleMove = puzzle ? game.lastMove : null;
+  const moveCard = puzzleMove?.card;
+  const moveLabel = puzzleMove ? names[puzzleMove.player] + ' · ' + (moveCard === null ? t('Pas')
+    : rankLabel(rank(moveCard), $('language').value) + suit(moveCard)) : '';
+  cue.hidden = !puzzleMove && !choosingTrump && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length);
+  cue.classList.toggle('puzzle-move-cue', Boolean(puzzleMove));
+  const canPlayPuzzle = puzzle && game.phase === 'play' && game.turn === 0 && legal.length;
+  cue.textContent = moveLabel ? moveLabel + (canPlayPuzzle ? ' · ' + t('Dołóż kartę') : '') : t(choosingTrump ? 'Dotknij karty pod stołem, by wybrać atu' : puzzle ? 'Dołóż kartę' : 'Zagraj kartę');
   $('round').textContent = (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
     + ' · ' + t(dealTitle(game.mode));
   $('contract-rule').hidden = !contract;
@@ -632,15 +669,15 @@ function render() {
   }
   $('status').classList.toggle('puzzle-live-status', puzzle && game.phase === 'play');
   if (puzzle && game.phase === 'play') {
-    const passed = game.lastMove?.card === null ? t('Pas') + ': ' + names[game.lastMove.player] + ' · ' : '';
-    $('status').textContent = passed + (game.turn === 0
+    const lastMove = moveLabel ? moveLabel + ' · ' : '';
+    $('status').textContent = lastMove + (game.turn === 0
       ? t(legal.length ? 'Twój ruch' : 'Nie masz pasującej karty. Pasujesz automatycznie.')
       : t('Gra') + ' ' + names[game.turn]);
     if (game.turn !== 0 || !legal.length) {
       timer = setTimeout(() => {
         const card = game.turn === 0 ? null : activeDifficulty === 'hard' ? decideHardPuzzleCard(game)
           : computerPuzzleCard(game, activeDifficulty);
-        update(() => playPuzzle(game, card));
+        layCard(card);
       }, game.lastMove?.card === null ? playPace().pass : playPace().move);
     }
   } else if (game.phase === 'trump') {
@@ -689,7 +726,7 @@ function render() {
       const card = activeDifficulty === 'easy' ? computerCard(view, view.legal)
         : activeDifficulty === 'hard' ? decideHardCard(view)
         : decideComputerCard(view);
-      update(() => play(game, card));
+      layCard(card);
     }, playPace().move);
   }
 
@@ -705,7 +742,7 @@ function render() {
   if (puzzle) renderPuzzleTable(names, legal, orderedHand);
   else $('table').replaceChildren(...names.flatMap((name, player) => {
     const seat = document.createElement('section');
-    const position = ['south', 'west', 'north', 'east'][player];
+    const position = seatPositions[player];
     seat.className = 'seat';
     seat.dataset.position = position;
     seat.classList.toggle('current', game.phase === 'play' && player === game.turn);
@@ -769,7 +806,7 @@ function render() {
   $('hand').replaceChildren(...orderedHand.map((card, index) => {
     const control = face(button('', () => {
       if (choosingTrump) chooseTrump(suit(card));
-      else humanMove(() => puzzle ? playPuzzle(game, card) : play(game, card));
+      else layCard(card, control);
     }), card);
     const offset = (index - (hand.length - 1) / 2) / Math.max(1, (hand.length - 1) / 2);
     control.style.setProperty('--drop', 9 * offset ** 2 + 'px');

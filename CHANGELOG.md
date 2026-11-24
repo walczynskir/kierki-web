@@ -1,3 +1,8 @@
+# 1.7.10 — 2026-11-24
+
+- Dodano animację zagrywania kart w Układance i rozdaniach z lewami.
+- Układanka wyróżnia ostatnio dołożoną kartę i gracza, który ją położył.
+
 # 1.7.9 — 2026-11-23
 
 - Dodano instrukcję instalacji w Safari na Macu i wyrównano stopkę do obszaru gry.
