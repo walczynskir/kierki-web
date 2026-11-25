@@ -1,3 +1,7 @@
+# 1.10.8 — 2026-11-25
+
+- Poprawiono nagłówki punktacji na telefonach i dodano widoczną, rozwijaną sekcję punktów za rozdania.
+
 # 1.10.7 — 2026-11-24
 
 - Powiększono strzałkę wyboru wariantu obok przycisku nowej gry.

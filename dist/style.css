@@ -1057,13 +1057,22 @@ body:has(.game-fullscreen) { overflow: hidden; }
 }
 .score-edit-name { flex: none; min-width: 26px; color: var(--accent); }
 @media (max-width: 420px) {
-  #scorecard > table thead th:first-child { width: 35%; }
+  #scorecard > table { table-layout: auto; }
+  #scorecard > table thead th { overflow-wrap: normal; }
+  #scorecard > table thead th:first-child { width: 32%; }
 }
 #scores tr { cursor: pointer; }
 .score-history-selected { background: var(--wash); font-weight: 750; }
 #deal-score-history {
   border-top: 1px solid var(--line);
   margin: 8px 0;
+}
+#deal-score-history > summary {
+  padding: 8px;
+  background: var(--wash);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
 }
 #deal-score-history table { table-layout: fixed; }
 #deal-score-history :is(th, td) { overflow-wrap: anywhere; }

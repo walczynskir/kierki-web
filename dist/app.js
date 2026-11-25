@@ -107,6 +107,7 @@ function gameRecord() {
 
 function loadSession(session) {
   scoreHistoryPlayer = null;
+  $('deal-score-history').open = false;
   ({ game, started } = session);
   scorecardOpen = typeof session.scorecardOpen === 'boolean' ? session.scorecardOpen : undefined;
   $('trick-history').open = false;
@@ -857,9 +858,11 @@ function render() {
     badge.textContent = numberFormat.format(place) + '.';
     badge.title = t('Miejsce {place}', numberFormat.format(place));
     const historyButton = button(name, () => {
-      scoreHistoryPlayer = scoreHistoryPlayer === player ? null : player;
+      const history = $('deal-score-history');
+      scoreHistoryPlayer = history.open && scoreHistoryPlayer === player ? null : player;
+      history.open = scoreHistoryPlayer !== null;
       renderScoreHistory();
-      if (scoreHistoryPlayer !== null) $('deal-score-history').scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      if (history.open) history.querySelector('summary').scrollIntoView({ block: 'nearest', inline: 'nearest' });
     });
     historyButton.className = 'score-history-button';
     historyButton.title = name;
@@ -951,13 +954,14 @@ $('next-cycle-match').onclick = () => {
   $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
 };
 
+$('deal-score-history').addEventListener('toggle', renderScoreHistory);
+
 function renderScoreHistory() {
   const panel = $('deal-score-history');
-  panel.hidden = scoreHistoryPlayer === null;
   for (const control of $('scores').querySelectorAll('.score-history-button')) {
-    control.setAttribute('aria-expanded', String(Number(control.dataset.player) === scoreHistoryPlayer));
+    control.setAttribute('aria-expanded', String(panel.open && Number(control.dataset.player) === scoreHistoryPlayer));
   }
-  if (panel.hidden) return;
+  if (!panel.open) return;
 
   const deals = [...(match.dealHistory ?? [])];
   if (game.phase === 'done') deals.push({ number: match.number, mode: game.mode, points: game.points });
