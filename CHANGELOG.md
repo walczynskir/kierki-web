@@ -1,3 +1,7 @@
+# 1.11.0 — 2026-11-25
+
+- Zmieniono numer wersji po aktualizacjach Układanki, postępów i cyklu czterech partii.
+
 # 1.10.17 — 2026-11-25
 
 - Puchar cyklu pojawia się po zwycięstwie w całym cyklu. Kolejną partię rozpoczyna kliknięcie stołu. Klasyfikacja pokazuje cztery wyniki i sumę.
