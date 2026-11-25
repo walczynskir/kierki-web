@@ -1,11 +1,11 @@
 import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js?v=cycle-1';
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
-import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=seat-moves-1';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=trick-disclosures-1';
-import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=seat-moves-1';
+import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=puzzle-history-1';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
+import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=48';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=49';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -452,13 +452,13 @@ function renderTrickHistory() {
   const openDeals = new Map([...history.children].map(section => [section.dataset.deal, section.open]));
   const previousLatest = history.firstElementChild?.dataset.deal;
   const part = match.cycle ? match.cycle.results.length + 1 : 0;
-  const currentDeal = { number: match.number, mode: game.mode, tricks: game.tricks };
+  const currentDeal = { number: match.number, mode: game.mode, tricks: game.tricks, moves: game.moves };
   const deals = [...(match.cycle?.trickHistory ?? []),
     ...[...(match.dealHistory ?? []), currentDeal].map(deal => ({ ...deal, part }))];
   history.replaceChildren();
   for (const deal of deals.reverse()) {
     const tricks = (deal.tricks ?? []).flatMap((trick, index) => trick.cards?.length === 4 ? [{ trick, number: index + 1 }] : []);
-    if (!tricks.length) continue;
+    if (!tricks.length && !deal.moves?.length) continue;
     const section = document.createElement('details');
     section.dataset.deal = deal.part + '/' + deal.number;
     const latest = history.firstElementChild?.dataset.deal ?? section.dataset.deal;
@@ -469,13 +469,36 @@ function renderTrickHistory() {
     section.append(heading);
     const renderList = () => {
       if (!section.open || section.children.length > 1) return;
-      section.append(renderHistoryTricks(tricks));
+      section.append(deal.mode === 'puzzle' ? renderPuzzleHistory(deal.moves) : renderHistoryTricks(tricks));
     };
     section.addEventListener('toggle', renderList);
     renderList();
     history.append(section);
   }
   $('trick-history-empty').hidden = history.childElementCount !== 0;
+}
+
+function renderPuzzleHistory(moves) {
+  const list = document.createElement('ol');
+  list.className = 'history-puzzle-moves';
+  for (const { player, card } of moves.slice().reverse()) {
+    const row = document.createElement('li');
+    const name = document.createElement('bdi');
+    name.textContent = playerName(player);
+    const move = document.createElement('span');
+    if (card === null) move.textContent = t('Pas');
+    else {
+      const color = suit(card);
+      move.className = 'puzzle-move-badge';
+      move.classList.toggle('red', color === '♥' || color === '♦');
+      move.setAttribute('role', 'img');
+      move.setAttribute('aria-label', cardName(card));
+      move.textContent = rankLabel(rank(card), $('language').value) + color;
+    }
+    row.append(name, move);
+    list.append(row);
+  }
+  return list;
 }
 
 function renderHistoryTricks(tricks) {

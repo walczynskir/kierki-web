@@ -1,3 +1,7 @@
+# 1.10.11 — 2026-11-25
+
+- Historia rozgrywki zawiera teraz karty i pasy z Układanki.
+
 # 1.10.10 — 2026-11-25
 
 - Zachowano lewy, w tym Odgrywki, przy przejściu między partiami cyklu. Każde rozdanie ma zwijaną sekcję, a najnowsze jest domyślnie rozwinięte.

@@ -691,6 +691,11 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   padding-block: 6px;
   border-block-end: 1px solid var(--line);
 }
+.history-puzzle-moves > li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
 #trick-history-list li p { margin: 0 0 4px; }
 .history-trick-cards {
   display: grid;

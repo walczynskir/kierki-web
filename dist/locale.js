@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=24';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=25';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -75,9 +75,9 @@ const english = {
   'Cykl czterech partii z układanką': 'Four-match series with Eights',
   'Cykl czterech partii bez układanki': 'Four-match series without Eights',
   'Punkty za rozdania': 'Points by deal', 'Brak zakończonych rozdań.': 'No completed deals yet.',
-  'Historia lew': 'Trick history', 'Rozdanie': 'Deal',
-  'Brak zapisanych lew': 'There are no recorded tricks in this match yet.',
-  'Opis historii lew': 'Shows a collapsible section below the score table with the tricks from this match.',
+  'Historia lew i ruchów': 'Trick and move history', 'Rozdanie': 'Deal',
+  'Brak zapisanych ruchów': 'There are no recorded moves in this match yet.',
+  'Opis historii ruchów': 'Shows a collapsible section below the score table with tricks and Eights moves from this match.',
   'Wysuwaj dostępne karty': 'Raise playable cards',
   'Opis wysuwania kart': 'Raises cards you can play above the rest of your hand. Applies immediately to all game modes.',
   'Tempo gry': 'Play speed', 'Szybkie': 'Fast', 'Normalne': 'Normal', 'Wolne': 'Slow',
@@ -170,8 +170,8 @@ const polish = {
   'Powitanie Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności i tempo. W „Nowej grze” możesz wybrać też pojedynczy kontrakt treningowy.',
   'Powitanie Kierek wyniki': 'Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.',
   'Opis pojedynczego kontraktu': 'Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.',
-  'Brak zapisanych lew': 'W tej partii nie ma jeszcze zapisanych lew.',
-  'Opis historii lew': 'Dodaje pod punktacją zwijaną sekcję z lewami bieżącej partii.',
+  'Brak zapisanych ruchów': 'W tej partii nie ma jeszcze zapisanych ruchów.',
+  'Opis historii ruchów': 'Dodaje pod punktacją zwijaną sekcję z lewami i ruchami w Układance.',
   'Opis wysuwania kart': 'Wysuwa karty, które możesz zagrać, ponad resztę ręki. Działa od razu we wszystkich trybach.',
   'Opis tempa gry': 'Ustawia przerwę między ruchami komputerów. Po pasie przerwa jest dłuższa, żeby było widać, kto spasował.',
   'Opis treningu': 'Rozegraj jedno rozdanie. Trening nie zmienia statystyk, a do trwającej partii możesz wrócić.',

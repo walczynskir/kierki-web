@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-layout-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=trick-disclosures-1">
+<link rel="stylesheet" href="./style.css?v=puzzle-history-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=trick-disclosures-1"></script>
+<script type="module" src="./app.js?v=puzzle-history-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=safari-install-guide-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -117,8 +117,8 @@
     </form>
   </dialog>
   <details class="scorecard" id="trick-history" hidden>
-    <summary data-t="Historia lew">Historia lew</summary>
-    <p id="trick-history-empty" data-t="Brak zapisanych lew" hidden></p>
+    <summary data-t="Historia lew i ruchów">Historia lew i ruchów</summary>
+    <p id="trick-history-empty" data-t="Brak zapisanych ruchów" hidden></p>
     <div id="trick-history-list"></div>
   </details>
   <dialog id="welcome" aria-labelledby="welcome-title">
@@ -258,10 +258,10 @@
         </div>
         <div class="setting-item">
           <div class="setting-row">
-            <label><input id="show-trick-history" type="checkbox"><span class="setting-caption"><span data-t="Historia lew">Historia lew</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
+            <label><input id="show-trick-history" type="checkbox"><span class="setting-caption"><span data-t="Historia lew i ruchów">Historia lew i ruchów</span><small data-t="Działa od razu" class="setting-timing">Działa od razu</small></span></label>
             <button type="button" class="setting-info" aria-expanded="false" aria-controls="trick-history-note">ⓘ</button>
           </div>
-          <p id="trick-history-note" class="setting-description" data-t="Opis historii lew" hidden></p>
+          <p id="trick-history-note" class="setting-description" data-t="Opis historii ruchów" hidden></p>
         </div>
       </fieldset>
       <section class="settings-section">
@@ -357,7 +357,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.10.10</span>
+    <span id="footer-version" translate="no">v1.10.11</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

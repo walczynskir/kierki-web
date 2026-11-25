@@ -101,7 +101,12 @@ test('classic cycles rotate the opening player and accumulate four complete matc
       else {
         ({ match, game } = next);
         const archived = match.cycle.trickHistory;
-        assert.equal(archived.length, 11 * (part + 1));
+        assert.equal(archived.length, (includePuzzle ? 12 : 11) * (part + 1));
+        if (includePuzzle) {
+          const puzzle = archived.find(deal => deal.part === part + 1 && deal.mode === 'puzzle');
+          assert.equal(puzzle.moves.filter(move => move.card !== null).length, 52);
+          assert.deepEqual(puzzle.moves.at(-1), persisted.game.lastMove);
+        }
         const recoveries = archived.filter(deal => deal.part === part + 1 && deal.mode === 'recover');
         assert.equal(recoveries.length, 4);
         assert.ok(recoveries.every(deal => deal.tricks.length === 13 && deal.tricks.every(trick => trick.cards.length === 4)));

@@ -24,6 +24,7 @@ export function playPuzzle(game, card = null) {
   game.lastMoves ??= game.lastMove ? { [game.lastMove.player]: game.lastMove.card } : {};
   game.lastMoves[player] = card;
   game.lastMove = { player, card };
+  (game.moves ??= []).push(game.lastMove);
   if (card !== null) {
     const hand = game.hands[player];
     hand.splice(hand.indexOf(card), 1);

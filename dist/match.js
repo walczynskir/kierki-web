@@ -1,5 +1,5 @@
 import { deal } from './engine.js?v=training-contracts-2';
-import { dealPuzzle } from './puzzle.js?v=seat-moves-1';
+import { dealPuzzle } from './puzzle.js?v=puzzle-history-1';
 
 const emptyPoints = () => [0, 0, 0, 0];
 const nextSeat = player => (player + 1) % 4;
@@ -52,7 +52,7 @@ export function matchScores(match, game) {
 
 function dealsWithCurrent(match, game) {
   return [...(match.dealHistory ?? []), {
-    number: match.number, mode: game.mode, tricks: game.tricks, points: game.points.slice()
+    number: match.number, mode: game.mode, tricks: game.tricks, moves: game.moves, points: game.points.slice()
   }];
 }
 
@@ -78,8 +78,8 @@ export function nextCycleMatch(match, game, random = Math.random) {
   const totals = negative.map((points, player) => points + positive[player] + puzzle[player]);
   const part = match.cycle.results.length + 1;
   const trickHistory = [...(match.cycle.trickHistory ?? []), ...dealsWithCurrent(match, game)
-    .filter(deal => deal.tricks?.some(trick => trick.cards?.length === 4))
-    .map(deal => ({ part, number: deal.number, mode: deal.mode, tricks: deal.tricks }))];
+    .filter(deal => deal.moves?.length || deal.tricks?.some(trick => trick.cards?.length === 4))
+    .map(({ number, mode, tricks, moves }) => ({ part, number, mode, tricks, moves }))];
   const cycle = { ...match.cycle, results: [...match.cycle.results, totals], trickHistory };
   const dealer = (cycle.firstDealer + cycle.results.length) % 4;
   const next = { number: 1, dealer, dealsPerMode: 4, negative: emptyPoints(),

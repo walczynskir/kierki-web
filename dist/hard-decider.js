@@ -1,7 +1,7 @@
 import { advance, computerCard, computerTrump, computerView, legalCards, play, rank, suit, suits, trickPoints, winner } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 
-import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=seat-moves-1';
+import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
 const seats = [0, 1, 2, 3];
 const deck = Array.from({ length: 52 }, (_, card) => card);
