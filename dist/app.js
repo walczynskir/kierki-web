@@ -1,11 +1,11 @@
-import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js?v=cycle-1';
+import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints, completedMatchWeight, cyclePartRecords } from './points-statistics.js?v=variant-rewards-1';
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=no-tricks-samples-1';
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=53';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=54';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -48,7 +48,11 @@ const themes = {
   sage: 'Klasyczny', garden: 'Ogród', tropics: 'Tropiki', beach: 'Plaża', ukraine: 'Ukraina',
   'orange-grove': 'Pomarańczowy gaj', copper: 'Miedź i patynę', 'night-sky': 'Nocne niebo'
 };
-const rewards = { 'orange-grove': 3, copper: 5, 'night-sky': 10 };
+const rewards = {
+  garden: 'classic-with', beach: 'classic-without', tropics: 'robbers-with',
+  'orange-grove': 'robbers-without', 'night-sky': 'cycle-with', copper: 'cycle-without',
+  ukraine: 'all'
+};
 let gameId = newId();
 let started = false;
 let scorecardOpen;
@@ -143,12 +147,32 @@ function isCompleted(record) {
 }
 
 function completedCount(records) {
-  return Object.values(records).filter(isCompleted).length;
+  return Object.values(records).reduce((total, record) => total + completedMatchWeight(record), 0);
+}
+
+function completedVariants(records) {
+  return new Set(Object.values(records).filter(validPointsRecord).map(record => record.variant));
 }
 
 function earnedThemes(records, unlocked) {
-  const completed = completedCount(records);
-  return [...new Set([...unlocked, ...Object.keys(rewards).filter(id => completed >= rewards[id])])];
+  const variants = completedVariants(records);
+  return [...new Set([...unlocked, ...Object.keys(rewards).filter(id =>
+    rewards[id] === 'all' ? variants.size === Object.keys(pointsVariants).length : variants.has(rewards[id]))])];
+}
+
+function migrateThemes() {
+  const key = 'games-chest-kierki-variant-rewards-v1';
+  if (read(key)) return;
+  if (profile || options || savedGame || savedTraining || Object.keys(results).length) {
+    const oldTotal = Object.values(results).filter(isCompleted).length;
+    const legacy = ['garden', 'tropics', 'beach', 'ukraine'];
+    for (const [id, goal] of Object.entries({ 'orange-grove': 3, copper: 5, 'night-sky': 10 })) {
+      if (oldTotal >= goal) legacy.push(id);
+    }
+    const unlocked = earnedThemes(results, [...unlockedThemes, ...legacy]);
+    if (!persistProfile(currentPreferences(), { results, unlockedThemes: unlocked })) return;
+  }
+  write(key, true);
 }
 
 function mergeProgress(incoming = { results: {}, unlockedThemes: [] }) {
@@ -169,16 +193,17 @@ function persistProfile(preferences, progress) {
   return true;
 }
 
-function record(outcome, points) {
+function recordCompleted(resultsToAdd) {
   const progress = mergeProgress();
-  if (isCompleted(progress.results[gameId])) {
-    results = progress.results;
-    unlockedThemes = progress.unlockedThemes;
-    return;
+  let changed = false;
+  for (const [id, entry] of resultsToAdd) {
+    if (isCompleted(progress.results[id])) continue;
+    progress.results[id] = entry;
+    changed = true;
   }
-  progress.results[gameId] = pointsRecord(match, activeDifficulty, points, outcome);
   progress.unlockedThemes = earnedThemes(progress.results, progress.unlockedThemes);
-  persistProfile(read(profileKey)?.preferences ?? currentPreferences(), progress);
+  if (changed) persistProfile(read(profileKey)?.preferences ?? currentPreferences(), progress);
+  else ({ results, unlockedThemes } = progress);
 }
 
 const statisticsReset = createStatisticsReset('kierki-statistics-baseline-v1', '#progress-dialog',
@@ -186,13 +211,18 @@ const statisticsReset = createStatisticsReset('kierki-statistics-baseline-v1', '
 
 function renderProgress() {
   const entries = statisticsReset.records(Object.entries(results).filter(([, outcome]) => isCompleted(outcome)));
-  const completed = completedCount(results);
+  const completed = entries.reduce((total, [, record]) => total + completedMatchWeight(record), 0);
+  const cycles = entries.filter(([, record]) => validPointsRecord(record) && record.variant.startsWith('cycle-')).length;
   const earned = earnedThemes(results, unlockedThemes);
   const next = Object.keys(rewards).find(id => !earned.includes(id));
-  const reward = next && { name: t(themes[next]), count: completed, goal: rewards[next] };
+  const reward = next && {
+    name: t(themes[next]), count: rewards[next] === 'all' ? completedVariants(results).size : 0,
+    goal: rewards[next] === 'all' ? Object.keys(pointsVariants).length : 1, label: rewardRequirement(next)
+  };
   const withoutPoints = entries.filter(([, record]) => !validPointsRecord(record)).length;
-  GamesChestProgressBar($('language').value, entries.length, reward, () => [
-    [t('Ukończone partie'), entries.length],
+  GamesChestProgressBar($('language').value, completed, reward, () => [
+    [t('Ukończone partie'), completed],
+    ...(cycles ? [[t('Ukończone cykle'), cycles]] : []),
     ...(withoutPoints ? [[t('W tym bez zapisanej punktacji'), withoutPoints]] : [])
   ], true);
   if ($('progress-dialog').open) renderPoints(entries);
@@ -203,6 +233,9 @@ const pointsVariants = {
   'classic-with': 'Klasyczna z układanką', 'classic-without': 'Klasyczna bez układanki',
   'cycle-with': 'Cykl czterech partii z układanką', 'cycle-without': 'Cykl czterech partii bez układanki'
 };
+function rewardRequirement(id) {
+  return rewards[id] === 'all' ? t('Ukończ wszystkie warianty') : t(pointsVariants[rewards[id]]);
+}
 const pointsLevels = { easy: 'Łatwy', medium: 'Średni', hard: 'Trudny' };
 
 function renderPoints(entries) {
@@ -301,7 +334,7 @@ function renderShell() {
   for (const info of $('options').querySelectorAll('.setting-info')) {
     info.setAttribute('aria-label', t('Informacje o ustawieniu') + ': ' + info.parentElement.querySelector('label [data-t]').textContent);
   }
-  const featured = ['sage', 'garden', 'tropics', 'beach'];
+  const featured = ['sage', ...Object.keys(rewards).filter(available)];
   if (!featured.includes(theme)) featured.push(theme);
   $('theme').replaceChildren(...featured.map(id => new Option(t(themes[id]), id)), new Option(t('Więcej motywów…'), 'gallery'));
   $('theme').value = theme;
@@ -335,7 +368,7 @@ function renderShell() {
     tile.prepend(preview);
     if (goal) {
       const progress = document.createElement('small');
-      progress.textContent = unlocked ? t('Odblokowany') : t('Ukończone partie') + ' ' + completed + '/' + goal;
+      progress.textContent = unlocked ? t('Odblokowany') : rewardRequirement(id);
       tile.append(progress);
     }
     return tile;
@@ -739,8 +772,18 @@ function render() {
   const winners = topPlayers(totals);
   const overallWinners = cycleFinished ? topPlayers(seriesTotals) : winners;
   const won = overallWinners.length === 1 && overallWinners[0] === 0;
-  if (!match.single && matchFinished && (!cyclePart || cycleFinished)) {
-    record(overallWinners.length > 1 ? 'draw' : won ? 'win' : 'completed-loss', seriesTotals[0]);
+  if (!match.single && cyclePart && !validPointsRecord(results[gameId])) {
+    const completedParts = cyclePart - Number(!matchFinished);
+    const ids = Array.from({ length: completedParts }, (_, index) => gameId + ':part:' + (index + 1));
+    if (cycleFinished || ids.some(id => !isCompleted(results[id]))) {
+      const { parts, total } = cyclePartRecords(match, activeDifficulty,
+        matchFinished ? totals : null, cycleFinished ? seriesTotals : null, outcomeFor);
+      const records = parts.map((entry, index) => [ids[index], entry]);
+      if (total) records.push([gameId, total]);
+      recordCompleted(records);
+    }
+  } else if (!match.single && !cyclePart && matchFinished) {
+    recordCompleted([[gameId, pointsRecord(match, activeDifficulty, totals[0], outcomeFor(totals))]]);
   }
   const showScores = $('show-scores').checked;
   const showHistory = $('show-history').checked;
@@ -989,6 +1032,11 @@ function render() {
     const { className, dataset } = focusedScoreControl;
     $('scores').querySelector(`.${className}[data-player="${dataset.player}"]`)?.focus({ preventScroll: true });
   }
+}
+
+function outcomeFor(totals) {
+  const winners = topPlayers(totals);
+  return winners.length > 1 ? 'draw' : winners[0] === 0 ? 'win' : 'completed-loss';
 }
 
 const topPlayers = totals => totals.flatMap((points, player) => points === Math.max(...totals) ? [player] : []);
@@ -1482,6 +1530,7 @@ $('theme').onchange = () => {
   saveOptions();
 };
 $('contrast').onclick = () => { contrast = !contrast; saveOptions(); };
+migrateThemes();
 saveGame();
 render();
 showWelcomeOnLaunch();

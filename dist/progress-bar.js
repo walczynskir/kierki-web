@@ -91,7 +91,7 @@
     const accessible = [title, (countCompleted ? completed : won) + ': ' + number.format(count)];
     if (reward) {
       const fraction = number.format(reward.count) + '/' + number.format(reward.goal);
-      const detail = next + ': ' + reward.name + ' · ' + fraction + ' · ' + (reward.wins ? won : completed);
+      const detail = next + ': ' + reward.name + ' · ' + fraction + ' · ' + (reward.label ?? (reward.wins ? won : completed));
       get('progress-next-count').textContent = fraction;
       get('progress-reward-detail').textContent = detail;
       accessible.push(detail);

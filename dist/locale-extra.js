@@ -2,6 +2,8 @@
 export const extraLanguages = ['de', 'es', 'fr', 'it', 'uk', 'ar', 'hi', 'zh-Hans'];
 
 const rows = `
+Ukończone cykle|Abgeschlossene Serien|Series completadas|Séries terminées|Serie completate|Завершені цикли|السلاسل المكتملة|पूरी हुई शृंखलाएँ|已完成系列赛
+Ukończ wszystkie warianty|Schließe alle Varianten ab|Completa todas las variantes|Terminez toutes les variantes|Completa tutte le varianti|Завершіть усі варіанти|أكمل جميع الأنماط|सभी प्रकार पूरे करें|完成所有玩法
 Kliknij stół, aby spasować|Tippe zum Passen auf den Tisch|Toca la mesa para pasar|Touchez la table pour passer|Tocca il tavolo per passare|Торкніться столу, щоб пасувати|اضغط على الطاولة لتمرير الدور|पास करने के लिए मेज़ पर टैप करें|点击牌桌跳过
 Automatyczny pas w Układance|In Achter automatisch passen|Pasar automáticamente en Ochos|Passer automatiquement aux Huit|Passa automaticamente negli Otto|Автоматичний пас у Вісімках|التمرير تلقائيًا في الثمانيات|आठों के खेल में अपने आप पास करें|八点接龙自动跳过
 Miejsce {place}|Platz {place}|Puesto {place}|Place {place}|Posizione {place}|Місце {place}|المركز {place}|स्थान {place}|第{place}名

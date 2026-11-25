@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=29';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=30';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,8 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Ukończone cykle': 'Completed series',
+  'Ukończ wszystkie warianty': 'Complete all variants',
   'Kliknij stół, aby spasować': 'Tap the table to pass',
   'Automatyczny pas w Układance': 'Pass automatically in Eights',
   'W tym bez zapisanej punktacji': 'Of which without saved scores',

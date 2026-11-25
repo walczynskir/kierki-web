@@ -1,3 +1,8 @@
+# 1.11.2 — 2026-11-25
+
+- Każda ukończona partia cyklu liczy się do postępów, a całe cykle mają osobny licznik.
+- Na nowych profilach motywy odblokowują się za ukończenie wariantów. Dotychczasowe profile zachowują dostępne motywy.
+
 # 1.11.1 — 2026-11-25
 
 - Wyniki rozwija i zwija nagłówek „Punktacja”. Usunięto osobny przycisk pokazywania wyników.
