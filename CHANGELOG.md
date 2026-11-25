@@ -1,3 +1,7 @@
+# 1.11.1 — 2026-11-25
+
+- Wyniki rozwija i zwija nagłówek „Punktacja”. Usunięto osobny przycisk pokazywania wyników.
+
 # 1.11.0 — 2026-11-25
 
 - Zmieniono numer wersji po aktualizacjach Układanki, postępów i cyklu czterech partii.

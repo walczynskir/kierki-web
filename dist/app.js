@@ -551,19 +551,7 @@ function update(move, previousPhase = game.phase) {
   render();
   if (finishedDeal) scrollToScorecard();
   if (!$('next-trick').hidden) $('next-trick').focus({ preventScroll: true });
-  else if (game.phase === 'done') {
-    const control = $('game-area').classList.contains('game-fullscreen')
-      ? $('scorecard').querySelector('summary') : $('toggle-results');
-    control?.focus({ preventScroll: true });
-  }
-}
-
-function updateResultsToggle() {
-  const open = $('scorecard').open;
-  const toggle = $('toggle-results');
-  if (!toggle) return;
-  toggle.textContent = t(open ? 'Schowaj wyniki' : 'Pokaż wyniki');
-  toggle.setAttribute('aria-expanded', String(open));
+  else if (game.phase === 'done') $('scorecard').querySelector('summary').focus({ preventScroll: true });
 }
 
 function handFan(player, orderedHand, angle = 2.5) {
@@ -763,7 +751,6 @@ function render() {
   $('undo').disabled = !past.length;
   $('redo').disabled = !future.length;
   renderScorecard();
-  updateResultsToggle();
   const actions = $('actions');
   actions.replaceChildren();
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
@@ -837,11 +824,6 @@ function render() {
       window.GameVictory?.(won && !canContinueCycle, t('Wygrywasz!'), $('table'));
       if (match.single) actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
     }
-    const resultsToggle = button('', toggleScorecard);
-    resultsToggle.id = 'toggle-results';
-    resultsToggle.setAttribute('aria-controls', 'scorecard');
-    actions.append(resultsToggle);
-    updateResultsToggle();
   } else {
     const number = game.tricks.length + 1;
     $('status').textContent = t('Lewa') + ' ' + number + ' / 13 · ' + (game.turn === 0 ? t('Twój ruch') : t('Gra {player}', names[game.turn]));
@@ -1271,7 +1253,6 @@ function renderScorecard() {
 function setScorecardOpen(open) {
   scorecardOpen = open;
   renderScorecard();
-  updateResultsToggle();
   saveGame();
 }
 $('scorecard').querySelector('summary').addEventListener('click', event => {
@@ -1282,7 +1263,6 @@ function setFullscreen(full) {
   const area = $('game-area');
   if (area.classList.toggle('game-fullscreen', full)) area.scrollTop = 0;
   renderScorecard();
-  updateResultsToggle();
   renderShell();
 }
 $('fullscreen').onclick = async () => {
