@@ -479,12 +479,26 @@ function renderTrickHistory() {
 }
 
 function renderPuzzleHistory(moves) {
-  const list = document.createElement('ol');
-  list.className = 'history-puzzle-moves';
-  for (const { player, card } of moves.slice().reverse()) {
-    const row = document.createElement('li');
-    const name = document.createElement('bdi');
-    name.textContent = playerName(player);
+  const table = document.createElement('table');
+  table.className = 'history-puzzle-moves';
+  table.setAttribute('aria-label', t('Układanka'));
+  const headings = table.createTHead().insertRow();
+  for (const player of seatNames.keys()) {
+    const heading = document.createElement('th');
+    heading.scope = 'col';
+    heading.dir = 'auto';
+    heading.textContent = playerName(player);
+    headings.append(heading);
+  }
+  const body = table.createTBody();
+  let row;
+  let previousPlayer = seatNames.length;
+  for (const { player, card } of moves) {
+    if (player <= previousPlayer) {
+      row = body.insertRow(0);
+      for (const seat of seatNames.keys()) row.insertCell();
+    }
+    previousPlayer = player;
     const move = document.createElement('span');
     if (card === null) move.textContent = t('Pas');
     else {
@@ -495,10 +509,9 @@ function renderPuzzleHistory(moves) {
       move.setAttribute('aria-label', cardName(card));
       move.textContent = rankLabel(rank(card), $('language').value) + color;
     }
-    row.append(name, move);
-    list.append(row);
+    row.cells[player].append(move);
   }
-  return list;
+  return table;
 }
 
 function renderHistoryTricks(tricks) {

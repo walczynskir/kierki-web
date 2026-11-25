@@ -1,3 +1,7 @@
+# 1.10.13 — 2026-11-25
+
+- Historia Układanki pokazuje zagrania i pasy w czterech kolumnach graczy.
+
 # 1.10.12 — 2026-11-25
 
 - W Układance liczba kart w ręce jest widoczna obok ostatniego zagrania lub pasu.
