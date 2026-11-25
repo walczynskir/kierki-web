@@ -50,10 +50,16 @@ export function matchScores(match, game) {
   };
 }
 
+function dealsWithCurrent(match, game) {
+  return [...(match.dealHistory ?? []), {
+    number: match.number, mode: game.mode, tricks: game.tricks, points: game.points.slice()
+  }];
+}
+
 export function nextMatchDeal(match, game, random = Math.random) {
   if (game.phase !== 'done' || match.number >= matchLength(match)) return null;
   const { negative, positive } = matchScores(match, game);
-  const dealHistory = [...(match.dealHistory ?? []), { number: match.number, mode: game.mode, tricks: game.tricks, points: game.points.slice() }];
+  const dealHistory = dealsWithCurrent(match, game);
   const next = { ...match, number: match.number + 1, dealer: nextSeat(match.dealer), negative, positive, dealHistory };
   return { match: next, game: dealForMatch(next, random) };
 }
@@ -70,7 +76,11 @@ export function nextCycleMatch(match, game, random = Math.random) {
       || game.phase !== 'done' || match.number !== matchLength(match)) return null;
   const { negative, positive, puzzle } = matchScores(match, game);
   const totals = negative.map((points, player) => points + positive[player] + puzzle[player]);
-  const cycle = { ...match.cycle, results: [...match.cycle.results, totals] };
+  const part = match.cycle.results.length + 1;
+  const trickHistory = [...(match.cycle.trickHistory ?? []), ...dealsWithCurrent(match, game)
+    .filter(deal => deal.tricks?.some(trick => trick.cards?.length === 4))
+    .map(deal => ({ part, number: deal.number, mode: deal.mode, tricks: deal.tricks }))];
+  const cycle = { ...match.cycle, results: [...match.cycle.results, totals], trickHistory };
   const dealer = (cycle.firstDealer + cycle.results.length) % 4;
   const next = { number: 1, dealer, dealsPerMode: 4, negative: emptyPoints(),
     positive: emptyPoints(), includePuzzle: match.includePuzzle, single: null, format: 'classic', cycle };

@@ -98,7 +98,14 @@ test('classic cycles rotate the opening player and accumulate four complete matc
       const persisted = JSON.parse(JSON.stringify({ match, game }));
       const next = nextCycleMatch(persisted.match, persisted.game, random);
       if (part === cycleLength - 1) assert.equal(next, null);
-      else ({ match, game } = next);
+      else {
+        ({ match, game } = next);
+        const archived = match.cycle.trickHistory;
+        assert.equal(archived.length, 11 * (part + 1));
+        const recoveries = archived.filter(deal => deal.part === part + 1 && deal.mode === 'recover');
+        assert.equal(recoveries.length, 4);
+        assert.ok(recoveries.every(deal => deal.tricks.length === 13 && deal.tricks.every(trick => trick.cards.length === 4)));
+      }
     }
     assert.deepEqual(openingPlayers, [2, 3, 0, 1]);
   }

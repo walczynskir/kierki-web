@@ -2,7 +2,7 @@ import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } f
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
 import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=seat-moves-1';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=seat-moves-1';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=trick-disclosures-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=seat-moves-1';
 
 import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=48';
@@ -111,6 +111,7 @@ function loadSession(session) {
   ({ game, started } = session);
   scorecardOpen = typeof session.scorecardOpen === 'boolean' ? session.scorecardOpen : undefined;
   $('trick-history').open = false;
+  $('trick-history-list').replaceChildren();
   match = session.match ?? legacyMatch(game, session.robberPoints);
   gameId = session.id;
   activeDifficulty = difficulties.includes(session.difficulty) ? session.difficulty : 'medium';
@@ -339,7 +340,12 @@ function renderShell() {
   $('gallery-rewards').replaceChildren(...Object.keys(rewards).map(id => themeTile(id)));
 }
 
-const snapshot = () => structuredClone({ game, match });
+function snapshot() {
+  if (!match.cycle?.trickHistory) return structuredClone({ game, match });
+  // Earlier parts of the cycle cannot be undone, so keep their tricks out of undo snapshots.
+  const { trickHistory, ...cycle } = match.cycle;
+  return structuredClone({ game, match: { ...match, cycle } });
+}
 
 function humanMove(move) {
   const before = snapshot();
@@ -390,6 +396,7 @@ function restoreHistory(from, to) {
   game = previous.game;
   const previousMatch = previous.match ?? legacyMatch(game, previous.robberPoints);
   if (match.number !== previousMatch.number || wasDone !== (game.phase === 'done')) scorecardOpen = undefined;
+  if (previousMatch.cycle && match.cycle?.trickHistory) previousMatch.cycle.trickHistory = match.cycle.trickHistory;
   match = previousMatch;
   saveGame();
   render();
@@ -442,39 +449,57 @@ function face(element, card) {
 
 function renderTrickHistory() {
   const history = $('trick-history-list');
+  const openDeals = new Map([...history.children].map(section => [section.dataset.deal, section.open]));
+  const previousLatest = history.firstElementChild?.dataset.deal;
+  const part = match.cycle ? match.cycle.results.length + 1 : 0;
   const currentDeal = { number: match.number, mode: game.mode, tricks: game.tricks };
-  const deals = [...(match.dealHistory ?? []), currentDeal];
+  const deals = [...(match.cycle?.trickHistory ?? []),
+    ...[...(match.dealHistory ?? []), currentDeal].map(deal => ({ ...deal, part }))];
   history.replaceChildren();
   for (const deal of deals.reverse()) {
-    const section = document.createElement('section');
-    const heading = document.createElement('h3');
-    heading.textContent = t('Rozdanie') + ' ' + deal.number + ' · ' + t(dealTitle(deal.mode));
-    const list = document.createElement('ol');
-    const tricks = deal.tricks.flatMap((trick, index) => trick.cards?.length === 4 ? [{ trick, number: index + 1 }] : []);
-    for (const { trick, number } of tricks.reverse()) {
-      const row = document.createElement('li');
-      const summary = document.createElement('p');
-      summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze {player}', playerName(trick.taker));
-      const cards = document.createElement('ul');
-      cards.className = 'history-trick-cards';
-      for (const { player, card } of trick.cards) {
-        const item = document.createElement('li');
-        const name = document.createElement('span');
-        name.textContent = playerName(player);
-        const played = face(document.createElement('span'), card);
-        played.setAttribute('role', 'img');
-        item.classList.toggle('took-trick', player === trick.taker);
-        item.append(name, played);
-        cards.append(item);
-      }
-      row.append(summary, cards);
-      list.append(row);
-    }
-    if (!list.childElementCount) continue;
-    section.append(heading, list);
+    const tricks = (deal.tricks ?? []).flatMap((trick, index) => trick.cards?.length === 4 ? [{ trick, number: index + 1 }] : []);
+    if (!tricks.length) continue;
+    const section = document.createElement('details');
+    section.dataset.deal = deal.part + '/' + deal.number;
+    const latest = history.firstElementChild?.dataset.deal ?? section.dataset.deal;
+    section.open = latest === previousLatest ? openDeals.get(section.dataset.deal) ?? false : section.dataset.deal === latest;
+    const heading = document.createElement('summary');
+    heading.textContent = (deal.part ? t('Partia') + ' ' + deal.part + ' · ' : '')
+      + t('Rozdanie') + ' ' + deal.number + ' · ' + t(dealTitle(deal.mode));
+    section.append(heading);
+    const renderList = () => {
+      if (!section.open || section.children.length > 1) return;
+      section.append(renderHistoryTricks(tricks));
+    };
+    section.addEventListener('toggle', renderList);
+    renderList();
     history.append(section);
   }
   $('trick-history-empty').hidden = history.childElementCount !== 0;
+}
+
+function renderHistoryTricks(tricks) {
+  const list = document.createElement('ol');
+  for (const { trick, number } of tricks.reverse()) {
+    const row = document.createElement('li');
+    const summary = document.createElement('p');
+    summary.textContent = t('Lewa') + ' ' + number + ' · ' + t('Lewę bierze {player}', playerName(trick.taker));
+    const cards = document.createElement('ul');
+    cards.className = 'history-trick-cards';
+    for (const { player, card } of trick.cards) {
+      const item = document.createElement('li');
+      const name = document.createElement('span');
+      name.textContent = playerName(player);
+      const played = face(document.createElement('span'), card);
+      played.setAttribute('role', 'img');
+      item.classList.toggle('took-trick', player === trick.taker);
+      item.append(name, played);
+      cards.append(item);
+    }
+    row.append(summary, cards);
+    list.append(row);
+  }
+  return list;
 }
 
 function update(move, previousPhase = game.phase) {

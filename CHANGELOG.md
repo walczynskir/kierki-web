@@ -1,3 +1,7 @@
+# 1.10.10 — 2026-11-25
+
+- Zachowano lewy, w tym Odgrywki, przy przejściu między partiami cyklu. Każde rozdanie ma zwijaną sekcję, a najnowsze jest domyślnie rozwinięte.
+
 # 1.10.9 — 2026-11-25
 
 - W Układance każde miejsce przeciwnika pokazuje jego ostatnią zagraną kartę lub pas.

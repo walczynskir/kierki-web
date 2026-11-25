@@ -674,6 +674,14 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 }
 .table-next[hidden] { display: none; }
 #trick-history:not([hidden]) { margin-top: 8px; }
+#trick-history-list > details {
+  border-block-start: 1px solid var(--line);
+}
+#trick-history-list > details > summary {
+  padding-block: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
 #trick-history-list ol, .history-trick-cards {
   padding: 0;
   margin: 0;
