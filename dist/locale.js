@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=27';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=28';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,8 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Kliknij stół, aby spasować': 'Tap the table to pass',
+  'Automatyczny pas w Układance': 'Pass automatically in Eights',
   'W tym bez zapisanej punktacji': 'Of which without saved scores',
   'Gra {player}': '{player} to play',
   'Lewę bierze {player}': '{player} takes the trick',
@@ -60,7 +62,7 @@ const english = {
   'Pomoc Kierek wyjscie w kiery': 'In No Hearts, No King of Hearts, and Robber, you can lead hearts only if you have no other suit. A penalty contract can end early once all its penalty cards have been taken.',
   'Pomoc Kierek punkty odgrywki': 'Try to take as many tricks as possible. Each trick earns 5 points in Classic and the four-match series, or 10 in Robber matches and single-contract practice.',
   'Pomoc Kierek atu': 'The opening player chooses trump by tapping one of their first seven cards, or chooses No trump. Follow suit if you can. If you cannot, play a trump if possible and overtrump if you can. When following suit in no-trump play, you must beat the highest card already played if possible.',
-  'Pomoc Kierek pas automatyczny': 'The game passes automatically when a player has no legal move.',
+  'Pomoc Kierek pas automatyczny': 'If you have no legal move, tap the table to pass. In Settings, you can choose to pass automatically.',
   'Pomoc Kierek punktacja': 'The highest total wins. Open Scores under the table and tap a player’s row to see points by deal. The pencil lets you change that player’s name.',
   'Pomoc Kierek ustawienia': 'Set the computer difficulty and pace in Settings. You can also enable Undo, Redo and trick history, or reopen the introduction. Settings also contains backup and restore.',
   'Wybierz wariant': 'Choose a variant',
@@ -97,7 +99,7 @@ const english = {
   'Rozpocznij układankę': 'Start Eights', 'Pas': 'Pass', kart: 'cards', miejsce: 'place',
   'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Kliknij kartę pod stołem, aby ją dołożyć.': 'Tap a card below the table to add it.',
   'Opis opcji układanki': 'Adds an Eights deal after the four recovery deals. Applies from the next game.',
-  'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn. If you have no legal move, the game passes for you. Players score +10, +5, −5 and −10 in the order they empty their hands.',
+  'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn. Players score +10, +5, −5 and −10 in the order they empty their hands.',
   'Łatwy': 'Easy', 'Średni': 'Medium',
   'Trudny': 'Hard',
   'Opis poziomów z trudnym': 'Hard tests possible continuations using cards known to the player. The change applies from the next game.',
@@ -161,7 +163,7 @@ const polish = {
   'Pomoc Kierek wyjscie w kiery': 'W „Nie brać kierów”, „Nie brać króla kier” i Rozbójniku możesz wyjść w kiery tylko wtedy, gdy nie masz innego koloru. Kontrakt ujemny może skończyć się wcześniej, gdy wszystkie karne karty zostały już wzięte.',
   'Pomoc Kierek punkty odgrywki': 'Staraj się wziąć jak najwięcej lew. Każda daje 5 pkt w partii klasycznej i w cyklu, a 10 pkt w wariancie Rozbójniki oraz w treningu.',
   'Pomoc Kierek atu': 'Rozpoczynający wybiera atu, klikając jedną z pierwszych siedmiu kart, albo wybiera „Bez atu”. Jeśli możesz, dokładasz do koloru wyjścia. Jeśli nie możesz, zagrywasz atut, gdy go masz, i przebijasz wyższym atutem, jeśli możesz. Bez atu musisz przebić w kolorze wyjścia, jeśli masz wyższą kartę.',
-  'Pomoc Kierek pas automatyczny': 'Jeśli żaden ruch nie jest możliwy, gra automatycznie zgłasza pas za gracza.',
+  'Pomoc Kierek pas automatyczny': 'Jeśli nie masz pasującej karty, kliknij stół, aby spasować. W ustawieniach możesz włączyć automatyczne pasowanie.',
   'Pomoc Kierek punktacja': 'Wygrywa najwyższy wynik łączny. Rozwiń Punktację pod stołem i kliknij wiersz gracza, aby zobaczyć punkty za poszczególne rozdania. Ołówek pozwala zmienić imię gracza.',
   'Pomoc Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności komputerów i tempo gry. Możesz tam też włączyć cofanie i przywracanie ruchów, historię lew, ponownie otworzyć wprowadzenie oraz zapisać lub przywrócić kopię.',
   'Powitanie Kierek zasady': 'Grasz przeciwko trzem graczom komputerowym. Dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.',
@@ -177,7 +179,7 @@ const polish = {
   'Opis treningu': 'Rozegraj jedno rozdanie. Trening nie zmienia statystyk, a do trwającej partii możesz wrócić.',
   'Opis opcji układanki': 'Dodaje układankę od ósemek po czterech odgrywkach. Zmiana obowiązuje od następnej partii.',
   'Opis wariantów partii': 'Rozbójniki zaczynają się od czterech Rozbójników. Partia klasyczna zaczyna się od sześciu kontraktów ujemnych i jednego Rozbójnika. W obu wariantach potem są cztery Odgrywki i opcjonalna Układanka. Zmiana obowiązuje od następnej partii.',
-  'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Jeśli nie masz pasującej karty, gra automatycznie pasuje za Ciebie. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
+  'Zasady układanki': 'Układanka to opcjonalne ostatnie rozdanie. Każdy kolor zaczyna się od ósemki. Dokładaj po jednej karcie do koloru, kolejno w dół do dwójki lub w górę do asa. Kolejność pozbycia się kart daje +10, +5, −5 i −10 punktów.',
   'Opis poziomów z trudnym': 'Trudny symuluje dalszą grę na podstawie kart znanych graczowi. Zmiana obowiązuje od następnej partii.',
   'Opis poziomów Kierek': 'Łatwy używa prostej strategii prototypu. Średni uwzględnia także karty z wcześniejszych lew. Zmiana obowiązuje od następnej partii.',
   'Opis punktacji': 'Pokazuje na stole punkty za właśnie zakończoną lewę.',

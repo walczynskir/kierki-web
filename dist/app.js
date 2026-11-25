@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=51';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=52';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -19,7 +19,7 @@ let timer;
 const past = [];
 const future = [];
 const optionsKey = 'games-chest-kierki-options-v1';
-const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'large'];
+const optionIds = ['show-scores', 'show-history', 'show-trick-history', 'lift-playable', 'auto-puzzle-pass', 'large'];
 const includesPuzzle = (variant = preferredVariant) => !variant.endsWith('without');
 const selectedFormat = (variant = preferredVariant) => ['classic', 'cycle'].find(format => variant.startsWith(format + '-')) ?? 'robbers';
 const formatOption = preferences => (['classic', 'cycle'].includes(preferences?.['match-format']) ? preferences['match-format'] + '-' : '')
@@ -766,8 +766,9 @@ function render() {
   const actions = $('actions');
   actions.replaceChildren();
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
+  const confirmPass = puzzle && game.phase === 'play' && game.turn === 0 && !legal.length && !$('auto-puzzle-pass').checked;
   const tableAction = $('next-trick');
-  tableAction.hidden = game.phase !== 'review' && (game.phase !== 'done' || lastDeal);
+  tableAction.hidden = !confirmPass && game.phase !== 'review' && (game.phase !== 'done' || lastDeal);
   const cue = $('play-card-cue');
   const puzzleMove = puzzle ? game.lastMove : null;
   const moveCard = puzzleMove?.card;
@@ -798,9 +799,10 @@ function render() {
   if (puzzle && game.phase === 'play') {
     const lastMove = moveLabel ? moveLabel + ' · ' : '';
     $('status').textContent = lastMove + (game.turn === 0
-      ? t(legal.length ? 'Twój ruch' : 'Nie masz pasującej karty. Pasujesz automatycznie.')
+      ? t(legal.length ? 'Twój ruch' : confirmPass ? 'Kliknij stół, aby spasować' : 'Nie masz pasującej karty. Pasujesz automatycznie.')
       : t('Gra {player}', names[game.turn]));
-    if (game.turn !== 0 || !legal.length) {
+    if (confirmPass) tableAction.firstElementChild.textContent = t('Kliknij stół, aby spasować');
+    else if (game.turn !== 0 || !legal.length) {
       timer = setTimeout(() => {
         const card = game.turn === 0 ? null : activeDifficulty === 'hard' ? decideHardPuzzleCard(game)
           : computerPuzzleCard(game, activeDifficulty);
@@ -1230,7 +1232,9 @@ function showWelcomeOnLaunch() {
   showWelcome();
 }
 $('next-trick').onclick = () => {
-  if (game.phase === 'review') update(() => advance(game));
+  if (game.mode === 'puzzle' && game.phase === 'play' && game.turn === 0 && !$('auto-puzzle-pass').checked) {
+    humanMove(() => playPuzzle(game));
+  } else if (game.phase === 'review') update(() => advance(game));
   else if (game.phase === 'done' && match.number < matchLength(match)) {
     ({ match, game } = nextMatchDeal(match, game));
     scorecardOpen = undefined;
@@ -1341,12 +1345,16 @@ const legacyBackupOptions = {
   ...liftBackupOptions,
   'show-trick-history': value => typeof value === 'boolean'
 };
+const formatBackupOptions = {
+  ...legacyBackupOptions,
+  'match-format': value => ['robbers', 'classic', 'cycle'].includes(value)
+};
 const backupSchema = {
   game: 'kierki',
   languages,
   options: {
-    ...legacyBackupOptions,
-    'match-format': value => ['robbers', 'classic', 'cycle'].includes(value)
+    ...formatBackupOptions,
+    'auto-puzzle-pass': value => typeof value === 'boolean'
   },
   validProgress(progress) {
     if (!progress || Object.keys(progress).length !== 2 || !Object.hasOwn(progress, 'results')
@@ -1358,7 +1366,7 @@ const backupSchema = {
   }
 };
 function parseBackup(text) {
-  const optionSchemas = [backupSchema.options, legacyBackupOptions, liftBackupOptions, paceBackupOptions, puzzleBackupOptions, difficultyBackupOptions, previousBackupOptions];
+  const optionSchemas = [backupSchema.options, formatBackupOptions, legacyBackupOptions, liftBackupOptions, paceBackupOptions, puzzleBackupOptions, difficultyBackupOptions, previousBackupOptions];
   for (const options of optionSchemas) {
     try {
       const candidate = GamesChestBackup.parse(text, { ...backupSchema, options });
@@ -1368,6 +1376,7 @@ function parseBackup(text) {
       candidate.preferences['play-pace'] ??= $('play-pace').value;
       candidate.preferences['lift-playable'] ??= $('lift-playable').checked;
       candidate.preferences['show-trick-history'] ??= $('show-trick-history').checked;
+      candidate.preferences['auto-puzzle-pass'] ??= false;
       return candidate;
     } catch (error) {
       if (error.code !== 'invalid' || options === previousBackupOptions) throw error;

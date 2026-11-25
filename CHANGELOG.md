@@ -1,3 +1,7 @@
+# 1.10.16 — 2026-11-25
+
+- Przy braku ruchu w Układance gracz potwierdza pas kliknięciem stołu. Automatyczne pasowanie można włączyć w ustawieniach.
+
 # 1.10.15 — 2026-11-25
 
 - Doprecyzowano nazwy wariantów w oknie „Nowa gra”.
