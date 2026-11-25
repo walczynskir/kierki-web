@@ -43,7 +43,7 @@ Koniec cyklu|Serie beendet|Fin de la serie|Fin de la série|Serie conclusa|Се�
 Twoje miejsce|Dein Platz|Tu puesto|Votre place|Il tuo posto|Ваше місце|مركزك|आपका स्थान|你的名次
 Ostatnia partia|Letzte Partie|Última partida|Dernière partie|Ultima partita|Остання партія|المباراة الأخيرة|आखिरी मैच|最后一局
 Klasyfikacja cyklu|Serienwertung|Clasificación de la serie|Classement de la série|Classifica della serie|Таблиця серії|ترتيب السلسلة|श्रृंखला की तालिका|系列赛排名
-Rozpocznij kolejną partię|Nächste Partie starten|Empezar la siguiente partida|Commencer la partie suivante|Inizia la prossima partita|Почати наступну партію|ابدأ المباراة التالية|अगला मैच शुरू करें|开始下一局
+Kliknij stół, aby rozpocząć kolejną partię|Tippe für die nächste Partie auf den Tisch|Toca la mesa para empezar la siguiente partida|Touchez la table pour commencer la partie suivante|Tocca il tavolo per iniziare la prossima partita|Торкніться столу, щоб почати наступну партію|اضغط على الطاولة لبدء المباراة التالية|अगला मैच शुरू करने के लिए मेज़ पर टैप करें|点击牌桌开始下一场对局
 Cykl czterech partii z układanką|Vier Partien mit Achter|Serie de cuatro partidas con Ochos|Série de quatre parties avec les Huit|Serie di quattro partite con gli Otto|Серія з чотирьох партій із вісімками|سلسلة أربع مباريات مع الثمانيات|आठों के साथ चार मैचों की श्रृंखला|四局系列赛（含八点接龙）
 Cykl czterech partii bez układanki|Vier Partien ohne Achter|Serie de cuatro partidas sin Ochos|Série de quatre parties sans les Huit|Serie di quattro partite senza gli Otto|Серія з чотирьох партій без вісімок|سلسلة أربع مباريات دون الثمانيات|आठों के बिना चार मैचों की श्रृंखला|四局系列赛（不含八点接龙）
 

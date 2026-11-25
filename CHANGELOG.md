@@ -1,3 +1,7 @@
+# 1.10.17 — 2026-11-25
+
+- Puchar cyklu pojawia się po zwycięstwie w całym cyklu. Kolejną partię rozpoczyna kliknięcie stołu. Klasyfikacja pokazuje cztery wyniki i sumę.
+
 # 1.10.16 — 2026-11-25
 
 - Przy braku ruchu w Układance gracz potwierdza pas kliknięciem stołu. Automatyczne pasowanie można włączyć w ustawieniach.

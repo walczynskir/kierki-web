@@ -21,9 +21,9 @@
 <link rel="stylesheet" href="./progress-bar.css">
 <link rel="stylesheet" href="./progress-summary.css?v=points-levels-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
-<link rel="stylesheet" href="./style.css?v=puzzle-history-columns-1">
+<link rel="stylesheet" href="./style.css?v=cycle-results-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=puzzle-pass-1"></script>
+<script type="module" src="./app.js?v=cycle-results-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=safari-install-guide-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -93,8 +93,11 @@
     <table><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th id="robber-score-heading" scope="col">Rozbójnik</th><th id="recovery-score-heading" scope="col" data-t="Odgrywka">Odgrywka</th><th id="puzzle-score-heading" scope="col" data-t="Układanka" hidden>Układanka</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="scores"></tbody></table>
     <section id="cycle-standings" aria-labelledby="cycle-title" hidden>
       <h3 id="cycle-title" data-t="Klasyfikacja cyklu">Klasyfikacja cyklu</h3>
-      <table aria-labelledby="cycle-title"><thead><tr><th scope="col" data-t="Gracz">Gracz</th><th scope="col" data-t="Razem">Razem</th></tr></thead><tbody id="cycle-scores"></tbody></table>
-      <button id="next-cycle-match" type="button" class="primary" data-t="Rozpocznij kolejną partię" hidden>Rozpocznij kolejną partię</button>
+      <table aria-labelledby="cycle-title"><thead><tr>
+        <th scope="col" data-t="Gracz">Gracz</th>
+        <th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th>
+        <th scope="col" data-t="Razem">Razem</th>
+      </tr></thead><tbody id="cycle-scores"></tbody></table>
     </section>
     <details id="deal-score-history">
       <summary id="deal-scores-title" data-t="Punkty za rozdania">Punkty za rozdania</summary>
@@ -363,7 +366,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.10.16</span>
+    <span id="footer-version" translate="no">v1.10.17</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

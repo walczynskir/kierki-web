@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=52';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=53';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -746,6 +746,7 @@ function render() {
   const matchFinished = lastDeal && game.phase === 'done';
   const cyclePart = match.cycle ? match.cycle.results.length + 1 : null;
   const cycleFinished = matchFinished && cyclePart === cycleLength;
+  const canContinueCycle = matchFinished && cyclePart !== null && !cycleFinished;
   const seriesTotals = cycleTotals(match, totals);
   const winners = topPlayers(totals);
   const overallWinners = cycleFinished ? topPlayers(seriesTotals) : winners;
@@ -768,7 +769,7 @@ function render() {
   const legal = game.turn === 0 ? (puzzle ? puzzleCards(game) : legalCards(game)) : [];
   const confirmPass = puzzle && game.phase === 'play' && game.turn === 0 && !legal.length && !$('auto-puzzle-pass').checked;
   const tableAction = $('next-trick');
-  tableAction.hidden = !confirmPass && game.phase !== 'review' && (game.phase !== 'done' || lastDeal);
+  tableAction.hidden = !confirmPass && !canContinueCycle && game.phase !== 'review' && (game.phase !== 'done' || lastDeal);
   const cue = $('play-card-cue');
   const puzzleMove = puzzle ? game.lastMove : null;
   const moveCard = puzzleMove?.card;
@@ -832,7 +833,8 @@ function render() {
     } else {
       $('status').textContent = match.single ? winnerText(winners, names)
         : t(cycleFinished ? 'Koniec cyklu' : 'Koniec partii');
-      window.GameVictory?.(won, t('Wygrywasz!'), $('table'));
+      if (canContinueCycle) tableAction.firstElementChild.textContent = t('Kliknij stół, aby rozpocząć kolejną partię');
+      window.GameVictory?.(won && !canContinueCycle, t('Wygrywasz!'), $('table'));
       if (match.single) actions.append(button(t('Zagraj ponownie'), () => start(match.single), true));
     }
     const resultsToggle = button('', toggleScorecard);
@@ -1028,21 +1030,25 @@ function renderMatchResult(names, totals, winners, finished, cyclePart, cycleFin
     if (cycleFinished) $('match-result-last').textContent = t('Ostatnia partia') + ' · ' + winnerText(winners, names);
   }
   $('cycle-standings').hidden = !cyclePart;
-  $('next-cycle-match').hidden = !cyclePart || !finished || cycleFinished;
   if (!cyclePart) return;
 
+  const parts = finished ? [...match.cycle.results, totals] : match.cycle.results;
+  const completedTotals = finished ? seriesTotals : cycleTotals(match, [0, 0, 0, 0]);
   $('cycle-scores').replaceChildren(...names.map((name, player) => {
     const row = document.createElement('tr');
     const heading = document.createElement('th');
     heading.scope = 'row';
-    heading.textContent = playerPlace(seriesTotals, player) + '. ' + name;
+    heading.textContent = (parts.length ? playerPlace(completedTotals, player) + '. ' : '') + name;
     row.append(heading);
-    row.insertCell().textContent = signedScore(seriesTotals[player]);
+    for (let index = 0; index < cycleLength; index++) {
+      row.insertCell().textContent = parts[index] ? signedScore(parts[index][player]) : '—';
+    }
+    row.insertCell().textContent = parts.length ? signedScore(completedTotals[player]) : '—';
     return row;
   }));
 }
 
-$('next-cycle-match').onclick = () => {
+function startNextCyclePart() {
   const next = nextCycleMatch(match, game);
   if (!next) return;
   loadSession({ ...gameRecord(), ...next, started: true, past: [], future: [], scorecardOpen: undefined });
@@ -1052,7 +1058,7 @@ $('next-cycle-match').onclick = () => {
   if (area.classList.contains('game-fullscreen')) area.scrollTop = 0;
   else area.scrollIntoView({ block: 'start' });
   $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
-};
+}
 
 $('deal-score-history').addEventListener('toggle', renderScoreHistory);
 
@@ -1240,7 +1246,7 @@ $('next-trick').onclick = () => {
     scorecardOpen = undefined;
     saveGame();
     render();
-  }
+  } else if (game.phase === 'done' && match.cycle) startNextCyclePart();
   if ((game.phase === 'play' && game.turn === 0) || (game.phase === 'trump' && game.leader === 0)) {
     $('hand').querySelector('button:enabled')?.focus({ preventScroll: true });
   }

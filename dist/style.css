@@ -1137,6 +1137,8 @@ body:has(.game-fullscreen) { overflow: hidden; }
 #match-result-winner { font-weight: 750; }
 #cycle-standings { margin: 8px; }
 #cycle-standings th { overflow-wrap: anywhere; }
+#cycle-standings th:first-child { width: 30%; }
+#cycle-standings :is(th, td):last-child { font-weight: 750; }
 #next-cycle-match:not([hidden]) { margin-top: 8px; }
 
 #welcome {

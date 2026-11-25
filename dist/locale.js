@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=28';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=29';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -73,7 +73,7 @@ const english = {
   'Powitanie Kierek wyniki': 'The scorecard below the table shows the results. Tap “?” for the full rules.',
   'Partia': 'Match', 'Koniec partii': 'Match complete', 'Koniec cyklu': 'Series complete',
   'Twoje miejsce': 'Your place', 'Ostatnia partia': 'Last match', 'Klasyfikacja cyklu': 'Series standings',
-  'Rozpocznij kolejną partię': 'Start the next match',
+  'Kliknij stół, aby rozpocząć kolejną partię': 'Tap the table to start the next match',
   'Cykl czterech partii z układanką': 'Four-match series with Eights',
   'Cykl czterech partii bez układanki': 'Four-match series without Eights',
   'Punkty za rozdania': 'Points by deal', 'Brak zakończonych rozdań.': 'No completed deals yet.',
