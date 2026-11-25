@@ -875,7 +875,20 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 }
 .puzzle-result .puzzle-hand-slot { display: none; }
 .puzzle-player.current { border-color: #f7db86; color: #f7db86; }
-.puzzle-player-info { line-height: 1.25; }
+.puzzle-player-info {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px 4px;
+  line-height: 1.25;
+}
+.puzzle-player-info:has(.puzzle-move-badge, .puzzle-pass-badge) .puzzle-player-count[role="img"] {
+  padding-inline: 3px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
 .puzzle-move-badge,
 .puzzle-pass-badge {
   padding-inline: 5px;

@@ -608,19 +608,33 @@ function renderPuzzleTable(names, legal, orderedHand) {
     const showMove = game.phase !== 'done' && (player !== 0 || (madeLastMove && lastMove === null));
     const lastCard = showMove ? lastMove : undefined;
     title.classList.toggle('puzzle-last-player', madeLastMove && game.lastMove.card !== null);
+    const move = document.createElement('span');
     if (lastCard === null) {
-      info.classList.add('puzzle-pass-badge');
-      info.textContent = t('Pas');
+      move.classList.add('puzzle-pass-badge');
+      move.textContent = t('Pas');
     } else if (lastCard !== undefined) {
       const color = suit(lastCard);
-      info.classList.add('puzzle-move-badge');
-      info.classList.toggle('red', color === '♥' || color === '♦');
-      info.setAttribute('role', 'img');
-      info.setAttribute('aria-label', cardName(lastCard));
-      info.textContent = rankLabel(rank(lastCard), $('language').value) + color;
-    } else {
-      info.textContent = place ? t('Miejsce {place}', place) : t('Karty: {count}', game.hands[player].length);
+      move.classList.add('puzzle-move-badge');
+      move.classList.toggle('red', color === '♥' || color === '♦');
+      move.setAttribute('role', 'img');
+      move.setAttribute('aria-label', cardName(lastCard));
+      move.textContent = rankLabel(rank(lastCard), $('language').value) + color;
     }
+    const count = game.hands[player].length;
+    const status = document.createElement('span');
+    status.className = 'puzzle-player-count';
+    const countLabel = t('Karty: {count}', count);
+    status.textContent = place ? t('Miejsce {place}', place) : countLabel;
+    if (lastCard !== undefined) {
+      info.append(move);
+      if (!place) {
+        status.textContent = count;
+        status.title = countLabel;
+        status.setAttribute('role', 'img');
+        status.setAttribute('aria-label', countLabel);
+      }
+    }
+    info.append(status);
     const handSlot = document.createElement('div');
     handSlot.className = 'puzzle-hand-slot';
     const fan = handFan(player, orderedHand, 1.6);

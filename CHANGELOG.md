@@ -1,3 +1,7 @@
+# 1.10.12 — 2026-11-25
+
+- W Układance liczba kart w ręce jest widoczna obok ostatniego zagrania lub pasu.
+
 # 1.10.11 — 2026-11-25
 
 - Historia rozgrywki zawiera teraz karty i pasy z Układanki.
