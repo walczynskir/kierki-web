@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=26';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=27';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -64,7 +64,7 @@ const english = {
   'Pomoc Kierek punktacja': 'The highest total wins. Open Scores under the table and tap a player’s row to see points by deal. The pencil lets you change that player’s name.',
   'Pomoc Kierek ustawienia': 'Set the computer difficulty and pace in Settings. You can also enable Undo, Redo and trick history, or reopen the introduction. Settings also contains backup and restore.',
   'Wybierz wariant': 'Choose a variant',
-  'Klasyczna': 'Classic', 'Cykl czterech partii': 'Four-match series', 'Rozbójniki': 'Robber matches',
+  'Klasyczna': 'Classic', 'Cykl czterech partii klasycznych': 'Four classic matches', 'Rozbójniki i odgrywki': 'Robber and Recovery',
   'Pojedynczy kontrakt (trening)': 'Single contract (practice)',
   'Opis pojedynczego kontraktu': 'Play one practice deal. Its result does not count toward statistics.',
   'Rozpoczęcie nowej gry przerywa bieżącą rozgrywkę.': 'Starting a new game ends the current game.',

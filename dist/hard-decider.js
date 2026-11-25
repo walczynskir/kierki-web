@@ -96,7 +96,7 @@ function finishTricks(game) {
   }
 }
 
-export function decideHardCard(view, samples = 16) {
+export function decideHardCard(view, samples = view.mode === 'no-tricks' ? 48 : 16) {
   const fallback = decideComputerCard(view);
   if (view.legal.length < 2) return fallback;
   const leadCard = view.trick[0]?.card;

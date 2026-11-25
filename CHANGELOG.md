@@ -1,3 +1,8 @@
+# 1.10.15 — 2026-11-25
+
+- Doprecyzowano nazwy wariantów w oknie „Nowa gra”.
+- Poziom trudny w „Nie brać lew” ocenia ruchy na 48 symulowanych rozdaniach.
+
 # 1.10.14 — 2026-11-25
 
 - W postępach pokazano osobno liczbę partii bez punktacji i dodano kompaktową tabelę ze wszystkimi poziomami trudności.
