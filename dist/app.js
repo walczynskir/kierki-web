@@ -1,9 +1,9 @@
 import { pointsRecord, completionOutcome, validPointsRecord, summarizePoints } from './points-statistics.js?v=cycle-1';
 import { suits, suit, rank, setTrump, legalCards, play, advance, computerTrump, computerView, computerCard, dealFinished } from './engine.js?v=training-contracts-2';
 import { decideComputerCard } from './deciders.js?v=no-queens-last-seat-1';
-import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=discard-king-1';
-import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=cycle-1';
-import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js';
+import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-decider.js?v=seat-moves-1';
+import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=seat-moves-1';
+import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=seat-moves-1';
 
 import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=48';
 
@@ -408,6 +408,11 @@ function button(text, handler, primary = false) {
   return control;
 }
 
+function cardName(card) {
+  const value = rank(card);
+  return (figureNames[value] ? t(figureNames[value]) : value) + ', ' + t(suitNames[suit(card)]);
+}
+
 function face(element, card) {
   const color = suit(card);
   const value = rank(card);
@@ -431,7 +436,7 @@ function face(element, card) {
     portrait.append(illustration);
     element.append(portrait);
   }
-  element.setAttribute('aria-label', (figureNames[value] ? t(figureNames[value]) : value) + ', ' + t(suitNames[color]));
+  element.setAttribute('aria-label', cardName(card));
   return element;
 }
 
@@ -549,11 +554,25 @@ function renderPuzzleTable(names, legal, orderedHand) {
     const title = document.createElement('strong');
     title.textContent = name;
     const info = document.createElement('span');
+    info.className = 'puzzle-player-info';
     const madeLastMove = game.lastMove?.player === player;
-    const passed = madeLastMove && game.lastMove.card === null;
-    title.classList.toggle('puzzle-last-player', madeLastMove && !passed);
-    info.classList.toggle('puzzle-pass-badge', passed);
-    info.textContent = passed ? t('Pas') : place ? t('Miejsce {place}', place) : t('Karty: {count}', game.hands[player].length);
+    const lastMove = madeLastMove ? game.lastMove.card : game.lastMoves?.[player];
+    const showMove = game.phase !== 'done' && (player !== 0 || (madeLastMove && lastMove === null));
+    const lastCard = showMove ? lastMove : undefined;
+    title.classList.toggle('puzzle-last-player', madeLastMove && game.lastMove.card !== null);
+    if (lastCard === null) {
+      info.classList.add('puzzle-pass-badge');
+      info.textContent = t('Pas');
+    } else if (lastCard !== undefined) {
+      const color = suit(lastCard);
+      info.classList.add('puzzle-move-badge');
+      info.classList.toggle('red', color === '♥' || color === '♦');
+      info.setAttribute('role', 'img');
+      info.setAttribute('aria-label', cardName(lastCard));
+      info.textContent = rankLabel(rank(lastCard), $('language').value) + color;
+    } else {
+      info.textContent = place ? t('Miejsce {place}', place) : t('Karty: {count}', game.hands[player].length);
+    }
     const handSlot = document.createElement('div');
     handSlot.className = 'puzzle-hand-slot';
     const fan = handFan(player, orderedHand, 1.6);

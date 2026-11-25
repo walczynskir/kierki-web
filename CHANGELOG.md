@@ -1,3 +1,7 @@
+# 1.10.9 — 2026-11-25
+
+- W Układance każde miejsce przeciwnika pokazuje jego ostatnią zagraną kartę lub pas.
+
 # 1.10.8 — 2026-11-25
 
 - Poprawiono nagłówki punktacji na telefonach i dodano widoczną, rozwijaną sekcję punktów za rozdania.

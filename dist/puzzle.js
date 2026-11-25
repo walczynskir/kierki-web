@@ -21,6 +21,8 @@ export function playPuzzle(game, card = null) {
   if (card === null ? legal.length > 0 : !legal.includes(card)) return false;
 
   const player = game.turn;
+  game.lastMoves ??= game.lastMove ? { [game.lastMove.player]: game.lastMove.card } : {};
+  game.lastMoves[player] = card;
   game.lastMove = { player, card };
   if (card !== null) {
     const hand = game.hands[player];

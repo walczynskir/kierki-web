@@ -1,5 +1,5 @@
 import { deal } from './engine.js?v=training-contracts-2';
-import { dealPuzzle } from './puzzle.js';
+import { dealPuzzle } from './puzzle.js?v=seat-moves-1';
 
 const emptyPoints = () => [0, 0, 0, 0];
 const nextSeat = player => (player + 1) % 4;

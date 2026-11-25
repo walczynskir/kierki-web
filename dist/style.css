@@ -862,6 +862,8 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
 }
 .puzzle-result .puzzle-hand-slot { display: none; }
 .puzzle-player.current { border-color: #f7db86; color: #f7db86; }
+.puzzle-player-info { line-height: 1.25; }
+.puzzle-move-badge,
 .puzzle-pass-badge {
   padding-inline: 5px;
   border-radius: 4px;
@@ -869,7 +871,13 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   color: #123328;
   font-weight: 750;
 }
-:root[data-theme="contrast"] .puzzle-pass-badge { background: #fff; color: #111; }
+.puzzle-move-badge {
+  background: #fbf5e6;
+  color: #123328;
+  white-space: nowrap;
+}
+.puzzle-move-badge.red { color: #a01832; }
+:root[data-theme="contrast"] :is(.puzzle-pass-badge, .puzzle-move-badge, .puzzle-move-badge.red) { background: #fff; color: #111; }
 .puzzle-hand-slot {
   display: grid;
   place-content: center;
