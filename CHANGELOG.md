@@ -1,3 +1,7 @@
+# 1.10.14 — 2026-11-25
+
+- W postępach pokazano osobno liczbę partii bez punktacji i dodano kompaktową tabelę ze wszystkimi poziomami trudności.
+
 # 1.10.13 — 2026-11-25
 
 - Historia Układanki pokazuje zagrania i pasy w czterech kolumnach graczy.

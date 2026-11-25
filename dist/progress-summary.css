@@ -58,14 +58,23 @@ dialog.progress-summary {
   background: var(--wash);
   font-size: .92em;
 }
-.points-level { padding: .55em .75em .65em; border-block-start: 1px solid var(--line); }
-.points-level h5 { margin: 0 0 .35em; font-size: .88em; }
-.points-level dl {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .5em;
-  margin: 0;
+.points-levels {
+  table-layout: fixed;
+  margin-block: 0;
+  text-align: end;
+  font-size: .85em;
 }
-.points-level dt { color: var(--muted); font-size: .78em; line-height: 1.2; overflow-wrap: break-word; }
-.points-level dd { margin: .14em 0 0; font-weight: 700; overflow-wrap: break-word; }
-#points-legacy { margin-block-start: .7em; color: var(--muted); font-size: .85em; }
+.points-levels :is(th, td) {
+  padding: .5em .35em;
+  overflow-wrap: break-word;
+}
+.points-levels th:first-child {
+  width: 32%;
+  text-align: start;
+}
+.points-levels thead {
+  color: var(--muted);
+  line-height: 1.2;
+}
+.points-levels tbody td { font-weight: 650; }
+.points-levels tbody tr:last-child > * { border-block-end: 0; }

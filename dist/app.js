@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=49';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=50';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -190,8 +190,11 @@ function renderProgress() {
   const earned = earnedThemes(results, unlockedThemes);
   const next = Object.keys(rewards).find(id => !earned.includes(id));
   const reward = next && { name: t(themes[next]), count: completed, goal: rewards[next] };
-  GamesChestProgressBar($('language').value, entries.length, reward,
-    () => [[t('Ukończone partie'), entries.length]], true);
+  const withoutPoints = entries.filter(([, record]) => !validPointsRecord(record)).length;
+  GamesChestProgressBar($('language').value, entries.length, reward, () => [
+    [t('Ukończone partie'), entries.length],
+    ...(withoutPoints ? [[t('W tym bez zapisanej punktacji'), withoutPoints]] : [])
+  ], true);
   if ($('progress-dialog').open) renderPoints(entries);
 }
 
@@ -216,34 +219,35 @@ function renderPoints(entries) {
     const title = document.createElement('h4');
     title.textContent = t(label);
     card.append(title);
-    for (const [level, label] of Object.entries(pointsLevels)) {
-      const group = levels.get(level);
-      if (!group) continue;
-      const row = document.createElement('div');
-      row.className = 'points-level';
-      const name = document.createElement('h5');
-      name.textContent = t(label);
-      const metrics = document.createElement('dl');
-      [group.count, group.points, group.points / group.count].forEach((value, index) => {
-        const metric = document.createElement('div');
-        const term = document.createElement('dt');
-        const number = document.createElement('dd');
-        term.textContent = labels[index];
-        number.textContent = numbers.format(value);
-        metric.append(term, number);
-        metrics.append(metric);
-      });
-      row.append(name, metrics);
-      card.append(row);
+    const table = document.createElement('table');
+    table.className = 'points-levels';
+    table.setAttribute('aria-label', title.textContent);
+    const headings = table.createTHead().insertRow();
+    for (const headingText of [t('Poziom trudności'), ...labels]) {
+      const heading = document.createElement('th');
+      heading.scope = 'col';
+      heading.textContent = headingText;
+      headings.append(heading);
     }
+    const body = table.createTBody();
+    for (const [level, label] of Object.entries(pointsLevels)) {
+      const group = levels.get(level) ?? { count: 0, points: 0 };
+      const row = body.insertRow();
+      const name = document.createElement('th');
+      name.scope = 'row';
+      name.textContent = t(label);
+      row.append(name);
+      for (const value of [group.count, group.points, group.count ? group.points / group.count : null]) {
+        row.insertCell().textContent = value === null ? '—' : numbers.format(value);
+      }
+    }
+    card.append(table);
     cards.append(card);
   }
   $('points-title').textContent = t('Punktacja partii');
   $('points-empty').textContent = t('Brak ukończonych partii z zapisaną punktacją.');
   $('points-empty').hidden = groups.size > 0;
   cards.hidden = groups.size === 0;
-  $('points-legacy').textContent = t('Starsze wyniki bez punktacji liczą się tylko do ukończonych partii.');
-  $('points-legacy').hidden = !entries.some(([, record]) => !validPointsRecord(record));
 }
 
 $('my-progress').addEventListener('click', () => queueMicrotask(() => renderProgress()));
