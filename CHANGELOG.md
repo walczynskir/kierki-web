@@ -1,3 +1,7 @@
+# 1.11.3 — 2026-11-26
+
+- Ujednolicono wskazówki o kartach i punktacji poniżej stołu.
+
 # 1.11.2 — 2026-11-25
 
 - Każda ukończona partia cyklu liczy się do postępów, a całe cykle mają osobny licznik.

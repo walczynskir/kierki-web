@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=54';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=55';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -807,8 +807,8 @@ function render() {
     : rankLabel(rank(moveCard), $('language').value) + suit(moveCard)) : '';
   cue.hidden = !tableAction.hidden || (!choosingTrump
     && (game.phase !== 'play' || game.turn !== 0 || puzzle && !legal.length));
-  cue.textContent = t(choosingTrump ? 'Kliknij kartę pod stołem, aby wybrać atu.'
-    : puzzle ? 'Kliknij kartę pod stołem, aby ją dołożyć.' : 'Kliknij kartę pod stołem, aby ją zagrać.');
+  cue.textContent = t(choosingTrump ? 'Kliknij kartę poniżej stołu, aby wybrać atu.'
+    : puzzle ? 'Kliknij kartę poniżej stołu, aby ją dołożyć.' : 'Kliknij kartę poniżej stołu, aby ją zagrać.');
   $('round').textContent = (cyclePart ? t('Partia') + ' ' + cyclePart + '/' + cycleLength + ' · ' : '')
     + (match.single ? t('Trening') : match.number + ' / ' + matchLength(match))
     + ' · ' + t(dealTitle(game.mode));

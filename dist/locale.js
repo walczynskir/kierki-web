@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=30';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=31';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -99,7 +99,7 @@ const english = {
   'Nie udało się przełączyć rozgrywki.': 'Could not switch games.',
   'Z układanką': 'With Eights', 'Bez układanki': 'Without Eights',
   'Rozpocznij układankę': 'Start Eights', 'Pas': 'Pass', kart: 'cards', miejsce: 'place',
-  'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Kliknij kartę pod stołem, aby ją dołożyć.': 'Tap a card below the table to add it.',
+  'Nie masz pasującej karty. Pasujesz automatycznie.': 'You have no playable card. You pass automatically.', 'Kliknij kartę poniżej stołu, aby ją dołożyć.': 'Tap a card below the table to add it.',
   'Opis opcji układanki': 'Adds an Eights deal after the four recovery deals. Applies from the next game.',
   'Zasady układanki': 'Eights is an optional final deal. Start each suit with its eight, then build out in order towards two and ace. Play one card per turn. Players score +10, +5, −5 and −10 in the order they empty their hands.',
   'Łatwy': 'Easy', 'Średni': 'Medium',
@@ -120,7 +120,7 @@ const english = {
   'Kliknij stół, aby przejść do następnej lewy': 'Tap the table to continue to the next trick',
   'Kliknij stół, aby przejść do następnego rozdania': 'Tap the table for the next deal',
   'Kliknij stół, aby zobaczyć wynik rozdania': 'Tap the table for the deal result',
-  'Kliknij kartę pod stołem, aby ją zagrać.': 'Tap a card below the table to play it.',
+  'Kliknij kartę poniżej stołu, aby ją zagrać.': 'Tap a card below the table to play it.',
   'Pokaż wyniki': 'Show results',
   'Schowaj wyniki': 'Hide results',
   'Następna lewa': 'Next trick', 'Wynik rozdania': 'Deal result', 'Twój ruch': 'Your turn',
@@ -129,7 +129,7 @@ const english = {
   'Zagraj ponownie': 'Play again', 'Ukończone partie': 'Completed games', 'Wygrane': 'Wins', 'Rozliczone partie': 'Games recorded',
   'Liczba wziętych lew': 'Tricks taken', 'Karty w ręce': 'Cards in hand', 'Twoje karty': 'Your cards',
   'Pierwsze siedem kart': 'First seven cards', 'Komputer wybiera atu.': 'Computer is choosing a trump suit.',
-  'Kliknij kartę pod stołem, aby wybrać atu.': 'Tap a card below the table to choose trump.',
+  'Kliknij kartę poniżej stołu, aby wybrać atu.': 'Tap a card below the table to choose trump.',
   'Wybór atu': 'Trump selection',
   'Wybierz atu': 'Choose trump',
   'Ty': 'You', 'Zachód': 'West', 'Północ': 'North', 'Wschód': 'East',
@@ -166,13 +166,13 @@ const polish = {
   'Pomoc Kierek punkty odgrywki': 'Staraj się wziąć jak najwięcej lew. Każda daje 5 pkt w partii klasycznej i w cyklu, a 10 pkt w wariancie Rozbójniki oraz w treningu.',
   'Pomoc Kierek atu': 'Rozpoczynający wybiera atu, klikając jedną z pierwszych siedmiu kart, albo wybiera „Bez atu”. Jeśli możesz, dokładasz do koloru wyjścia. Jeśli nie możesz, zagrywasz atut, gdy go masz, i przebijasz wyższym atutem, jeśli możesz. Bez atu musisz przebić w kolorze wyjścia, jeśli masz wyższą kartę.',
   'Pomoc Kierek pas automatyczny': 'Jeśli nie masz pasującej karty, kliknij stół, aby spasować. W ustawieniach możesz włączyć automatyczne pasowanie.',
-  'Pomoc Kierek punktacja': 'Wygrywa najwyższy wynik łączny. Rozwiń Punktację pod stołem i kliknij wiersz gracza, aby zobaczyć punkty za poszczególne rozdania. Ołówek pozwala zmienić imię gracza.',
+  'Pomoc Kierek punktacja': 'Wygrywa najwyższy wynik łączny. Rozwiń Punktację poniżej stołu i kliknij wiersz gracza, aby zobaczyć punkty za poszczególne rozdania. Ołówek pozwala zmienić imię gracza.',
   'Pomoc Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności komputerów i tempo gry. Możesz tam też włączyć cofanie i przywracanie ruchów, historię lew, ponownie otworzyć wprowadzenie oraz zapisać lub przywrócić kopię.',
-  'Powitanie Kierek zasady': 'Grasz przeciwko trzem graczom komputerowym. Dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.',
+  'Powitanie Kierek zasady': 'Grasz przeciwko trzem graczom komputerowym. Dokładaj do koloru wyjścia. Kliknij kartę poniżej stołu, aby ją zagrać.',
   'Powitanie Kierek warianty': 'Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.',
   'Powitanie Kierek cele': 'W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.',
   'Powitanie Kierek ustawienia': 'W Ustawieniach zmienisz poziom trudności i tempo. W „Nowej grze” możesz wybrać też pojedynczy kontrakt treningowy.',
-  'Powitanie Kierek wyniki': 'Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.',
+  'Powitanie Kierek wyniki': 'Punktacja poniżej stołu pokazuje wyniki, a pod „?” znajdziesz pełne zasady.',
   'Opis pojedynczego kontraktu': 'Jedno rozdanie treningowe. Wynik nie wlicza się do statystyk.',
   'Brak zapisanych ruchów': 'W tej partii nie ma jeszcze zapisanych ruchów.',
   'Opis historii ruchów': 'Dodaje pod punktacją zwijaną sekcję z lewami i ruchami w Układance.',

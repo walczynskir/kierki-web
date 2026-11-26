@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
 <link rel="stylesheet" href="./style.css?v=scorecard-only-1">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=variant-rewards-1"></script>
+<script type="module" src="./app.js?v=card-cues-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=safari-install-guide-1">
 <script defer src="shared-footer.js?v=footer-picker-recent-1"></script>
 <script defer src="./game-update.js?v=2"></script>
@@ -127,12 +127,12 @@
   <dialog id="welcome" aria-labelledby="welcome-title">
     <form method="dialog">
       <h2 id="welcome-title" data-t="Wprowadzenie do Kierek">Wprowadzenie do Kierek</h2>
-      <p data-t="Powitanie Kierek zasady">Grasz przeciwko trzem graczom komputerowym. W lewach dokładaj do koloru wyjścia. Kliknij kartę pod stołem, aby ją zagrać.</p>
+      <p data-t="Powitanie Kierek zasady">Grasz przeciwko trzem graczom komputerowym. W lewach dokładaj do koloru wyjścia. Kliknij kartę poniżej stołu, aby ją zagrać.</p>
       <ul>
         <li data-t="Powitanie Kierek warianty">Wybierz Rozbójniki, partię klasyczną albo cykl czterech partii. Każdy wariant możesz grać z Układanką lub bez niej.</li>
         <li data-t="Powitanie Kierek cele">W kontraktach ujemnych unikaj kar. W Odgrywce zbieraj lewy, a w Układance dokładaj karty od ósemki w dół i w górę.</li>
         <li data-t="Powitanie Kierek ustawienia">W Ustawieniach zmienisz poziom trudności i tempo gry. W „Nowej grze” możesz wybrać także pojedynczy kontrakt treningowy.</li>
-        <li data-t="Powitanie Kierek wyniki">Punktacja pod stołem pokazuje wyniki, a pod „?” znajdziesz pełne zasady.</li>
+        <li data-t="Powitanie Kierek wyniki">Punktacja poniżej stołu pokazuje wyniki, a pod „?” znajdziesz pełne zasady.</li>
       </ul>
       <label class="welcome-opt-out"><input id="welcome-skip" type="checkbox"> <span data-t="Nie wyświetlaj więcej">Nie wyświetlaj więcej</span></label>
       <p id="welcome-save-error" role="status" data-t="Nie udało się zapisać ustawień." hidden></p>
@@ -366,7 +366,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.11.2</span>
+    <span id="footer-version" translate="no">v1.11.3</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>
