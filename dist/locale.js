@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=31';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=32';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,7 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Pomoc Kierek przenoszenie': 'In Settings, choose “Export backup” to save a file. On the other device, choose “Import backup” and select that file.',
   'Ukończone cykle': 'Completed series',
   'Ukończ wszystkie warianty': 'Complete all variants',
   'Kliknij stół, aby spasować': 'Tap the table to pass',
@@ -157,6 +158,7 @@ const english = {
 };
 
 const polish = {
+  'Pomoc Kierek przenoszenie': 'W Ustawieniach wybierz „Eksportuj kopię” i zapisz plik. Na drugim urządzeniu wybierz „Importuj kopię” i wskaż ten plik.',
   'Pomoc Kierek lewy': 'Grasz przeciwko trzem komputerom. Każda lewa to cztery karty. Dokładaj do koloru wyjścia, jeśli możesz. Lewę wygrywa najwyższa karta w tym kolorze, chyba że ktoś przebił atutem. As jest najwyższy, a zwycięzca lewy wychodzi do następnej.',
   'Pomoc Kierek sterowanie': 'Kliknij dostępną kartę poniżej stołu. Gdy na stole leżą cztery karty, kliknij stół, aby zebrać lewę i przejść dalej. Plus rozpoczyna ten sam wariant od nowa. Strzałka obok plusa otwiera wybór wariantu lub treningu.',
   'Pomoc Kierek klasyczna': 'Sześć kontraktów ujemnych, jeden Rozbójnik i cztery Odgrywki. Układankę można dodać jako ostatnie rozdanie.',

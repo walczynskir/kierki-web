@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=55';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=56';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];

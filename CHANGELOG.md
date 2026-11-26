@@ -1,3 +1,7 @@
+# 1.11.5 — 2026-11-26
+
+- Pomoc wyjaśnia, jak przenieść ustawienia, statystyki i motywy na inne urządzenie.
+
 # 1.11.4 — 2026-11-26
 
 - Pomoc opisuje wznowienie zapisanej partii po ponownym otwarciu gry na tym samym urządzeniu.
