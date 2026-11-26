@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=56';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=57';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -46,7 +46,7 @@ const progressKey = 'games-chest-kierki-progress-v1';
 const profileKey = 'games-chest-kierki-profile-v1';
 const themes = {
   sage: 'Klasyczny', garden: 'Ogród', tropics: 'Tropiki', beach: 'Plaża', ukraine: 'Ukraina',
-  'orange-grove': 'Pomarańczowy gaj', copper: 'Miedź i patynę', 'night-sky': 'Nocne niebo'
+  'orange-grove': 'Pomarańczowy gaj', copper: 'Miedź i patyna', 'night-sky': 'Nocne niebo'
 };
 const rewards = {
   garden: 'classic-with', beach: 'classic-without', tropics: 'robbers-with',

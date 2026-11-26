@@ -194,7 +194,7 @@ Tropiki|Tropen|Trópico|Tropiques|Tropici|Тропіки|المناطق الاس
 Plaża|Strand|Playa|Plage|Spiaggia|Пляж|شاطئ|समुद्र तट|海滩
 Ukraina|Ukraine|Ucrania|Ukraine|Ucraina|Україна|أوكرانيا|यूक्रेन|乌克兰
 Pomarańczowy gaj|Orangenhain|Naranjal|Orangeraie|Aranceto|Апельсиновий гай|بستان البرتقال|संतरे का बाग|橙园
-Miedź i patynę|Kupfer und Patina|Cobre y pátina|Cuivre et patine|Rame e patina|Мідь і патина|النحاس والزنجار|तांबा और हरितिमा|铜与铜绿
+Miedź i patyna|Kupfer und Patina|Cobre y pátina|Cuivre et patine|Rame e patina|Мідь і патина|النحاس والزنجار|तांबा और हरितिमा|铜与铜绿
 Nocne niebo|Nachthimmel|Cielo nocturno|Ciel nocturne|Cielo notturno|Нічне небо|سماء الليل|रात का आसमान|夜空
 Język|Sprache|Idioma|Langue|Lingua|Мова|اللغة|भाषा|语言
 Motyw|Design|Tema|Thème|Tema|Тема|المظهر|थीम|主题

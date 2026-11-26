@@ -1,3 +1,7 @@
+# 1.11.7 — 2026-11-26
+
+- Ujednolicono nazwę motywu „Miedź i patyna”.
+
 # 1.11.6 — 2026-11-26
 
 - Motywy bez ilustracji tła są dostępne od początku. Nagrody obejmują tylko motywy z ilustracjami.

@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=32';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=33';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -139,7 +139,7 @@ const english = {
   'Moje postępy': 'My progress', 'Motywy za osiągnięcia': 'Achievement themes', 'Odblokowany': 'Unlocked',
   'Motywy': 'Themes', 'Więcej motywów…': 'More themes…', 'Przegrane': 'Losses', 'Remisy': 'Ties',
   'Klasyczny': 'Classic', 'Ogród': 'Garden', 'Tropiki': 'Tropics', 'Plaża': 'Beach', 'Ukraina': 'Ukraine',
-  'Pomarańczowy gaj': 'Orange Grove', 'Miedź i patynę': 'Copper and Patina', 'Nocne niebo': 'Night Sky',
+  'Pomarańczowy gaj': 'Orange Grove', 'Miedź i patyna': 'Copper and Patina', 'Nocne niebo': 'Night Sky',
   'Język': 'Language', 'Motyw': 'Theme', 'Kontrast': 'Contrast', 'Wysoki kontrast': 'High contrast',
   'Większy tekst': 'Larger text', 'Zamknij': 'Close', 'Stół': 'Table', 'Sterowanie grą': 'Game controls', 'Rozgrywka': 'Game',
   'Rozpocząć nową grę?': 'Start a new game?', 'Obecna rozgrywka zostanie zastąpiona.': 'The current game will be replaced.',
