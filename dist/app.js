@@ -628,7 +628,7 @@ function renderPuzzleTable(names, legal, orderedHand) {
   const seats = [];
   for (const [player, name] of names.entries()) {
     const seat = document.createElement('div');
-    seat.className = 'puzzle-player';
+    seat.className = 'puzzle-player gc-theme-panel';
     seat.classList.toggle('puzzle-result', game.phase === 'done');
     seat.dataset.position = seatPositions[player];
     seat.classList.toggle('current', game.phase === 'play' && game.turn === player);
@@ -917,7 +917,7 @@ function render() {
     handSlot.className = 'seat-hand-slot';
     seatCards.append(handSlot, count);
     const seatName = document.createElement('div');
-    seatName.className = 'seat-name';
+    seatName.className = 'seat-name gc-theme-panel';
     seatName.append(heading);
     seat.append(seatName, seatCards);
     const fan = handFan(player, orderedHand);

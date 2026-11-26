@@ -22,19 +22,20 @@
 <link rel="stylesheet" href="./progress-summary.css?v=points-levels-1">
 <link rel="stylesheet" href="./card-backs.css?v=deck-themes-2">
 <link rel="stylesheet" href="./style.css?v=scorecard-only-1">
+<link rel="stylesheet" href="./shared-theme-components.css">
 <script defer src="./shared-victory.js"></script>
-<script type="module" src="./app.js?v=copper-name-1"></script>
+<script type="module" src="./app.js?v=shared-theme-components-1"></script>
 <link rel="stylesheet" href="shared-footer.css?v=safari-install-guide-1">
 <script defer src="shared-footer.js?v=resume-game-1"></script>
 <script defer src="./game-update.js?v=2"></script>
 <script defer src="./game-install.js?v=safari-install-guide-1"></script>
 </head>
 <body>
-<header class="masthead">
+<header class="masthead gc-theme-header">
   <div class="round header-top"><h1><img src="./kierki-icon-proposal-v2.png" width="32" height="32" alt=""><bdi id="game-name" translate="no">Kierki</bdi></h1>
     <div class="accessibility-controls"><button id="contrast" aria-pressed="false">◐ Kontrast</button><label><input id="large" type="checkbox"> A+</label></div>
   </div>
-  <div class="preferences">
+  <div class="preferences gc-theme-preferences">
     <select id="language" aria-label="Język"><option value="de" lang="de" translate="no">Deutsch</option><option value="en" lang="en" translate="no">English</option><option value="es" lang="es" translate="no">Español</option><option value="fr" lang="fr" translate="no">Français</option><option value="it" lang="it" translate="no">Italiano</option><option value="pl" lang="pl" translate="no">Polski</option><option value="uk" lang="uk" translate="no">Українська</option><option value="ar" lang="ar" translate="no">العربية</option><option value="hi" lang="hi" translate="no">हिन्दी</option><option value="zh-Hans" lang="zh-Hans" translate="no">简体中文</option></select>
     <select id="theme" aria-label="Motyw"></select>
   </div>
@@ -47,7 +48,7 @@
     <span class="progress-chevron" aria-hidden="true">›</span></button>
   <div class="game-toolbar" aria-label="Sterowanie grą" role="group">
     <div class="new-game-buttons">
-      <button id="new-game" type="button" class="primary" aria-label="Nowa gra"><span class="toolbar-icon" aria-hidden="true">＋</span><span class="toolbar-label" data-t="Nowa gra">Nowa gra</span></button>
+      <button id="new-game" type="button" class="primary gc-theme-action" aria-label="Nowa gra"><span class="toolbar-icon" aria-hidden="true">＋</span><span class="toolbar-label" data-t="Nowa gra">Nowa gra</span></button>
       <button id="pick-variant" type="button" aria-label="Wybierz wariant" aria-haspopup="dialog" aria-controls="restart" title="Wybierz wariant"><span aria-hidden="true"></span></button>
     </div>
     <div class="game-tools"><button id="game-picker-button" type="button" aria-haspopup="dialog" aria-controls="game-picker" aria-label="Inne gry" translate="no">
@@ -67,7 +68,7 @@
       <p id="status" role="status"></p>
     </div>
     <div class="table-wrap">
-      <div id="table" class="table" dir="ltr" aria-label="Stół"></div>
+      <div id="table" class="table gc-theme-table" dir="ltr" aria-label="Stół"></div>
       <button id="next-trick" type="button" class="table-next" hidden><span class="table-cue"></span></button>
       <span id="play-card-cue" class="table-cue" hidden></span>
     </div>
@@ -368,7 +369,7 @@
   </section>
   <div class="footer-details">
     <a id="credits-link" href="./credits.html" data-footer-copy="credits" translate="no">Autorzy i licencje</a>
-    <span id="footer-version" translate="no">v1.11.7</span>
+    <span id="footer-version" translate="no">v1.11.8</span>
     <span id="save-note" role="status" translate="no"></span>
   </div>
 </footer>

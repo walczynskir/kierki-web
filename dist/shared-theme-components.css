@@ -1,0 +1,75 @@
+/* Workspace source: Games Chest game template.
+   Ukraine's header and controls follow Eight Aces 1.12.1. */
+:root[data-theme="ukraine"] {
+  --gc-theme-header-bg: var(--palette-accent);
+  --gc-theme-header-ink: #fff;
+  --gc-theme-highlight: var(--palette-primary-bg);
+  --gc-theme-surface: var(--palette-wash);
+  --gc-theme-panel: var(--palette-ink);
+  --gc-theme-panel-ink: #fff;
+}
+
+[data-theme="ukraine"] .gc-theme-header {
+  background: var(--gc-theme-header-bg);
+  color: var(--gc-theme-header-ink);
+  border-block-end: 8px solid var(--gc-theme-highlight);
+  border-radius: 0 0 26px 26px;
+  padding: 20px 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+[data-theme="ukraine"] .gc-theme-header h1 {
+  color: inherit;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: -.6px;
+}
+
+[data-theme="ukraine"] .gc-theme-header #contrast {
+  color: var(--gc-theme-header-ink);
+  background: transparent;
+  border-color: #ffffff88;
+}
+
+[data-theme="ukraine"] .gc-theme-preferences select {
+  background: var(--palette-paper);
+  color: var(--palette-ink);
+  border-color: var(--palette-line);
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+[data-theme="ukraine"] .gc-theme-header :is(button, select, input):focus-visible {
+  outline: 2px solid var(--gc-theme-highlight);
+  outline-offset: 2px;
+}
+
+[data-theme="ukraine"] .gc-theme-action {
+  background: var(--gc-theme-highlight);
+  border-color: var(--palette-primary-border);
+  color: var(--palette-primary-ink);
+}
+
+[data-theme="ukraine"] .gc-theme-table {
+  background: var(--gc-theme-surface);
+  border-color: var(--palette-line);
+  box-shadow: none;
+}
+
+[data-theme="ukraine"] .gc-theme-panel {
+  background: var(--gc-theme-panel);
+  color: var(--gc-theme-panel-ink);
+  border-color: var(--palette-accent);
+}
+
+[data-theme="ukraine"] :is(.gc-theme-panel.current, .current .gc-theme-panel) {
+  color: var(--gc-theme-highlight);
+  border-color: var(--gc-theme-highlight);
+}
+
+@media (max-width: 600px) {
+  [data-theme="ukraine"] .gc-theme-header {
+    padding-block: 12px;
+    border-radius: 0 0 22px 22px;
+  }
+}
