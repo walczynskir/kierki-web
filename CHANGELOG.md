@@ -1,3 +1,7 @@
+# 1.11.4 — 2026-11-26
+
+- Pomoc opisuje wznowienie zapisanej partii po ponownym otwarciu gry na tym samym urządzeniu.
+
 # 1.11.3 — 2026-11-26
 
 - Ujednolicono wskazówki o kartach i punktacji poniżej stołu.
