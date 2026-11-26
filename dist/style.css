@@ -642,8 +642,9 @@ footer .games-chest-menu .recent-games-icons a { background: var(--paper); color
   place-items: center;
   height: 68px;
   border-radius: 6px;
-  background: var(--scenery-image, linear-gradient(#286b50, #124431)) center / cover;
+  background: var(--scenery-image, var(--palette-wash, #e2ead9)) center / cover;
 }
+.theme-preview[data-theme="classic"] { background: radial-gradient(ellipse at 50% 38%, #287846, #125032 78%); }
 .theme-preview[data-theme="ukraine"] { background: linear-gradient(#336997 50%, #ddba51 50%); }
 .theme-preview .played { padding: 2px; border-radius: 3px; transform: none; gap: 0; }
 .theme-preview .card-rank, .theme-preview .card-suit { font-size: 8px; }

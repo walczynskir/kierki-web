@@ -1,4 +1,4 @@
-import { extraLanguages, extraTranslations } from './locale-extra.js?v=33';
+import { extraLanguages, extraTranslations } from './locale-extra.js?v=34';
 
 export const languages = ['pl', 'en', ...extraLanguages];
 const gameNames = { en: 'Barbu-King', de: 'Barbu', es: 'Barbu', fr: 'Barbu', it: 'Barbu', uk: 'Кєркі', ar: 'باربو كينغ', hi: 'क्येर्की', 'zh-Hans': '凯尔基' };
@@ -13,6 +13,15 @@ const internationalRanks = ['J', 'Q', 'K', 'A'];
 export const rankLabel = (value, language) => (rankLetters[language] ?? internationalRanks)[value - 11] ?? value;
 
 const english = {
+  'Porcelana': 'Porcelain',
+  'Atrament i papier': 'Ink & Paper',
+  'Szałwia': 'Sage',
+  'Pracownia': 'Studio',
+  'Forma': 'Forma',
+  'Energia': 'Energy',
+  'Mandarynka': 'Tangerine',
+  'Granat': 'Navy',
+
   'Pomoc Kierek przenoszenie': 'In Settings, choose “Export backup” to save a file. On the other device, choose “Import backup” and select that file.',
   'Ukończone cykle': 'Completed series',
   'Ukończ wszystkie warianty': 'Complete all variants',

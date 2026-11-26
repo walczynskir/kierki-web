@@ -5,7 +5,7 @@ import { decideHardCard, decideHardPuzzleCard, decideHardTrump } from './hard-de
 import { newMatch, legacyMatch, matchLength, matchScores, nextMatchDeal, cycleLength, cycleTotals, nextCycleMatch } from './match.js?v=puzzle-history-1';
 import { computerPuzzleCard, playPuzzle, puzzleCards } from './puzzle.js?v=puzzle-history-1';
 
-import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=57';
+import { direction, gameName, languages, rankLabel, translate } from './locale.js?v=classic-catalog-1';
 
 const seatNames = ['Ty', 'Zachód', 'Północ', 'Wschód'];
 const seatPositions = ['south', 'west', 'north', 'east'];
@@ -45,9 +45,25 @@ const trainingKey = 'games-chest-kierki-training-v1';
 const progressKey = 'games-chest-kierki-progress-v1';
 const profileKey = 'games-chest-kierki-profile-v1';
 const themes = {
-  sage: 'Klasyczny', garden: 'Ogród', tropics: 'Tropiki', beach: 'Plaża', ukraine: 'Ukraina',
+  sage: 'Klasyczny', porcelain: 'Porcelana', ink: 'Atrament i papier', herbal: 'Szałwia',
+  studio: 'Pracownia', forma: 'Forma', energy: 'Energia', tangerine: 'Mandarynka',
+  ukraine: 'Ukraina', navy: 'Granat',
+  garden: 'Ogród', tropics: 'Tropiki', beach: 'Plaża',
   'orange-grove': 'Pomarańczowy gaj', copper: 'Miedź i patyna', 'night-sky': 'Nocne niebo'
 };
+const featuredThemes = ['sage', 'porcelain', 'ink', 'ukraine'];
+const paletteOf = id => ({
+  sage: 'classic', herbal: 'sage', garden: 'sage', navy: 'night-sky', 'orange-grove': 'tangerine'
+})[id] ?? id;
+const previewPalettes = new Map();
+try {
+  for (const rule of $('theme-palettes').sheet.cssRules) {
+    const id = rule.selectorText?.match(/^:root\[data-theme="([a-z-]+)"\]$/)?.[1];
+    if (id) previewPalettes.set(id, rule.style.cssText);
+  }
+} catch {
+  // Theme thumbnails still render when CSS rules are unavailable on file URLs.
+}
 const rewards = {
   garden: 'classic-with', beach: 'classic-without', tropics: 'robbers-with',
   'orange-grove': 'robbers-without', 'night-sky': 'cycle-with', copper: 'cycle-without'
@@ -304,7 +320,7 @@ function renderShell() {
   const state = JSON.stringify([root.lang, completed, earned, theme, contrast, $('large').checked, $('game-area').classList.contains('game-fullscreen')]);
   if (shellState === state) return;
   shellState = state;
-  const palette = { garden: 'sage', 'orange-grove': 'tangerine' }[theme] ?? theme;
+  const palette = paletteOf(theme);
   root.dataset.theme = contrast ? 'contrast' : palette;
   root.dataset.scenery = contrast ? '' : theme;
   root.classList.toggle('larger', $('large').checked);
@@ -331,7 +347,7 @@ function renderShell() {
   for (const info of $('options').querySelectorAll('.setting-info')) {
     info.setAttribute('aria-label', t('Informacje o ustawieniu') + ': ' + info.parentElement.querySelector('label [data-t]').textContent);
   }
-  const featured = Object.keys(themes).filter(available);
+  const featured = featuredThemes.includes(theme) ? featuredThemes : [...featuredThemes, theme];
   $('theme').replaceChildren(...featured.map(id => new Option(t(themes[id]), id)), new Option(t('Więcej motywów…'), 'gallery'));
   $('theme').value = theme;
   const full = $('game-area').classList.contains('game-fullscreen');
@@ -353,7 +369,8 @@ function renderShell() {
     const preview = document.createElement('span');
     preview.className = 'theme-preview';
     preview.dataset.scenery = id;
-    preview.dataset.theme = id;
+    preview.dataset.theme = paletteOf(id);
+    preview.style.cssText = previewPalettes.get(paletteOf(id)) ?? '';
     preview.setAttribute('aria-hidden', 'true');
     for (const [index, card] of [51, 23, 30, 43].entries()) {
       const sample = face(document.createElement('span'), card);
