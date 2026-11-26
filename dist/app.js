@@ -50,8 +50,7 @@ const themes = {
 };
 const rewards = {
   garden: 'classic-with', beach: 'classic-without', tropics: 'robbers-with',
-  'orange-grove': 'robbers-without', 'night-sky': 'cycle-with', copper: 'cycle-without',
-  ukraine: 'all'
+  'orange-grove': 'robbers-without', 'night-sky': 'cycle-with', copper: 'cycle-without'
 };
 let gameId = newId();
 let started = false;
@@ -156,8 +155,7 @@ function completedVariants(records) {
 
 function earnedThemes(records, unlocked) {
   const variants = completedVariants(records);
-  return [...new Set([...unlocked, ...Object.keys(rewards).filter(id =>
-    rewards[id] === 'all' ? variants.size === Object.keys(pointsVariants).length : variants.has(rewards[id]))])];
+  return Object.keys(rewards).filter(id => unlocked.includes(id) || variants.has(rewards[id]));
 }
 
 function migrateThemes() {
@@ -165,7 +163,7 @@ function migrateThemes() {
   if (read(key)) return;
   if (profile || options || savedGame || savedTraining || Object.keys(results).length) {
     const oldTotal = Object.values(results).filter(isCompleted).length;
-    const legacy = ['garden', 'tropics', 'beach', 'ukraine'];
+    const legacy = ['garden', 'tropics', 'beach'];
     for (const [id, goal] of Object.entries({ 'orange-grove': 3, copper: 5, 'night-sky': 10 })) {
       if (oldTotal >= goal) legacy.push(id);
     }
@@ -216,8 +214,7 @@ function renderProgress() {
   const earned = earnedThemes(results, unlockedThemes);
   const next = Object.keys(rewards).find(id => !earned.includes(id));
   const reward = next && {
-    name: t(themes[next]), count: rewards[next] === 'all' ? completedVariants(results).size : 0,
-    goal: rewards[next] === 'all' ? Object.keys(pointsVariants).length : 1, label: rewardRequirement(next)
+    name: t(themes[next]), count: 0, goal: 1, label: rewardRequirement(next)
   };
   const withoutPoints = entries.filter(([, record]) => !validPointsRecord(record)).length;
   GamesChestProgressBar($('language').value, completed, reward, () => [
@@ -234,7 +231,7 @@ const pointsVariants = {
   'cycle-with': 'Cykl czterech partii z układanką', 'cycle-without': 'Cykl czterech partii bez układanki'
 };
 function rewardRequirement(id) {
-  return rewards[id] === 'all' ? t('Ukończ wszystkie warianty') : t(pointsVariants[rewards[id]]);
+  return t(pointsVariants[rewards[id]]);
 }
 const pointsLevels = { easy: 'Łatwy', medium: 'Średni', hard: 'Trudny' };
 
@@ -334,8 +331,7 @@ function renderShell() {
   for (const info of $('options').querySelectorAll('.setting-info')) {
     info.setAttribute('aria-label', t('Informacje o ustawieniu') + ': ' + info.parentElement.querySelector('label [data-t]').textContent);
   }
-  const featured = ['sage', ...Object.keys(rewards).filter(available)];
-  if (!featured.includes(theme)) featured.push(theme);
+  const featured = Object.keys(themes).filter(available);
   $('theme').replaceChildren(...featured.map(id => new Option(t(themes[id]), id)), new Option(t('Więcej motywów…'), 'gallery'));
   $('theme').value = theme;
   const full = $('game-area').classList.contains('game-fullscreen');
@@ -1393,7 +1389,7 @@ const backupSchema = {
   validProgress(progress) {
     if (!progress || Object.keys(progress).length !== 2 || !Object.hasOwn(progress, 'results')
       || !Array.isArray(progress.unlockedThemes) || new Set(progress.unlockedThemes).size !== progress.unlockedThemes.length
-      || !progress.unlockedThemes.every(id => Object.hasOwn(rewards, id))) return false;
+      || !progress.unlockedThemes.every(id => id === 'ukraine' || Object.hasOwn(rewards, id))) return false;
     const records = progress.results;
     return records && typeof records === 'object' && !Array.isArray(records)
       && Object.entries(records).every(([id, outcome]) => id.length > 0 && id.length <= 200 && (typeof outcome === 'string' ? outcome === 'loss' || isCompleted(outcome) : validPointsRecord(outcome)));

@@ -1,3 +1,7 @@
+# 1.11.6 — 2026-11-26
+
+- Motywy bez ilustracji tła są dostępne od początku. Nagrody obejmują tylko motywy z ilustracjami.
+
 # 1.11.5 — 2026-11-26
 
 - Pomoc wyjaśnia, jak przenieść ustawienia, statystyki i motywy na inne urządzenie.
