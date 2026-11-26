@@ -1,5 +1,9 @@
 # 1.11.7 — 2026-11-26
 
+## 1.11.9
+
+- Wszystkie motywy korzystają ze wspólnego arkusza komponentów Games Chest.
+
 - Ujednolicono nazwę motywu „Miedź i patyna”.
 
 # 1.11.6 — 2026-11-26
